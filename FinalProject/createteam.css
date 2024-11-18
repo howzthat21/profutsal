@@ -1,0 +1,133 @@
+/* Background and Theme */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('backgroundimage.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    overflow: auto;
+}
+
+/* Main Container */
+.create-team-page {
+    max-width: 600px;
+    margin: 30px auto;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark overlay */
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    width: 90%;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.close-btn:hover {
+    color: #ff4444; /* Hover color for close button */
+}
+
+/* Header */
+.header {
+    text-align: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #119029;
+}
+
+/* Title Section */
+.title-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title-section h2 {
+    font-size: 28px;
+    margin: 0;
+}
+
+.title-section p {
+    font-size: 16px;
+    color: #ccc;
+}
+
+/* Form Styling */
+.team-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #666;
+    border-radius: 4px;
+    background-color: #333;
+    color: #fff;
+}
+
+/* Submit Button */
+.book-button {
+    background-color: #085a22;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.book-button:hover {
+    background-color: #9ca018;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-icon {
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.social-icon:hover {
+    color: #08562c;
+}

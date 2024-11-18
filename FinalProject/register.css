@@ -1,0 +1,118 @@
+/* General reset and font styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000; /* Black background for theme */
+  height: 100vh;
+  color: #fff;
+}
+
+/* Main login form container */
+.form-container {
+  position: relative; /* Position relative to place the close button */
+  background-color: #1a1a1a; /* Dark gray form background */
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6); /* Subtle shadow */
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Close Button (X icon) */
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 1.5rem;
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #4CAF50; /* Green color on hover to match theme */
+}
+
+/* Form Title */
+h2 {
+  color: #4CAF50; /* Green title */
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+/* Individual form group style */
+.form-group {
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  color: #4CAF50; /* Green for labels */
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #4CAF50; /* Green border */
+  border-radius: 5px;
+  background-color: #222; /* Dark input background */
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus,
+form input[type="email"]:focus {
+  border-color: #66bb6a; /* Lighter green on focus */
+  background-color: #333; /* Slightly lighter background */
+}
+
+/* Submit button styling */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #4CAF50; /* Green submit button */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #388E3C; /* Darker green on hover */
+}
+
+/* Optional link to register page */
+.register-link {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #dcdcdc;
+}
+
+.register-link a {
+  color: #4CAF50; /* Green link to match theme */
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Review - Futsal Matchmaking</title>
+    <link rel="stylesheet" href="refereedetail.css">
+</head>
+<body>
+    <!-- Header Section -->
+    
+
+    <!-- Match Details Container -->
+    <div class="match-details-container">
+        <h2>Player Review</h2>
+
+        <!-- Form for Match Registration -->
+        <form class="match-form">
+            <!-- Team Info -->
+            <div class="team-info">
+                <div class="team-info-left">
+                    <label for="team-name">Player  Name:</label>
+                    <input type="text" id="team-name" name="team-name" placeholder="Enter Team Name" required>
+                </div>
+            </div>
+
+            <!-- Player Rating -->
+            <div class="player-rating">
+                
+                <label for="team-name">Player Rating:</label>
+                <select id="player-1-rating" name="player-1-rating">
+                    <option value="beginner">Beginner</option>
+                    <option value="amateur">Amateur</option>
+                    <option value="pro">Pro</option>
+                </select>
+            </div>
+
+            <!-- Player Statistics Inputs -->
+            <div class="player-statistics">
+                <h3>Player 1 Statistics</h3>
+
+                <!-- Input for Player Stats (Goals, Assists, Foul) -->
+                <label for="player-1-goals">Goals:</label>
+                <input type="number" id="player-1-goals" name="player-1-goals" placeholder="Goals" min="0">
+
+                <label for="player-1-assist">Assists:</label>
+                <input type="number" id="player-1-assist" name="player-1-assist" placeholder="Assists" min="0">
+
+                <label for="player-1-foul">Fouls:</label>
+                <input type="number" id="player-1-foul" name="player-1-foul" placeholder="Fouls" min="0">
+            </div>
+
+            <!-- Match Result -->
+            <div class="match-result">
+                <label for="match-result">Match Result:</label>
+                <select id="match-result" name="match-result">
+                    <option value="win">Win</option>
+                    <option value="loss">Loss</option>
+                    <option value="draw">Draw</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="book-button">Submit Review</button>
+        </form>
+    </div>
+   
+</body>
+</html>

@@ -1,0 +1,184 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body & Background */
+body, html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #000;
+    color: #fff;
+    padding-top: 20px;
+}
+
+/* Header */
+.profile-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 15px 40px;
+    background-color: rgba(30, 30, 30, 0.9);
+    border-bottom: 2px solid #4CAF50;
+}
+
+.logo {
+    font-size: 1.8rem;
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+/* Match Details Form Container */
+.match-details-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 40px;
+    width: 90%;
+    max-width: 900px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    margin-top: 20px;
+    border: 2px solid #4CAF50; /* Border for separation */
+}
+
+/* Title */
+h2 {
+    font-size: 2.2rem;
+    color: #4CAF50;
+    margin-bottom: 30px;
+}
+
+/* Form Elements */
+.match-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Reduced gap between form fields */
+}
+
+/* Team Info */
+.team-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px; /* Reduced gap */
+    margin-bottom: 20px;
+}
+
+.team-info-left {
+    width: 100%;
+}
+
+input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 10px; /* Reduced padding for better space usage */
+    background-color: #222;
+    border: 1px solid #4CAF50;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    margin-bottom: 8px; /* Reduced bottom margin */
+}
+
+input[type="number"]:focus, select:focus {
+    border-color: #66bb6a;
+    background-color: #333;
+}
+
+/* Player Rating Section */
+.player-rating {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px; /* Reduced gap */
+    margin-bottom: 20px;
+}
+
+.player-rating select {
+    width: 100%;
+    padding: 10px;
+    background-color: #222;
+    border: 1px solid #4CAF50;
+    border-radius: 6px;
+    color: #fff;
+}
+
+/* Player Statistics Section */
+.player-statistics {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Reduced gap */
+    margin-bottom: 20px;
+}
+
+.player-statistics label {
+    text-align: left;
+}
+
+/* Match Result Section */
+.match-result {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px; /* Reduced gap */
+    margin-bottom: 20px;
+}
+
+.match-result select {
+    width: 100%;
+    padding: 10px;
+    background-color: #222;
+    border: 1px solid #4CAF50;
+    border-radius: 6px;
+    color: #fff;
+}
+
+/* Submit Button */
+.book-button {
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 1.1rem;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.book-button:hover {
+    background-color: #388E3C;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #ccc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .team-info {
+        flex-direction: column;
+    }
+
+    .player-rating {
+        flex-direction: column;
+    }
+
+    .player-statistics {
+        flex-direction: column;
+    }
+
+    .match-result {
+        flex-direction: column;
+    }
+
+    .book-button {
+        padding: 15px;
+        width: 100%;
+    }
+}

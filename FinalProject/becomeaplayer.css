@@ -1,0 +1,88 @@
+/* General reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Centering the form in the viewport */
+  body, html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000; /* Black background */
+    color: #fff;
+  }
+  
+  /* Form container styling */
+  .form-container {
+    background-color: rgba(0, 0, 0, 0.9); /* Slightly transparent dark background */
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6); /* Soft shadow */
+    text-align: center;
+  }
+  
+  /* Heading style */
+  h2 {
+    font-size: 1.8rem;
+    color: #4CAF50; /* Green accent */
+    margin-bottom: 20px;
+  }
+  
+  /* Form group spacing */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  /* Label styling */
+  form label {
+    display: block;
+    color: #4CAF50; /* Green accent */
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  /* Input field styles */
+  form input[type="text"],
+  form input[type="number"],
+  form select {
+    width: 100%;
+    padding: 12px;
+    background-color: #222; /* Dark input background */
+    border: 1px solid #4CAF50; /* Green border */
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  form input[type="text"]:focus,
+  form input[type="number"]:focus,
+  form select:focus {
+    border-color: #66bb6a; /* Lighter green on focus */
+    background-color: #333; /* Slightly lighter background on focus */
+  }
+  
+  /* Submit button styling */
+  button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50; /* Green background */
+    color: #ffffff;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #388E3C; /* Darker green on hover */
+  }
+  

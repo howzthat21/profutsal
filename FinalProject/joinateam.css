@@ -1,0 +1,131 @@
+/* Main styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('backgroundimage.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    overflow: auto;
+}
+
+/* Page container */
+.join-team-page {
+    background: rgba(0, 0, 0, 0.8); /* Dark overlay */
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    margin-top: 30px;
+    position: relative;
+}
+
+/* Close button styling */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.close-btn:hover {
+    color: #ff4444; /* Hover color for close button */
+}
+
+/* Header styling */
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    font-size: 32px;
+    color: #119029;
+}
+
+/* Title section */
+.title-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title-section h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.title-section p {
+    font-size: 16px;
+    color: #ccc;
+}
+
+/* Lobby container */
+.lobby-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.lobby-card {
+    background: #333;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.arena-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.lobby-info {
+    flex-grow: 1;
+}
+
+.join-button {
+    background-color: #085a22;
+    color: #000;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.join-button:hover {
+    background-color: #9ca018;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.social-icon {
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.social-icon:hover {
+    color: #08562c;
+}

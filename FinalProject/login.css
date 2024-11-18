@@ -1,0 +1,117 @@
+/* General reset and font styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body, html {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000; /* Black background */
+  color: #fff;
+}
+
+/* Main login container */
+.login-container {
+  position: relative; /* Allows positioning of exit button */
+  background-color: #1a1a1a; /* Dark gray background */
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.6); /* Subtle shadow */
+  text-align: center;
+}
+
+/* Exit Button (X icon) */
+.exit-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 1.5rem;
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.exit-btn:hover {
+  color: #4CAF50; /* Green color on hover to match theme */
+}
+
+/* Logo Styling */
+.logo {
+  font-size: 2rem;
+  color: #4CAF50; /* Green color */
+  margin-bottom: 10px;
+}
+
+/* Welcome Message */
+.welcome-message {
+  font-size: 1rem;
+  color: #dcdcdc;
+  margin-bottom: 20px;
+}
+
+/* Form field styling */
+.login-form label {
+  display: block;
+  font-size: 1rem;
+  color: #4CAF50; /* Green color for labels */
+  margin: 10px 0 5px;
+  text-align: left;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #4CAF50; /* Green border */
+  border-radius: 5px;
+  background-color: #222; /* Dark input background */
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  outline: none;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.login-form input:focus {
+  border-color: #66bb6a; /* Lighter green on focus */
+  background-color: #333;
+}
+
+/* Login button styling */
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4CAF50;
+  color: #fff;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #388E3C; /* Darker green on hover */
+}
+
+/* Register link styling */
+.register-link {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #dcdcdc;
+}
+
+.register-link a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}

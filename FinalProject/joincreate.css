@@ -1,0 +1,147 @@
+/* Resetting default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Dark theme background and main colors */
+body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+}
+
+
+/* Full-page container with background image */
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+    background-image: url('backgroundimage.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/* Header styling with logo and centered alignment */
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+/* Logo Styling */
+.logo {
+    font-size: 2.5rem;
+    color: #4CAF50;
+}
+
+/* Profile Button Styling positioned in the top-right corner */
+.profile-nav {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(16, 16, 16, 0.6);
+    padding: 8px 12px;
+    border-radius: 5px;
+    z-index: 2;
+}
+
+/* Link and profile picture styling */
+.profile-nav a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid #4CAF50;
+}
+
+.player-name {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Hover effect for the player name */
+.profile-nav a:hover .player-name {
+    color: #4CAF50;
+}
+
+/* Main Content Styling */
+.main-content h2 {
+    font-size: 2rem;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.main-content p {
+    font-size: 1.2rem;
+    color: #dcdcdc;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* Call-to-action buttons styling */
+.cta-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 1.2rem;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.cta-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.05);
+}
+
+/* Footer styling with social media links */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer p {
+    margin-bottom: 10px;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.social-icon img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s;
+}
+
+.social-icon img:hover {
+    transform: scale(1.1);
+}
+
+/* Team options button layout */
+.team-options {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
