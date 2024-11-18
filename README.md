@@ -1,0 +1,1 @@
+yo file haru sidhei htdocs maa save gara ani tyo .sql file bhaako phpmyadmin baata import gara. ani db.php file maaa afno username haru default chaina bhane edit nagara, default cha bhane chai yettikei chaddeu
