@@ -2,14 +2,14 @@
 include 'db.php';
 session_start();
 
-// Check if user is logged in
+
 if (!isset($_SESSION['user_id'])) {
     // Redirect to login page if not logged in
     header("Location: login.php");
     exit();
 }
 
-// Fetch available lobbies
+// arena haru fetch gareko
 $query = "
     SELECT 
         matchmaking.match_id as match_id, 

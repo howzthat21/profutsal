@@ -1,8 +1,8 @@
 <?php
 session_start();
+// harek code maa include db.php raakha haii natra db connect hunna, ani user logged in chaincha bhane add session_start at the top
 include 'db.php';
-if (!isset($_SESSION['user_id'])) { // Assuming 'user_id' is set when a user logs in
-  // Redirect to login page if session is not set
+if (!isset($_SESSION['user_id'])) { 
   header("Location: login.php");
   exit();
 }

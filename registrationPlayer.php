@@ -1,8 +1,8 @@
-<?php session_start(); // Start the session
+<?php session_start(); 
 
-// Check if user is logged in by verifying session variables
-if (!isset($_SESSION['user_id'])) { // Assuming 'user_id' is set when a user logs in
-    // Redirect to login page if session is not set
+
+if (!isset($_SESSION['user_id'])) { 
+    
     header("Location: login.php");
     exit();
 }
@@ -10,29 +10,29 @@ $user_id=$_SESSION['user_id'];
 include 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the form inputs
+    
     $age = $_POST['age'];
     $location = $_POST['location'];
-    //$skill_level = $_POST['skill_level'];
+    
     $position = $_POST['position'];
     $bio = $_POST['bio'];
     
-    // Validate the inputs
+    
     if ($age >= 13 && !empty($location)  && !empty($position) && !empty($bio)) {
         try {
-            // Prepare the SQL query to insert the data into the player_profiles table
+            
             $sql = "INSERT INTO player_profiles (age, location, preferred_position, bio, user_id) 
                     VALUES (?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
 
-            // Execute the query with the form values
+            
             $stmt->execute([$age, $location, $position, $bio, $user_id]);
 
-            // Redirect or show success message
+            
             echo "<p>Profile successfully submitted!</p>";
             header("Location: landingafterregistration.php");
         } catch (PDOException $e) {
-            // If there is an error, display the error message
+            
             echo "<p>Error: " . $e->getMessage() . "</p>";
         }
     } else {
@@ -101,6 +101,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <!-- Optional JavaScript for Bootstrap (not required for CSS to work) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoYz1WIF5cO7xpg6FrZsSnRLu9E3sZ0D+l6LFNQ+8qD+4Mf" crossorigin="anonymous"></script>
+    <script src="https:
 </body>
 </html>

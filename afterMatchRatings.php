@@ -1,7 +1,7 @@
 <?php
 include 'db.php';
 
-// Fetch the latest match data
+
 $query = "
     SELECT 
         cm.completed_match_id, 
@@ -22,7 +22,7 @@ $query = "
 
 $matches = $pdo->query($query);
 
-// Fetch the result
+
 $matches = $matches->fetch(PDO::FETCH_ASSOC);
 
 if ($matches) {
@@ -37,7 +37,7 @@ if ($matches) {
     echo "No matches found.";
 }
 
-// Fetch players for the current match
+
 $fetch_player_sql = "
     SELECT match_participants.*, users.username 
     FROM match_participants 
@@ -45,23 +45,22 @@ $fetch_player_sql = "
     WHERE match_participants.match_id = :match_id
 ";
 
-$fetch_player_stmt = $pdo->prepare($fetch_player_sql); // Prepare the SQL statement
-$fetch_player_stmt->execute(['match_id' => $match_id]); // Bind and execute with parameter
+$fetch_player_stmt = $pdo->prepare($fetch_player_sql); 
+$fetch_player_stmt->execute(['match_id' => $match_id]); 
 $players = $fetch_player_stmt->fetchAll(PDO::FETCH_ASSOC);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Check if 'player_ids' is set before proceeding
+    
     if (isset($_POST['player_ids']) && is_array($_POST['player_ids'])) {
-        // Retrieve match_id and player stats arrays from the form
- 
-        $player_ids = $_POST['player_ids'];  // Array of player IDs
-        $ratings = $_POST['ratings'];  // Array of ratings
-        $goals = $_POST['goals'];  // Array of goals
-        $assists = $_POST['assists'];  // Array of assists
-        $fouls = $_POST['fouls'];  // Array of fouls
+        
+        $player_ids = $_POST['player_ids'];  
+        $ratings = $_POST['ratings'];  
+        $goals = $_POST['goals'];  
+        $assists = $_POST['assists'];  
+        $fouls = $_POST['fouls'];  
 
-        // Ensure arrays have the same length before processing
+        
         if (count($player_ids) === count($ratings) && count($ratings) === count($goals) && count($goals) === count($assists) && count($assists) === count($fouls)) {
-            // Prepare SQL statement to insert player stats into player_match_stats table
+        
             echo $match_id;
             $insert_sql = "
                 INSERT INTO player_match_stats (completed_match_id, player_id, rating_id, goals, assists, fouls) 
@@ -69,13 +68,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ";
             $stmt = $pdo->prepare($insert_sql);
         
-            // Loop through each player's data
+
             for ($i = 0; $i < count($player_ids); $i++) {
-                // Bind values and execute the insertion for each player
+                
                 $stmt->execute([
                     'completed_match_id' => $completed_match_id,
                     'user_id' => $player_ids[$i],
-                    'rating_id' => $ratings[$i], // Ensure ratings are correctly mapped to rating_id
+                    'rating_id' => $ratings[$i], 
                     'goals' => $goals[$i],
                     'assists' => $assists[$i],
                     'fouls' => $fouls[$i]
@@ -87,7 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Player IDs not found. Please try submitting the form again.";
     }
 }
-// Debugging the parameters array
 
 
 ?>

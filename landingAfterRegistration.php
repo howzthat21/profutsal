@@ -1,10 +1,10 @@
 
 <?php
-session_start(); // Start the session
+session_start(); 
 
-// Check if user is logged in by verifying session variables
-if (!isset($_SESSION['user_id'])) { // Assuming 'user_id' is set when a user logs in
-    // Redirect to login page if session is not set
+
+if (!isset($_SESSION['user_id'])) { 
+    
     header("Location: login.php");
     exit();
 }

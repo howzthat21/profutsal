@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Login successful! Welcome, " . $user['username'];
         header("Location: index.php");
     } else {
-        echo "Invalid email or password.";
+         echo "Invalid email or password.";
     }
 }
 ?>

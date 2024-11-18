@@ -3,21 +3,21 @@ include 'db.php';
 include 'errors.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get user input
+    
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
 
-    // Prepare SQL statement
+    
     $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
     
-    // Check if the statement executed successfully
+    
     if ($stmt->execute([$username, $email, $password])) {
-        // If registration is successful, redirect to index.php
+        
         header("Location: index.php");
-        exit(); // Ensure no further code is executed after the redirect
+        exit(); 
     } else {
-        // If registration fails, display an error message
+        
         
         handleSQLError($stmt->errorInfo()[2]);
     }

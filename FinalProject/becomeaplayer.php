@@ -1,20 +1,21 @@
 
 <?php 
-session_start(); // Start the session
+session_start(); // start session
 
 
 
-// Check if user is logged in by verifying session variables
-if (!isset($_SESSION['user_id'])) { // Assuming 'user_id' is set when a user logs in
-    // Redirect to login page if session is not set
+// registered user haru lai matra enter garna dincha, ani register ko page maa fyalcha
+if (!isset($_SESSION['user_id'])) { 
+    
     header("Location: register.php");
     exit();
 }
 $user_id=$_SESSION['user_id'];
 include 'db.php';
 
+// form method post ko submit bhayo bhane condtion
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the form inputs
+    
     $age = $_POST['age'];
     $location = $_POST['location'];
     
@@ -24,19 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate the inputs
     if ($age >= 13 && !empty($location)  && !empty($position) && !empty($bio)) {
         try {
-            // Prepare the SQL query to insert the data into the player_profiles table
+            // sql query to insert the values in player_profiles
             $sql = "INSERT INTO player_profiles (age, location, preferred_position, bio, user_id) 
                     VALUES (?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
 
-            // Execute the query with the form values
+            
             $stmt->execute([$age, $location, $position, $bio, $user_id]);
 
-            // Redirect or show success message
+            
             echo "<p>Profile successfully submitted!</p>";
             header("Location: joincreate.php");
         } catch (PDOException $e) {
-            // If there is an error, display the error message
+            
             echo "<p>Error: " . $e->getMessage() . "</p>";
         }
     } else {

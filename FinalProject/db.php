@@ -2,8 +2,7 @@
 $host = 'localhost';
 $dbname = 'projfutsal';
 $username = 'root';
-$password = ''; // Default for XAMPP is usually empty
-
+$password = ''; 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

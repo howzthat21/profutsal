@@ -1,46 +1,45 @@
 <?php
-session_start(); // Start the session
+session_start(); 
 
-// Check if user is logged in by verifying session variables
-if (!isset($_SESSION['user_id'])) { // Assuming 'user_id' is set when a user logs in
-    // Redirect to login page if session is not set
+
+if (!isset($_SESSION['user_id'])) { 
     header("Location: login.php");
     exit();
 }
 
 include 'db.php';
 
-// Check if 'arena_id' and 'arena_name' parameters exist in the URL
+
 if (isset($_GET['arena_id']) && isset($_GET['arena_name'])) {
     $arena_id = htmlspecialchars($_GET['arena_id']);
-    $arena_name = htmlspecialchars($_GET['arena_name']); // Retrieve and sanitize the arena name
-    $player_id = $_SESSION['user_id']; // Get player_id from session
+    $arena_name = htmlspecialchars($_GET['arena_name']); 
+    $player_id = $_SESSION['user_id']; 
 } else {
     echo "<p>No arena selected.</p>";
-    exit(); // Stop further execution if no arena is selected
+    exit(); 
 }
 
-// Handle form submission for booking
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $bookingTime = $_POST['bookingTime'];
 
-    // First, check if the arena is already booked at this time
+    
     $check_booking_sql = "SELECT * FROM arena_bookings WHERE arena_id = ? AND booking_time = ? AND status='booked'";
     $check_booking_stmt = $pdo->prepare($check_booking_sql);
     $check_booking_stmt->execute([$arena_id, $bookingTime]);
 
     if ($check_booking_stmt->rowCount() > 0) {
-        // Booking already exists for this time slot
+        
         echo "<p>Sorry, the arena is already booked for this time slot. Please select a different time.</p>";
     } else {
-        // Proceed with booking if no existing booking was found
+        
         $sql = "INSERT INTO arena_bookings (arena_id, player_id, booking_time, status) VALUES (?, ?, ?, 'booked')";
         $stmt = $pdo->prepare($sql);
         $isBooked = $stmt->execute([$arena_id, $player_id, $bookingTime]);
 
-        // Check if booking was successful before inserting into matchmaking table
+        
         if ($isBooked) {
-            // Create a DateTime object with Asia/Kathmandu timezone
+           
             $timezone = new DateTimeZone('Asia/Kathmandu');
             $bookingDate = new DateTime('now', $timezone);
 
@@ -58,19 +57,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'me' => '17:00:00', // Mid Evening (5-6pm)
                 'mme' => '18:00:00', // Mid Evening (6-7pm)
                 'le' => '19:00:00', // Late Evening (7-8pm)
-                // Add other time mappings
+               
             ];
 
-            // Set booking datetime based on selected time
+            
             if (isset($bookingTimeMap[$bookingTime])) {
-                // Parse the time from the map and set it on the bookingDate object
+                
                 $bookingDate->setTime(...explode(':', $bookingTimeMap[$bookingTime]));
 
-                // Format the booking datetime as Y-m-d H:i:s
+                
                 $bookingDatetime = $bookingDate->format('Y-m-d H:i:s');
             }
 
-            // Insert the booking into the matchmaking table with booking_datetime
+            
             $matchmaking_sql = "INSERT INTO matchmaking (match_creator_id, arena_id, booking_datetime, status) VALUES (?, ?, ?, 'pending')";
             $matchmaking_stmt = $pdo->prepare($matchmaking_sql);
             $matchmaking_stmt->execute([$player_id, $arena_id, $bookingDatetime]);
@@ -106,17 +105,17 @@ if ($bookingDatetime !== null) {
     
 
 
-    // Prepare the SQL statement to fetch the match_id based on player_id
+    
 $stray_fetch_sql = "SELECT match_id FROM matchmaking WHERE match_creator_id = :player_id";
 $stray_fetch_stmt = $pdo->prepare($stray_fetch_sql);
 $stray_fetch_stmt->execute(['player_id' => $player_id]);
 
-// Fetch the match_id from the result
+
 $match = $stray_fetch_stmt->fetch(PDO::FETCH_ASSOC);
 if ($match) {
-    $match_id = $match['match_id']; // Store the match_id in $match_id
+    $match_id = $match['match_id']; 
 
-    // Now, insert the match_id into another table (replace `other_table` with your actual table name)
+    
     $insert_sql = "INSERT INTO match_participants (match_id, user_id) VALUES (?, ?)";
     $insert_stmt = $pdo->prepare($insert_sql);
     $insert_stmt->execute([$match_id, $player_id]);
@@ -134,7 +133,7 @@ if ($match) {
 $arena_id = isset($_GET['arena_id']) ? htmlspecialchars($_GET['arena_id']) : null;
 $player_id = $_SESSION['user_id'];
 
-// Array of all booking times
+
 $allBookingTimes = [
     'em' => 'Early Morning (7-8am)',
     'mm' => 'Mid Morning (8-9am)',
@@ -151,39 +150,39 @@ $allBookingTimes = [
     'le' => 'Late Evening (7-8pm)'
 ];
 
-// Query to get already booked times for the selected arena
+
 $bookedTimes = [];
 if ($arena_id) {
     $fetch_sql = "SELECT booking_time FROM arena_bookings WHERE arena_id = :arena_id";
     $stmt = $pdo->prepare($fetch_sql);
     $stmt->execute(['arena_id' => $arena_id]);
 
-    // Fetch booked times and store them in an array
+    
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $bookedTimes[] = $row['booking_time'];
     }
 
 }
 
-// Filter available times
+
 $availableTimes = array_diff_key($allBookingTimes, array_flip($bookedTimes));
 $test_match_id = 42;
 
-// Prepare the SQL query with a placeholder
+
 $check_timefetch = "SELECT booking_datetime FROM matchmaking WHERE match_id = :match_id";
 $check_timefetch_stmt = $pdo->prepare($check_timefetch);
 
-// Execute the query with the bound parameter
+
 $check_timefetch_stmt->execute(['match_id' => $test_match_id]);
 
-// Fetch the result
+
 $bookingDatetimeString = $check_timefetch_stmt->fetchColumn();
 
 if ($bookingDatetimeString) {
-    // Create a DateTime object
+    
     $bookingDatetime = new DateTime($bookingDatetimeString);
     
-    // Var dump the DateTime object to see timezone and other details
+    
     var_dump($bookingDatetime);
 } else {
     echo "No booking found for match ID " . $test_match_id;

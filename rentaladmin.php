@@ -1,11 +1,11 @@
 <?php
 
-// Start session and include database connection (assume $pdo is the PDO connection object)
+
 session_start();
 include 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Retrieve form data
+    
     $arena_name = $_POST['arena_name'];
     $arena_location = $_POST['arena_location'];
     $location_link = $_POST['location_link'];
@@ -13,22 +13,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $contact_info = $_POST['contact_info'];
     $rental_fee = $_POST['rental_fee'];
 
-    // Handle the image upload
+    
     if (isset($_FILES['arena_image']) && $_FILES['arena_image']['error'] == 0) {
         $image = $_FILES['arena_image'];
         
-        // Set the target directory for image uploads
+        
         $targetDir = "uploads/";
         if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0777, true); // Create the directory if it doesn't exist
+            mkdir($targetDir, 0777, true); 
         }
 
-        // Generate a unique name for the image file
+        
         $imagePath = $targetDir . uniqid() . "_" . basename($image['name']);
         
-        // Move the uploaded file to the target directory
+        
         if (move_uploaded_file($image['tmp_name'], $imagePath)) {
-            // Image uploaded successfully, now insert data into the database
+            
             $sql = "INSERT INTO arenas (arena_name, arena_location, location_link, arena_image, availability, contact_info, rental_fee) 
                     VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);

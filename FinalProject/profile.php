@@ -2,11 +2,12 @@
 include 'db.php';
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    // User is not logged in, redirect to login page
+    
     header("Location: login.php");
     exit();
 
 }
+//get garna lai arko page baata username value bhaako fyalna parcha
 if(isset($_GET['username'])){
   $username=$_GET['username'];
 }
@@ -17,21 +18,21 @@ if(isset($_SESSION['user_id'])){
                          FROM player_profiles 
                          WHERE user_id = :user_id";
 
-// Prepare the statement
+
 $fetch_player_details_stmt = $pdo->prepare($fetch_player_details);
 
-// Bind the user_id parameter to the query
+
 $fetch_player_details_stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 
-// Execute the query
+
 $fetch_player_details_stmt->execute();
 
-// Fetch the player profile details as an associative array
+
 $player_details = $fetch_player_details_stmt->fetch(PDO::FETCH_ASSOC);
 
-// Check if player details were found
+
 if ($player_details) {
-    // Extract individual values
+    
     $age = $player_details['age'];
     $preferred_position = $player_details['preferred_position'];
     $games_played = $player_details['games_played'];
@@ -40,7 +41,7 @@ if ($player_details) {
     $bio = $player_details['bio'];
     $player_ranking = $player_details['player_ranking'];
 
-    // You can now use these values as needed in your application
+    
 } else {
     echo "Player profile not found!";
 }
