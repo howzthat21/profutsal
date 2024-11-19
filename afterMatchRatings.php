@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 <div class="container mt-5">
-    <h2>Enter Player Stats for Completed Match <?php echo $match_id;?></h2>
+    <h2>Enter Player Stats for Completed Match  <?php echo $match_id;?></h2>
     <form action="afterMatchRatings.php" method="POST">
 
         <!-- Match Selection -->
