@@ -7,6 +7,18 @@ if (!isset($_SESSION['user_id'])) {
   exit();
 }
 $user_id=$_SESSION['user_id']; 
+
+$fetch_username="SELECT username from users where id = :user_id";
+$fetch_username_stmt = $pdo->prepare($fetch_username);
+$fetch_username_stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+$fetch_username_stmt->execute();
+$result = $fetch_username_stmt->fetch(PDO::FETCH_ASSOC);
+
+
+if ($result && isset($result['username'])) {
+  $username = $result['username'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -21,9 +33,9 @@ $user_id=$_SESSION['user_id'];
   <!-- Profile Navigation positioned in the top-right corner -->
   <nav class="profile-nav">
     <!-- Profile section with a link to the player's profile -->
-    <a href="profile.html" class="player-info">
+    
       
-      <span class="player-name"><?php echo $user_id?></span>
+      <span class="player-name"> <?php echo $username?></span>
     </a>
   </nav>
 
@@ -43,7 +55,7 @@ $user_id=$_SESSION['user_id'];
 
       <!-- Join and Create Team Buttons -->
       <div class="team-options">
-        <a href="joinateam.html" class="cta-button">Join a Team</a>
+        <a href="joinateam.php" class="cta-button">Join a Team</a>
         <a href="createteam.html" class="cta-button">Create a Team</a>
       </div>
     </section>
