@@ -5,4 +5,4 @@ Time Range	Label
 2:00 p.m. - 3:59 p.m.	Mid Afternoon
 4:00 p.m. - 5:59 p.m.	Late Afternoon
 6:00 p.m. - 7:59 p.m.	Early Evening
-8:00 p.m.	Late Evening
+8:00 p.m.	Late Evening 
