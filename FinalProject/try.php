@@ -88,33 +88,35 @@ if(!$match){
                 }
             }
             ?>
-            <div class="field">
-                <div class="player goalkeeper"><?= htmlspecialchars($teamA[0] ?? 'GK') ?></div>
-                <div class="player defender"><?= htmlspecialchars($teamA[1] ?? 'D') ?></div>
-                <div class="player midfielder-left"><?= htmlspecialchars($teamA[2] ?? 'M1') ?></div>
-                <div class="player midfielder-right"><?= htmlspecialchars($teamA[3] ?? 'M2') ?></div>
-                <div class="player forward"><?= htmlspecialchars($teamA[4] ?? 'F') ?></div>
-            </div>
             <h3>Team A</h3>
             <ul>
                 <?php foreach ($teamA as $username): ?>
                     <li><?= htmlspecialchars($username) ?></li>
                 <?php endforeach; ?>
             </ul>
-
-            <div class="field">
-                <div class="player goalkeeper"><?= htmlspecialchars($teamB[0] ?? 'GK') ?></div>
-                <div class="player defender"><?= htmlspecialchars($teamB[1] ?? 'D') ?></div>
-                <div class="player midfielder-left"><?= htmlspecialchars($teamB[2] ?? 'M1') ?></div>
-                <div class="player midfielder-right"><?= htmlspecialchars($teamB[3] ?? 'M2') ?></div>
-                <div class="player forward"><?= htmlspecialchars($teamB[4] ?? 'F') ?></div>
-            </div>
-            <h3>Team B</h3>
+             <h3>Team B</h3>
             <ul>
                 <?php foreach ($teamB as $username): ?>
                     <li><?= htmlspecialchars($username) ?></li>
                 <?php endforeach; ?>
             </ul>
+            <div class="field">
+                <div class="player goalkeeper"><?= htmlspecialchars($teamA[0] ?? 'GK') ?><br> Goalkeeper</div>
+                <div class="player defender"><?= htmlspecialchars($teamA[1] ?? 'D') ?><br>Defense</div>
+                <div class="player midfielder-left"><?= htmlspecialchars($teamA[2] ?? 'M1') ?><br>Mid</div>
+                <div class="player midfielder-right"><?= htmlspecialchars($teamA[3] ?? 'M2') ?><br>Mid</div>
+                <div class="player forward"><?= htmlspecialchars($teamA[4] ?? 'F') ?><br>Forward</div>
+            </div>
+            
+
+            <div class="field">
+                <div class="player goalkeeper"><?= htmlspecialchars($teamB[0] ?? 'GK') ?><br>Goalkeeper</div>
+                <div class="player defender"><?= htmlspecialchars($teamB[1] ?? 'D') ?><br>Defense</div>
+                <div class="player midfielder-left"><?= htmlspecialchars($teamB[2] ?? 'M1') ?><br>Mid</div>
+                <div class="player midfielder-right"><?= htmlspecialchars($teamB[3] ?? 'M2') ?><br>Mid</div>
+                <div class="player forward"><?= htmlspecialchars($teamB[4] ?? 'F') ?><br>Forward</div>
+            </div>
+           
         <?php else: ?>
             <p>You are not currently in any match.</p>
         <?php endif; ?>
