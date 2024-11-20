@@ -12,10 +12,16 @@ location from the arena table
 booked time from the matchmaking table
 player count from the matchmaking table
  */
-
+//first fetching the match_id from the match_participants
  $fetch_match_participant_info="SELECT match_id from match_participants where user_id=?";
  $fetch_match_participant_info_stmt= $pdo->prepare($fetch_match_participant_info);
  $fetch_match_participant_info_stmt->execute([$user_id]);
+
+ $match_participant_info=$fetch_match_participant_info_stmt->fetch(PDO::FETCH_ASSOC);
+ $match_id=$match_participant_info['match_id'];
+
+
+ //fetching the remainig details from the query
  
 
 ?>
