@@ -2,6 +2,9 @@
 session_start();
 include 'db.php';
 
+include '../matchmakingstatusupdate.php';
+
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -33,6 +36,19 @@ if ($match) {
         $status_query = "UPDATE matchmaking SET status = 'lineups' WHERE match_id = ?";
         $status_stmt = $pdo->prepare($status_query);
         $status_stmt->execute([$match_id]);
+
+        $fetch_referee_details="SELECT * from referee where status = 'unassigned'";
+        $fetch_referee_details_stmt= $pdo->prepare($fetch_referee_details);
+        $fetch_referee_details_stmt->execute();
+        $referee=$fetch_referee_details_stmt->fetch(PDO::FETCH_ASSOC);
+        $referee_id=$referee['referee_id'];
+
+        $assign_referee="INSERT INTO referee_matches(match_id, referee_id) VALUES(?,?)";
+        $assign_referee_stmt= $pdo->prepare($assign_referee);
+        $assign_referee_stmt->execute([$match_id, $referee_id ]);
+        
+
+        
     }
 
     echo "<p>Successfully joined the lobby!</p>";
