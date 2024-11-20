@@ -15,6 +15,10 @@ $count_stmt = $pdo->prepare("SELECT COUNT(*) FROM player_profiles WHERE user_id 
 $count_stmt->execute([$user_id]);
 $userExists = $count_stmt->fetchColumn();
 
+if(!isset($_SESSION['user_id'])){
+  header("Location: login.php");
+}
+
     
     
 }
@@ -44,6 +48,7 @@ $userExists = $count_stmt->fetchColumn();
     <?php else: ?>
       <!-- Display this section if the user IS logged in -->
       <a href="profile.php?username=<?php echo $username?>" class="nav-link">Profile</a>
+      <a href="playerDetails.php" class="nav-link">View Lobby</a>
       <a href="logout.php" class="nav-link">Logout</a>
     <?php endif; ?>
   </nav>

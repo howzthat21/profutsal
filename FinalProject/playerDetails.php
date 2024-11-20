@@ -14,13 +14,22 @@ $fetch_match_stmt = $pdo->prepare($fetch_match_sql);
 $fetch_match_stmt->execute(['player_id' => $player_id]);
 
 $match = $fetch_match_stmt->fetch(PDO::FETCH_ASSOC);
+
 $matchId=$match['match_id'];
+
+
 //fetching arena details to display
 $fetch_arena_id="SELECT arena_id, booking_datetime from matchmaking where match_id= ?";
 $fetch_arena_id_stmt=$pdo->prepare($fetch_arena_id);
 $fetch_arena_id_stmt->execute([$matchId]);
 $arena_details=$fetch_arena_id_stmt->fetch(PDO::FETCH_ASSOC);
 $arena_id=$arena_details['arena_id'];
+$booking_datetime=$arena_details['booking_datetime'];
+
+//creating object for the date
+ $date_object= new DateTime($booking_datetime);
+ $formatted_date = $date_object->format('l, F j, Y g:i A');
+
 
 $fetch_arena_details="SELECT * from arenas where arena_id= ?";
 $fetch_arena_details_stmt=$pdo->prepare($fetch_arena_details);
@@ -38,6 +47,7 @@ $arena_contact_info=$arena_details['contact_info'];
 if(!$match){
     header("Location: index.php");
 }
+$booking_datetimetry = "2024-11-21 14:30:00";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +56,44 @@ if(!$match){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Futsal Lineup</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        // Booking datetime from PHP
+        const bookingDatetime = new Date("<?= $booking_datetimetry ?>").getTime();
+
+        // Function to update the countdown
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeLeft = bookingDatetime - now;
+
+            if (timeLeft > 0) {
+                // Calculate days, hours, minutes, and seconds
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                // Display the timer
+                document.getElementById("timer").innerHTML =
+                    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            } else {
+                // Timer has reached zero
+                document.getElementById("timer").innerHTML = "Time's up!";
+                clearInterval(countdownInterval);
+            }
+        }
+
+        // Update the countdown every second
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        // Initialize the countdown immediately
+        updateCountdown();
+    </script>
     <style>
+        .timer {
+            font-size: 2rem;
+            color: #333;
+            margin-top: 20px;
+        }
         .field {
             background-color: #4CAF50;
             width: 100%;
@@ -74,13 +121,16 @@ if(!$match){
         .midfielder-right { top: 60%; left: 70%; transform: translate(-50%, -50%); }
         .forward { top: 80%; left: 50%; transform: translate(-50%, -50%); }
     </style>
+    
 </head>
 <body>
+<h1>Match Starts In: </h1>
+<div id="timer" class="timer">Loading...</div>
     <div class="container text-center">
         <h1 class="my-4">Futsal Lineup</h1>
         <h1 class="my-4"><?php echo $arena_name;?></h1>
-        <h1 class="my-4"><?php echo $arena_location?></h1>
-        <h1 class="my-4">Futsal Lineup</h1>
+        <h1 class="my-4"><?php echo $arena_location;?></h1>
+        <h1 class="my-4"><?php echo $formatted_date; ?></h1>
         <h1 class="my-4">Futsal Lineup</h1>
 
         <?php if ($match): ?>
