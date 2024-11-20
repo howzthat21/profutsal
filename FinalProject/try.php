@@ -14,6 +14,27 @@ $fetch_match_stmt = $pdo->prepare($fetch_match_sql);
 $fetch_match_stmt->execute(['player_id' => $player_id]);
 
 $match = $fetch_match_stmt->fetch(PDO::FETCH_ASSOC);
+$matchId=$match['match_id'];
+//fetching arena details to display
+$fetch_arena_id="SELECT arena_id, booking_datetime from matchmaking where match_id= ?";
+$fetch_arena_id_stmt=$pdo->prepare($fetch_arena_id);
+$fetch_arena_id_stmt->execute([$matchId]);
+$arena_details=$fetch_arena_id_stmt->fetch(PDO::FETCH_ASSOC);
+$arena_id=$arena_details['arena_id'];
+
+$fetch_arena_details="SELECT * from arenas where arena_id= ?";
+$fetch_arena_details_stmt=$pdo->prepare($fetch_arena_details);
+$fetch_arena_details_stmt->execute([$arena_id]);
+$arena_details=$fetch_arena_details_stmt->fetch(PDO::FETCH_ASSOC);
+$arena_name=$arena_details['arena_name'];
+$arena_location=$arena_details['arena_location'];
+$arena_image=$arena_details['arena_image'];
+$arena_contact_info=$arena_details['contact_info'];
+
+
+
+//fet
+
 if(!$match){
     header("Location: index.php");
 }
@@ -56,6 +77,10 @@ if(!$match){
 </head>
 <body>
     <div class="container text-center">
+        <h1 class="my-4">Futsal Lineup</h1>
+        <h1 class="my-4"><?php echo $arena_name;?></h1>
+        <h1 class="my-4"><?php echo $arena_location?></h1>
+        <h1 class="my-4">Futsal Lineup</h1>
         <h1 class="my-4">Futsal Lineup</h1>
 
         <?php if ($match): ?>
