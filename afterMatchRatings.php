@@ -52,15 +52,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             count($goals) === count($assists) && count($assists) === count($fouls)) {
 
             $insert_sql = "
-                INSERT INTO player_match_stats (completed_match_id, player_id, rating_id, goals, assists, fouls) 
-                VALUES (:completed_match_id, :player_id, :rating_id, :goals, :assists, :fouls)
+                INSERT INTO player_match_stats (player_id, rating_id, goals, assists, fouls) 
+                VALUES (:player_id, :rating_id, :goals, :assists, :fouls)
             ";
             $stmt = $pdo->prepare($insert_sql);
 
             // Insert each player's stats
             for ($i = 0; $i < count($player_ids); $i++) {
                 $stmt->execute([
-                    'completed_match_id' => $completed_match_id,
+                    //'completed_match_id' => $match_id,
                     'player_id' => $player_ids[$i],
                     'rating_id' => $ratings[$i],
                     'goals' => $goals[$i],
