@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futsal Selection</title>
+    <title>Futsal Booking</title>
     <link rel="stylesheet" href="createteam.css">
 </head>
 <body>
     <header>
         <h1>Create Your Team</h1>
     </header>
-    <main>
+    <main class="container">
         <section class="futsal-card">
-            <h2> Kumari Futsal</h2>
+            <h2>Kumari Futsal</h2>
             <p>Location: Kathmandu, Nepal</p>
             <div class="image-container">
-                <img src="arena1.jpg" alt="Arena One Futsal">
+                <img src="arena1.jpg" alt="Kumari Futsal">
             </div>
             <div class="map-container">
                 <iframe 
@@ -32,7 +32,7 @@
             <h2>Bajra Futsal</h2>
             <p>Location: Bhaktapur, Nepal</p>
             <div class="image-container">
-                <img src="arena3.jpg" alt="Arena Two Futsal">
+                <img src="arena3.jpg" alt="Bajra Futsal">
             </div>
             <div class="map-container">
                 <iframe 
@@ -44,8 +44,27 @@
             </div>
             <button onclick="selectFutsal('arena_two')">Book now</button>
         </section>
-        
-        <!-- Add more futsal cards as needed -->
+
+
+
+
+
+        <section class="futsal-card">
+            <h2>Bajra Futsal</h2>
+            <p>Location: Bhaktapur, Nepal</p>
+            <div class="image-container">
+                <img src="arena3.jpg" alt="Bajra Futsal">
+            </div>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=..." 
+                    frameborder="0" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+            <button onclick="selectFutsal('arena_two')">Book now</button>
+        </section>
     </main>
 
     <script>
