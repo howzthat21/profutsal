@@ -25,7 +25,7 @@ function updateMatchmakingStatus($pdo) {
         $status = $row['status'];
         $arenaId=$row['arena_id'];
         $currentDatetime = new DateTime();
-        
+        echo $matchId;
         if ($status === 'lineups' && $currentDatetime >= $bookingDatetime) {
             
             $updateStatusSql = "UPDATE matchmaking SET status = 'inprogress' WHERE match_id = ?";
@@ -65,11 +65,27 @@ echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . 
 
        try {
         if ($status === 'fulltime') {
+            //check if the match has been added to the complete_matches table
+            $check_complete_matches="SELECT  match_id from completed_matches where match_id=?";
+            $check_complete_matches_stmt=$pdo->prepare($check_complete_matches);
+            $check_complete_matches_stmt->execute([$matchId]);
+            $check_complete_matches_result=$check_complete_matches_stmt->fetch(PDO::FETCH_ASSOC);
+            if($check_complete_matches_result){
+                //if match already exists in the table delete from matchmaking table with the same id
+
+                $delete_matchmaking="DELETE FROM matchmaking WHERE match_id=?";
+                $delete_matchmaking_stmt=$pdo->prepare($delete_matchmaking);
+
+                $delete_matchmaking_stmt->execute([$matchId]);
+                echo "Match removed from the matchmakin tbale";
+            }
+
+            else{
             $insertCompletedMatches = "INSERT INTO completed_matches (arena_id, match_id) VALUES (?, ?)";
             $insertCompletedMatchesStmt = $pdo->prepare($insertCompletedMatches);
             $insertCompletedMatchesStmt->execute([$arenaId, $matchId]);
             echo "Match successfully inserted into completed_matches.";
-            
+            }
             //query to insert into completed_match_participants table
             $user_id= $_SESSION['user_id'];
 
@@ -91,6 +107,14 @@ echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . 
             ]);
         }
 
+        try{
+            $delete_match_participants= "DELETE FROM match_participants WHERE match_id = ? ";
+            $delete_match_participants_stmt= $pdo->prepare($delete_match_participants);
+            $delete_match_participants_stmt->execute([$matchId]);
+        }   catch(PDOException $e){
+            echo "Error: " . $e->getMessage();
+        }
+
        
 
         echo "Participants successfully inserted into completed_match_participants!";
@@ -108,13 +132,7 @@ echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . 
     }
         
     
-    try{
-        $delete_match_participants= "DELETE FROM match_participants WHERE match_id = ? ";
-        $delete_match_participants_stmt= $pdo->prepare($delete_match_participants);
-        $delete_match_participants_stmt->execute([$matchId]);
-    }   catch(PDOException $e){
-        echo "Error: " . $e->getMessage();
-    }
+    
     
        
         
