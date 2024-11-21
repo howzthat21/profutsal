@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #0b0b0b; /* Deep black background */
-    color: #d4d4d4; /* Subtle light gray text for contrast */
+    color: #d4d4d4; /* Light gray text for contrast */
 }
 
 header {
@@ -19,23 +19,16 @@ header {
     border-bottom: 3px solid #4CAF50;
 }
 
-main {
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-/* Container for cards and lobby section */
+/* Main Container Layout */
 .container {
-    display: flex;
-    gap: 1.5rem; /* Reduced gap for tighter alignment */
-    flex-wrap: wrap;
-    justify-content: flex-start; /* Align items from the left */
+    display: flex; /* Enable flexbox layout */
+    justify-content: space-between; /* Align cards to left and right */
+    gap: 2rem; /* Add spacing between cards */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
     width: 100%;
+    max-width: 1400px; /* Limit container width */
+    margin: 2rem auto; /* Center container on the page */
+    padding: 0 1rem; /* Add padding for better spacing */
 }
 
 /* Futsal Card Styles */
@@ -44,14 +37,13 @@ main {
     border: 2px solid #4CAF50; /* Green border for emphasis */
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
-    width: 600px; /* Wider cards */
+    width: 45%; /* Each card takes half the width of the container */
     overflow: hidden;
-    text-align: left; /* Align text to the left */
+    text-align: left;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 0;
 }
 
 .futsal-card:hover {
@@ -63,6 +55,10 @@ main {
     color: #4CAF50; /* Bright green heading */
     font-size: 1.6rem;
     margin: 1rem;
+}
+
+.futsal-card p {
+    margin: 0 1rem 1rem;
 }
 
 .image-container img {
@@ -101,39 +97,14 @@ button:hover {
     transform: translateY(-3px); /* Subtle lift effect */
 }
 
-/* Join Lobby Section */
-.join-lobby {
-    background: #151515; /* Match the card background */
-    border: 2px solid #4CAF50; /* Green border for emphasis */
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
-    text-align: left; /* Align text to the left */
-    width: 100%;
-}
-
-.join-lobby h2 {
-    color: #4CAF50;
-    margin-bottom: 1rem;
-}
-
-.join-lobby button {
-    margin-top: 1rem;
-    display: inline-block;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        flex-direction: column;
+        flex-direction: column; /* Stack cards vertically */
         align-items: center;
     }
 
-    .futsal-card, .join-lobby {
+    .futsal-card {
         width: 100%; /* Full width for smaller screens */
-    }
-
-    button {
-        margin: 1rem auto; /* Center buttons on smaller screens */
     }
 }

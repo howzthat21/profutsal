@@ -58,7 +58,7 @@ $booking_datetimetry = "2024-11-21 14:30:00";
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script>
         // Booking datetime from PHP
-        const bookingDatetime = new Date("<?= $booking_datetimetry ?>").getTime();
+        const bookingDatetime = new Date("<?=$booking_datetime?>").getTime();
 
         // Function to update the countdown
         function updateCountdown() {
