@@ -11,6 +11,18 @@ if (!isset($_SESSION['user_id'])) {
 include 'db.php';
 include 'matchmakingstatusupdate.php';
 
+$user_id= $_SESSION['user_id'];
+
+$check_user_query="SELECT participant_id from match_participants where user_id =  ?";
+$check_user_query_stmt= $pdo->prepare($check_user_query);
+$check_user_query_stmt->execute([$user_id]);
+$user_exist=$check_user_query_stmt->fetchColumn();
+
+if($user_exist>0){
+    header("Location: index.php");
+    exit();
+}
+
 
 $query = "SELECT match_id, arena_id, player_count, max_players, status FROM matchmaking WHERE status IN ('pending') AND player_count < max_players";
 $stmt = $pdo->query($query);

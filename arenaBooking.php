@@ -169,6 +169,8 @@ $availableTimes = array_diff_key($allBookingTimes, array_flip($bookedTimes));
 $test_match_id = 42;
 
 
+
+
 $check_timefetch = "SELECT booking_datetime FROM matchmaking WHERE match_id = :match_id";
 $check_timefetch_stmt = $pdo->prepare($check_timefetch);
 

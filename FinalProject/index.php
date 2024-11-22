@@ -15,6 +15,10 @@ $count_stmt = $pdo->prepare("SELECT COUNT(*) FROM player_profiles WHERE user_id 
 $count_stmt->execute([$user_id]);
 $userExists = $count_stmt->fetchColumn();
 
+if(!isset($_SESSION['user_id'])){
+  header("Location: login.php");
+}
+
     
     
 }
@@ -39,12 +43,13 @@ $userExists = $count_stmt->fetchColumn();
   <nav>
     <?php if (!isset($_SESSION['user_id'])): ?>
       <!-- Display this section if the user is NOT logged in -->
-      <a href="login.html" class="nav-link">Login</a>
-      <a href="register.html" class="nav-link">Register</a>
+      <a href="login.php" class="nav-link">Login</a>
+      <a href="register.php" class="nav-link">Register</a>
     <?php else: ?>
       <!-- Display this section if the user IS logged in -->
-      <a href="profile.php?username=<?php echo $username;?>" class="nav-link">Profile</a>
-      <a href="../logout.php" class="nav-link">Logout</a>
+      <a href="profile.php?username=<?php echo $username?>" class="nav-link">Profile</a>
+      <a href="playerDetails.php" class="nav-link">View Lobby</a>
+      <a href="logout.php" class="nav-link">Logout</a>
     <?php endif; ?>
   </nav>
 </header>
@@ -59,8 +64,7 @@ $userExists = $count_stmt->fetchColumn();
         <!-- Show "Join Match" button and "Become a Player" link if user is not in player_profiles -->
         
        
-        <a href="joinateam.php" class="cta-button">Join a Match</a>
-        <a href="joinateam.php" class="cta-button">Join a Match</a>
+        <a href="joincreate.php" class="cta-button">Join a Match</a>
     <?php elseif ($userExists==0): ?>
       <a href="becomeaplayer.php" class="cta-button">Become a player</a>
       <?php endif; ?>

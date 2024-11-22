@@ -26,6 +26,9 @@ if ($match) {
     $participant_query = "INSERT INTO match_participants (match_id, user_id) VALUES (?, ?)";
     $participant_stmt = $pdo->prepare($participant_query);
     $participant_stmt->execute([$match_id, $player_id]);
+    
+
+    
 
     
     if ($match['player_count'] + 1 >= $match['max_players']) {

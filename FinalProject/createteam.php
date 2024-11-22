@@ -1,3 +1,19 @@
+<?php
+include 'db.php';
+$user_id= $_SESSION['user_id'];
+
+$check_user_query="SELECT participant_id from match_participants where user_id =  ?";
+$check_user_query_stmt= $pdo->prepare($check_user_query);
+$check_user_query_stmt->execute([$user_id]);
+$user_exist=$check_user_query_stmt->fetchColumn();
+
+if($user_exist>0){
+    header("Location: index.php");
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

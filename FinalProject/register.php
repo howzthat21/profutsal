@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if ($stmt->execute([$username, $email, $password])) {
         
-        header("Location: index.php");
+        header("Location: login.php");
         exit(); 
     } else {
         
