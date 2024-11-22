@@ -17,6 +17,33 @@ $match = $fetch_match_stmt->fetch(PDO::FETCH_ASSOC);
 
 $matchId=$match['match_id'];
 
+$teamQuery = "
+    SELECT 
+        mp.team_name, 
+        GROUP_CONCAT(u.username SEPARATOR ', ') AS team_members
+    FROM 
+        match_participants mp
+    JOIN 
+        users u ON mp.user_id = u.id
+    WHERE 
+        mp.match_id = :match_id
+    GROUP BY 
+        mp.team_name
+";
+
+// Prepare and execute the query
+$teamStmt = $pdo->prepare($teamQuery);
+$teamStmt->execute(['match_id' => $matchId]);
+
+// Fetch the results
+$teams = $teamStmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Display the teams and their members
+foreach ($teams as $team) {
+    echo "<h3>Team: " . htmlspecialchars($team['team_name']) . "</h3>";
+    echo "<p>Members: " . htmlspecialchars($team['team_members']) . "</p>";
+}
+
 
 //fetching arena details to display
 $fetch_arena_id="SELECT arena_id, booking_datetime from matchmaking where match_id= ?";

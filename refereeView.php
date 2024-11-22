@@ -38,7 +38,7 @@ $fetch_match_details = "
     ON 
         r.referee_id = rm.referee_id
     WHERE 
-        r.referee_id = ? 
+        r.referee_id = ? and rm.match_review_status = 'pending'
     ORDER BY 
         m.booking_datetime DESC
 ";
@@ -81,7 +81,7 @@ $matches = $fetch_match_details_stmt->fetchAll(PDO::FETCH_ASSOC);
                             <td><?php echo htmlspecialchars($match['booking_datetime']); ?></td>
                             <td>
                                 <!-- Review Match Button -->
-                                <a href="afterMatchRatings.php?match_id=<?php echo htmlspecialchars($match['match_id']); ?>" class="btn btn-primary">
+                                <a href="refereeMatchDetailsInput.php?match_id=<?php echo htmlspecialchars($match['match_id']); ?> &arena_id=<?php echo htmlspecialchars($match['arena_id']);?> &arena_name=<?php echo htmlspecialchars($match['arena_name']);?>& booking_datetime=<?php echo htmlspecialchars($match['booking_datetime'])?>  " class="btn btn-primary">
                                     Review Match
                                 </a>
                             </td>

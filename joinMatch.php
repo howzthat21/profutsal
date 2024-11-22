@@ -47,6 +47,12 @@ if ($match) {
         $insert_stmt = $pdo->prepare($insert_query);
         $insert_stmt->execute([$match_id, $referee_id]);
 
+        if($insert_stmt->rowCount()> 0){
+            $update_query = "UPDATE referee SET status = 'assigned' WHERE referee_id = ?";
+            $update_stmt = $pdo->prepare($update_query);
+            $update_stmt->execute([$referee_id]);
+        }
+
     }
 
     echo "<p>Successfully joined the lobby!</p>";
