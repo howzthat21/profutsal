@@ -70,26 +70,30 @@ echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . 
             $check_complete_matches_stmt=$pdo->prepare($check_complete_matches);
             $check_complete_matches_stmt->execute([$matchId]);
             $check_complete_matches_result=$check_complete_matches_stmt->fetch(PDO::FETCH_ASSOC);
-            if($check_complete_matches_result){
+            if(!$check_complete_matches_result){
+
+                $insertCompletedMatches = "INSERT INTO completed_matches (arena_id, match_id) VALUES (?, ?)";
+                $insertCompletedMatchesStmt = $pdo->prepare($insertCompletedMatches);
+                $insertCompletedMatchesStmt->execute([$arenaId, $matchId]);
+                echo "Match successfully inserted into completed_matches.";
                 //if match already exists in the table delete from matchmaking table with the same id
 
-                $delete_matchmaking="DELETE FROM matchmaking WHERE match_id=?";
-                $delete_matchmaking_stmt=$pdo->prepare($delete_matchmaking);
+                //$delete_matchmaking="DELETE FROM matchmaking WHERE match_id=?";
+               // $delete_matchmaking_stmt=$pdo->prepare($delete_matchmaking);
 
-                $delete_matchmaking_stmt->execute([$matchId]);
-                echo "Match removed from the matchmakin tbale";
+               // $delete_matchmaking_stmt->execute([$matchId]);
+                //echo "Match removed from the matchmakin tbale";
+                
             }
 
             else{
-            $insertCompletedMatches = "INSERT INTO completed_matches (arena_id, match_id) VALUES (?, ?)";
-            $insertCompletedMatchesStmt = $pdo->prepare($insertCompletedMatches);
-            $insertCompletedMatchesStmt->execute([$arenaId, $matchId]);
-            echo "Match successfully inserted into completed_matches.";
+                echo "unsuccessful";
+           
             }
             //query to insert into completed_match_participants table
             $user_id= $_SESSION['user_id'];
 
-            $fetchQuery = "SELECT user_id, match_id FROM match_participants WHERE match_id = :match_id";
+            $fetchQuery = "SELECT user_id, match_id, team_name FROM match_participants WHERE match_id = :match_id";
     $fetchStmt = $pdo->prepare($fetchQuery);
     $fetchStmt->execute(['match_id' => $matchId]);
 
@@ -97,23 +101,24 @@ echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . 
 
     if ($participants) {
         // Insert data into completed_match_participants
-        $insertQuery = "INSERT INTO completed_match_participants (user_id, match_id) VALUES (:user_id, :match_id)";
+        $insertQuery = "INSERT INTO completed_match_participants (user_id, match_id, team_name) VALUES (:user_id, :match_id, :team_name)";
         $insertStmt = $pdo->prepare($insertQuery);
 
         foreach ($participants as $participant) {
             $insertStmt->execute([
                 'user_id' => $participant['user_id'],
-                'match_id' => $participant['match_id']
+                'match_id' => $participant['match_id'],
+                'team_name' => $participant['team_name']
             ]);
         }
 
-        try{
-            $delete_match_participants= "DELETE FROM match_participants WHERE match_id = ? ";
-            $delete_match_participants_stmt= $pdo->prepare($delete_match_participants);
-            $delete_match_participants_stmt->execute([$matchId]);
-        }   catch(PDOException $e){
-            echo "Error: " . $e->getMessage();
-        }
+       // try{
+       //     $delete_match_participants= "DELETE FROM match_participants WHERE match_id = ? ";
+       //     $delete_match_participants_stmt= $pdo->prepare($delete_match_participants);
+       //     $delete_match_participants_stmt->execute([$matchId]);
+      //  }   catch(PDOException $e){
+      //      echo "Error: " . $e->getMessage();
+      //  }
 
        
 

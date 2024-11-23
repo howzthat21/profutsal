@@ -38,24 +38,14 @@
         <!-- Match Heading -->
         <h1 class="text-center mb-4">Futsal Match Results</h1>
 
-        <!-- Arena Name -->
-        <p class="arena-name">Played at: <span id="arenaName">Futsal Arena 1</span></p>
-
         <!-- Teams and Scores -->
         <div class="row">
             <!-- Team A -->
             <div class="col-md-5 team-box">
-                <div class="team-header">Team A: <span id="teamAName">Warriors</span></div>
-                <ul class="list-group mt-3" id="teamAPlayers">
-                    <!-- Player Names -->
-                    <li class="list-group-item">Player 1</li>
-                    <li class="list-group-item">Player 2</li>
-                    <li class="list-group-item">Player 3</li>
-                    <li class="list-group-item">Player 4</li>
-                    <li class="list-group-item">Player 5</li>
-                </ul>
+                <div class="team-header">Team A: <span id="teamAName"></span></div>
+                <div class="mt-3" id="teamAPlayers"></div>
                 <div class="text-center mt-3">
-                    <span class="score" id="teamAScore">3</span> Points
+                    <span class="score" id="teamAScore"></span> Points
                 </div>
             </div>
 
@@ -66,17 +56,10 @@
 
             <!-- Team B -->
             <div class="col-md-5 team-box">
-                <div class="team-header">Team B: <span id="teamBName">Titans</span></div>
-                <ul class="list-group mt-3" id="teamBPlayers">
-                    <!-- Player Names -->
-                    <li class="list-group-item">Player 6</li>
-                    <li class="list-group-item">Player 7</li>
-                    <li class="list-group-item">Player 8</li>
-                    <li class="list-group-item">Player 9</li>
-                    <li class="list-group-item">Player 10</li>
-                </ul>
+                <div class="team-header">Team B: <span id="teamBName"></span></div>
+                <div class="mt-3" id="teamBPlayers"></div>
                 <div class="text-center mt-3">
-                    <span class="score" id="teamBScore">2</span> Points
+                    <span class="score" id="teamBScore"></span> Points
                 </div>
             </div>
         </div>
@@ -88,34 +71,49 @@
     </div>
 
     <script>
-        // Example dynamic data (Replace this with actual fetched data)
-        const matchData = {
-            arenaName: "Elite Futsal Court",
-            teamAName: "Warriors",
-            teamAScore: 3,
-            teamAPlayers: ["Player 1", "Player 2", "Player 3", "Player 4", "Player 5"],
-            teamBName: "Titans",
-            teamBScore: 2,
-            teamBPlayers: ["Player 6", "Player 7", "Player 8", "Player 9", "Player 10"]
-        };
+        // Fetch match data dynamically
+        const matchId = new URLSearchParams(window.location.search).get('match_id') || 59;
+        const endpoint = `getMatchDetails.php?match_id=${matchId}`;
 
-        // Populate the page with match data
-        document.getElementById("arenaName").textContent = matchData.arenaName;
-        document.getElementById("teamAName").textContent = matchData.teamAName;
-        document.getElementById("teamAScore").textContent = matchData.teamAScore;
-        document.getElementById("teamBName").textContent = matchData.teamBName;
-        document.getElementById("teamBScore").textContent = matchData.teamBScore;
+        fetch(endpoint)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
 
-        const teamAPlayersList = document.getElementById("teamAPlayers");
-        const teamBPlayersList = document.getElementById("teamBPlayers");
+                // Populate match data
+                document.getElementById("teamAName").textContent = data.teamAName;
+                document.getElementById("teamAScore").textContent = data.teamAScore ?? "0";
+                document.getElementById("teamBName").textContent = data.teamBName;
+                document.getElementById("teamBScore").textContent = data.teamBScore ?? "0";
 
-        teamAPlayersList.innerHTML = matchData.teamAPlayers
-            .map(player => `<li class="list-group-item">${player}</li>`)
-            .join("");
+                // Populate team players
+                const teamAPlayersDiv = document.getElementById("teamAPlayers");
+                const teamBPlayersDiv = document.getElementById("teamBPlayers");
 
-        teamBPlayersList.innerHTML = matchData.teamBPlayers
-            .map(player => `<li class="list-group-item">${player}</li>`)
-            .join("");
+                teamAPlayersDiv.innerHTML = data.teamAPlayers
+                    .map(player => `<div>${player}</div>`)
+                    .join("");
+
+                teamBPlayersDiv.innerHTML = data.teamBPlayers
+                    .map(player => `<div>${player}</div>`)
+                    .join("");
+            })
+            .catch(error => console.error("Error fetching match data:", error));
     </script>
+    <form action="https://uat.esewa.com.np/epay/main" method="POST">
+    <input type="hidden" name="tAmt" value="120"> <!-- Total Amount -->
+    <input type="hidden" name="amt" value="120"> <!-- Actual Amount -->
+    <input type="hidden" name="txAmt" value="0">  <!-- Tax -->
+    <input type="hidden" name="psc" value="0">    <!-- Service Charge -->
+    <input type="hidden" name="pdc" value="0">    <!-- Delivery Charge -->
+    <input type="hidden" name="scd" value="EPAYTEST"> <!-- Testing Merchant Code -->
+    <input type="hidden" name="pid" value="TestPayment123"> <!-- Unique Payment ID -->
+    <input type="hidden" name="su" value="http://localhost/projfutsal/esewa_success.php"> <!-- Success URL -->
+    <input type="hidden" name="fu" value="http://localhost/projfutsal/esewa_failure.php"> <!-- Failure URL -->
+    <input type="image" src="https://cdn.esewa.com.np/ui/images/logos/esewa-icon-large.png" alt="Pay with eSewa" style="border: none;">
+</form>
 </body>
 </html>

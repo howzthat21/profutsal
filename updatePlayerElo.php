@@ -1,11 +1,15 @@
 <?php
+session_start();
 include 'db.php';
+
+//user and player id has been all mixed up in development at least in this page
 
 function updatePlayerELO($player_id, $rating_category) {
     global $pdo;
+    
 
     
-    $player_elo_query = "SELECT elo FROM player_profiles WHERE player_id = :player_id";
+    $player_elo_query = "SELECT elo FROM player_profiles WHERE user_id = :player_id";
     $player_elo_stmt = $pdo->prepare($player_elo_query);
     $player_elo_stmt->execute(['player_id' => $player_id]);
     $player = $player_elo_stmt->fetch(PDO::FETCH_ASSOC);
@@ -28,15 +32,13 @@ function updatePlayerELO($player_id, $rating_category) {
     
 
     
-    $match_stats_query = "UPDATE player_match_stats SET updated_elo = :new_elo WHERE player_id = :player_id ORDER BY completed_match_id DESC LIMIT 1";
-    $match_stats_stmt = $pdo->prepare($match_stats_query);
-    $match_stats_stmt->execute(['new_elo' => $new_elo, 'player_id' => $player_id]);
+   // $match_stats_query = "UPDATE player_match_stats SET updated_elo = :new_elo WHERE player_id = :player_id ORDER BY completed_match_id DESC LIMIT 1";
+   // $match_stats_stmt = $pdo->prepare($match_stats_query);
+   // $match_stats_stmt->execute(['new_elo' => $new_elo, 'player_id' => $player_id]);
 }
 
 
-$player_id = 1; 
-$rating_category = 'Amateur'; 
-updatePlayerELO($player_id, $rating_category);
+
 
 
 function updatePlayerRanking($player_id) {
@@ -74,5 +76,5 @@ function updatePlayerRanking($player_id) {
 
 
 $player_id = 1; 
-updatePlayerRanking($player_id);
+//updatePlayerRanking($player_id);
 ?>

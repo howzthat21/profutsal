@@ -1,9 +1,19 @@
 <?php
-include 'db.php';
 session_start();
+include 'db.php';
+include 'updatePlayerElo.php';
+
 if (!isset($_SESSION['referee_id'])) {
     header("Location: refereeLogin.php");
     exit();
+}
+if (isset($_SESSION['teamAName']) && isset($_SESSION['teamBName'])) {
+    $teamAName = $_SESSION['teamAName'];
+    $teamBName = $_SESSION['teamBName'];
+
+    
+}else{
+    echo "session not started";
 }
 $match_id = $_GET['match_id'];
 $arena_id= $_GET['arena_id'];
@@ -26,7 +36,14 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     $update_query="UPDATE referee_matches SET match_review_status='completed' WHERE referee_id=? AND match_id=?";
     $update_query_stmt=$pdo->prepare($update_query);
     $update_query_stmt->execute([$_SESSION['referee_id'], $match_id]);
-    header("Location: refereeView.php");
+    
+    try{
+        updatePlayerELO($player_id, $rating_id);
+    } catch(Exception $e){
+        echo "Error updating player ELO: " . $e->getMessage();
+    }
+
+    header("Location: afterMatchRatings.php?match_id= $match_id");
     
 }
 
@@ -68,7 +85,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                     <!-- Team A Name -->
                     <div class="mb-3">
                         <label for="teamAName" class="form-label">Team A Name</label>
-                        <input type="text" class="form-control" id="teamAName" name="team_a_name" value="a" readonly>
+                        <input type="text" class="form-control" id="teamAName" name="team_a_name" value="<?php echo $teamAName?>" readonly>
                     </div>
                     
                     <!-- Team A Goals -->
@@ -80,7 +97,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                     <!-- Team B Name -->
                     <div class="mb-3">
                         <label for="teamBName" class="form-label">Team B Name</label>
-                        <input type="text" class="form-control" id="teamBName" name="team_b_name" value="b" readonly>
+                        <input type="text" class="form-control" id="teamBName" name="team_b_name" value="<?php echo $teamBName?>" readonly>
                     </div>
                     
                     <!-- Team B Goals -->

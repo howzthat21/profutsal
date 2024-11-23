@@ -1,6 +1,8 @@
 <?php
-include 'db.php';
 session_start();
+include 'db.php';
+
+
 
 
 if (!isset($_SESSION['user_id'])) {
@@ -59,6 +61,16 @@ if ($match) {
     $teamAName = $teamA[array_rand($teamA)];
     $teamBName = $teamB[array_rand($teamB)];
 
+    $_SESSION['teamAName'] = $teamAName;
+    $_SESSION['teamBName'] = $teamBName;
+    if(isset($_SESSION['teamAName']) && isset($_SESSION['teamBName'])){
+        echo "Team A: " . $_SESSION['teamAName'];
+        echo "Team B: " . $_SESSION['teamBName'];
+    }
+    else{
+        echo "session not started";
+    }
+    
     // Prepare the SQL query for updating team names
     $updateQuery = "
         UPDATE match_participants 
@@ -86,5 +98,7 @@ if ($match) {
 
     echo "Team names updated successfully!";
 }
-
+else{
+    echo "No match found for the player.";
+}
 ?>
