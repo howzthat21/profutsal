@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -13,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $check_stmt->execute([$sender_id, $receiver_id]);
 
     if ($check_stmt->rowCount() > 0) {
-        echo "wait sometime before sending message";
+        echo json_encode(['message' => 'Friend request already sent or user already a friend.']);
         exit;
     }
 
@@ -25,23 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          $query_friend_requests="INSERT INTO friend_requests(sender_id, receiver_id) values (?, ?)";
          $query_friend_requests_stmt=$pdo->prepare($query_friend_requests);
          $query_friend_requests_stmt->execute([$sender_id, $receiver_id]);
-        echo "message sent";
+        echo json_encode(['message' => 'Friend request sent successfully!']);
     } else {
-       echo "failed";
+        echo json_encode(['message' => 'Failed to send friend request.']);
     }
+
    
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="send_friend_request.php"></form>
-    
-</body>
-</html>

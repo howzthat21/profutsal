@@ -1,7 +1,14 @@
 <?php
+session_start();
 include 'db.php';
+if(!isset($_SESSION['user_id'])){
+    header("Location: login.php");
+    exit();
+}
+$user_id=$_SESSION['user_id'];
+$user_name= $_SESSION['username'];
 
-$user_id=$_GET['user_id'];
+//$user_id=$_GET['user_id'];
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +22,8 @@ $user_id=$_GET['user_id'];
 </head>
 <body>
 <div class="container mt-5">
-    <h2>Friends Feature</h2>
+    <h2>welcome <?php echo $username;
+    echo $user_id;?></h2>
 
     <!-- Add Friend Form -->
     <div>
@@ -25,7 +33,7 @@ $user_id=$_GET['user_id'];
                 <label for="receiverId" class="form-label">Friend's User ID:</label>
                 <input type="number" id="receiverId" name="receiver_id" class="form-control" required>
             </div>
-            <input type="hidden" id="senderId" name="sender_id" value="1"> <!-- Example: Logged-in user ID -->
+            <input type="hidden" id="senderId" name="sender_id" value="<?php echo htmlspecialchars($user_id);?>"> <!-- Example: Logged-in user ID -->
             <button type="submit" class="btn btn-primary">Send Request</button>
         </form>
     </div>
