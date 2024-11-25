@@ -17,7 +17,7 @@ include 'db.php';
     <input type="hidden" name="psc" value="0">    <!-- Service Charge -->
     <input type="hidden" name="pdc" value="0">    <!-- Delivery Charge -->
     <input type="hidden" name="scd" value="EPAYTEST"> <!-- Testing Merchant Code -->
-    <input type="hidden" name="pid" value="TestPayment123"> <!-- Unique Payment ID -->
+    <input type="hidden" name="pid" value="00987654"> <!-- Unique Payment ID change the value each time manually for testing. not yet integrated-->
     <input type="hidden" name="su" value="http://localhost/projfutsal/esewa_success.php"> <!-- Success URL -->
     <input type="hidden" name="fu" value="http://localhost/projfutsal/esewa_failure.php"> <!-- Failure URL -->
     <button type="submit">Pay with eSewa</button>
