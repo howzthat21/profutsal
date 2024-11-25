@@ -31,6 +31,8 @@ $fetch_player_details_stmt->execute();
 $player_details = $fetch_player_details_stmt->fetch(PDO::FETCH_ASSOC);
 
 
+
+
 if ($player_details) {
     
     $age = $player_details['age'];
