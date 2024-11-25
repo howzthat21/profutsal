@@ -11,39 +11,63 @@ header {
     background-color: #1a1a1a; /* Slightly lighter black for header */
     color: #4CAF50; /* Bright green accent color */
     text-align: center;
-    padding: 1.5rem 0;
-    font-size: 1.8rem;
+    padding: 1.2rem 0; /* Reduced padding */
+    font-size: 1.5rem; /* Smaller font size */
     text-transform: uppercase;
-    letter-spacing: 2px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1.5px; /* Slightly reduced spacing */
     border-bottom: 3px solid #4CAF50;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    font-family: 'Poppins', sans-serif; /* Stylish modern font */
+    font-weight: 600;
 }
 
-/* Main Container Layout */
+.page-description {
+    text-align: center;
+    font-size: 1rem; /* Smaller font size */
+    color: #999999; /* Cooler light gray */
+    margin: 0.5rem 2rem 20px; /* Adjusted margins */
+    line-height: 1.5; /* Better readability */
+    font-family: 'Roboto', sans-serif; /* Simplified look */
+    border-top: 1px dashed #4CAF50; /* Adds a stylish line */
+    padding-top: 10px;
+    font-style: italic;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #1a1a1a;
+    color: #4CAF50;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    border-top: 2px solid #4CAF50;
+}
+
+/* Main Container */
 .container {
-    display: flex; /* Enable flexbox layout */
-    justify-content: space-between; /* Align cards to left and right */
-    gap: 2rem; /* Add spacing between cards */
-    flex-wrap: wrap; /* Allow wrapping for smaller screens */
-    width: 100%;
-    max-width: 1400px; /* Limit container width */
-    margin: 2rem auto; /* Center container on the page */
-    padding: 0 1rem; /* Add padding for better spacing */
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 1rem;
+    gap: 1.5rem;
+    margin: 2rem auto;
 }
 
-/* Futsal Card Styles */
+/* Futsal Card */
 .futsal-card {
-    background: #151515; /* Slightly lighter black for contrast */
-    border: 2px solid #4CAF50; /* Green border for emphasis */
-    border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
-    width: 45%; /* Each card takes half the width of the container */
+    background: #151515;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    transition: transform 0.3s, box-shadow 0.3s;
     overflow: hidden;
-    text-align: left;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    text-align: center;
+    padding: 1rem;
+    width: 250px; /* Width of each card */
+    height: 380px; /* Slightly taller height */
+    flex-shrink: 0;
 }
 
 .futsal-card:hover {
@@ -51,60 +75,91 @@ header {
     box-shadow: 0 10px 20px rgba(0, 255, 136, 0.5);
 }
 
-.futsal-card h2 {
-    color: #4CAF50; /* Bright green heading */
-    font-size: 1.6rem;
-    margin: 1rem;
+/* Card Header */
+.card-header h2 {
+    font-size: 1.1rem; /* Slightly smaller */
+    color: #4CAF50;
+    margin-bottom: 0.5rem;
+    font-family: 'Montserrat', sans-serif; /* Modern font */
+    font-weight: bold;
 }
 
-.futsal-card p {
-    margin: 0 1rem 1rem;
+.card-header p {
+    font-size: 0.8rem; /* Smaller size */
+    color: #a9a9a9;
+    margin-bottom: 1rem;
+    font-family: 'Roboto', sans-serif;
+    font-style: italic;
 }
 
+/* Image */
 .image-container img {
     width: 100%;
-    height: 220px;
+    height: 130px; /* Reduced height of image */
     object-fit: cover;
-    border-bottom: 2px solid #4CAF50;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Details Section */
+.details {
+    color: #d4d4d4;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    border-top: 1px solid #4CAF50;
+    padding-top: 0.5rem;
+}
+
+/* Map */
+.map-container {
+    width: 100%;
+    height: 150px; /* Ensure the container has sufficient height */
+    overflow: hidden;
+    margin: 1rem 0;
+    border: 1px solid #4CAF50;
+    border-radius: 8px;
 }
 
 .map-container iframe {
     width: 100%;
-    height: 150px;
+    height: 100%;
     border: none;
     border-radius: 8px;
-    margin: 1rem 0;
-    border: 1px solid #4CAF50;
+    object-fit: cover; /* Adjusts the map to fill the frame without distorting */
 }
 
-/* Button Styles */
+/* Button */
 button {
-    background-color: #4CAF50; /* Bright green for call-to-action */
-    color: #0b0b0b; /* Dark text for contrast */
-    padding: 0.8rem 1.6rem;
+    background-color: #4CAF50;
+    color: #0b0b0b;
+    padding: 0.5rem 1rem;
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin: 1rem auto; /* Center the button horizontally */
-    display: block;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 0.5rem auto;
 }
 
 button:hover {
-    background-color: #3e8e41; /* Slightly darker green on hover */
-    transform: translateY(-3px); /* Subtle lift effect */
+    background-color: #3e8e41;
+    transform: translateY(-3px);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .container {
-        flex-direction: column; /* Stack cards vertically */
-        align-items: center;
+    header {
+        font-size: 1.2rem; /* Smaller header for smaller screens */
+        padding: 1rem 0;
     }
 
-    .futsal-card {
-        width: 100%; /* Full width for smaller screens */
+    .page-description {
+        font-size: 0.9rem; /* Smaller description text */
+        padding: 0.5rem 1rem;
+    }
+
+    button {
+        font-size: 0.8rem;
     }
 }
