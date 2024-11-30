@@ -56,7 +56,7 @@ if ($result && isset($result['username'])) {
       <!-- Join and Create Team Buttons -->
       <div class="team-options">
         <a href="joinateam.php" class="cta-button">Join a Team</a>
-        <a href="createteam.html" class="cta-button">Create a Team</a>
+        <a href="createteam.php" class="cta-button">Create a Team</a>
       </div>
     </section>
 
