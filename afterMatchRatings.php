@@ -10,6 +10,11 @@ if (!isset($_SESSION['referee_id'])) {
 
 $referee_id = $_SESSION['referee_id'];
 $match_id = $_GET['match_id'] ?? null; // Get the match ID passed via query parameter
+$winning_team=$_GET['winning_team'] ?? null;
+$team_a_name= $_GET['team_a_name'];
+$team_b_name= $_GET['team_b_name'];
+//echo $match_id;
+//echo $winning_team;
 
 function updatePlayerElo($user_id, $match_id) {
     global $pdo;
@@ -148,7 +153,7 @@ $participants = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h2 class="text-center mb-4 text-primary">Add Match Details</h2>
 
         <!-- Form Section -->
-        <form id="playerForm">
+        <form id="playerForm" action="calculateNewElo.php?match_id=<?php echo $match_id;?>&winning_team=<?php echo $winning_team;?>&team_a_name=<?php echo $team_a_name;?>&team_b_name=<?php echo $team_b_name;?>">
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="player_id" class="form-label">Player</label>
@@ -271,6 +276,10 @@ $participants = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 playerDataTable.innerHTML = '';
                 playerData.length = 0;
                 confirmSubmissionBtn.disabled = true;
+                const matchId = <?= json_encode($match_id) ?>; // You can get the match ID dynamically or pass from PHP
+    const winningTeam = '<?= $winning_team ?>';  // Assuming you want to send the winning team
+    const url = `nextPage.php?match_id=${matchId}&winning_team=${winningTeam}`; // Customize URL as needed
+    window.location.href = url; 
             } else {
                 alert('Error submitting data.');
             }

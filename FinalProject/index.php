@@ -47,8 +47,10 @@ if(!isset($_SESSION['user_id'])){
       <a href="register.php" class="nav-link">Register</a>
     <?php else: ?>
       <!-- Display this section if the user IS logged in -->
+        <?php if ($userExists):?>
       <a href="profile.php?username=<?php echo $username?>" class="nav-link">Profile</a>
       <a href="playerDetails.php" class="nav-link">View Lobby</a>
+      <?php endif;?>
       <a href="logout.php" class="nav-link">Logout</a>
     <?php endif; ?>
   </nav>
