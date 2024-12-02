@@ -81,7 +81,7 @@ $available_lobbies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <img src="arena<?php echo htmlspecialchars($lobby['arena_id']); ?>.jpg" alt="Arena Image" class="arena-image">
             <div class="lobby-info">
               <h3>Arena Name: <?php echo htmlspecialchars($lobby['arena_name']); ?></h3>
-              <h3>Arena Name: <?php echo htmlspecialchars($lobby['match_id']); ?></h3>
+              <h3>Match_id: <?php echo htmlspecialchars($lobby['match_id']); ?></h3>
               <p>Status: <?php echo htmlspecialchars($lobby['status']); ?></p>
               <p>Players: <?php echo htmlspecialchars($lobby['player_count'] . '/' . $lobby['max_players']); ?></p>
               <p>Location: <?php echo htmlspecialchars($lobby['arena_location']); ?></p>

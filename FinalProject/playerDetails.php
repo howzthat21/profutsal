@@ -1,5 +1,6 @@
 <?php
 include 'db.php';
+
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -167,7 +168,7 @@ $booking_datetimetry = "2024-11-21 14:30:00";
 
         <?php if ($match): ?>
             <?php
-            $match_id = $match['match_id'];
+            
 
             $participants_sql = "
                 SELECT u.username 
@@ -176,7 +177,7 @@ $booking_datetimetry = "2024-11-21 14:30:00";
                 WHERE mp.match_id = :match_id
             ";
             $participants_stmt = $pdo->prepare($participants_sql);
-            $participants_stmt->execute(['match_id' => $match_id]);
+            $participants_stmt->execute(['match_id' => $matchId]);
 
             $participants = [];
             while ($participant = $participants_stmt->fetch(PDO::FETCH_ASSOC)) {

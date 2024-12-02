@@ -1,5 +1,6 @@
 <?php
-session_start(); //arena booking/futsal_timing
+session_start();
+include 'db.php'; //arena booking/futsal_timing
 
 
 if (!isset($_SESSION['user_id'])) { 
@@ -7,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-include 'db.php';
+
 
 
 if (isset($_GET['arena_id']) && isset($_GET['arena_name'])) {
@@ -74,6 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $matchmaking_stmt = $pdo->prepare($matchmaking_sql);
             $matchmaking_stmt->execute([$player_id, $arena_id, $bookingDatetime]);
 
+           
+
             echo "<p>Booking successfully created in Nepal timezone!</p>";
      
     
@@ -126,7 +129,7 @@ if ($match) {
 }
 
 
-    header("Location: waitinglobby.php");
+    header("Location: index.php");
         exit();
 }
 }

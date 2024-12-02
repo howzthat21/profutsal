@@ -9,7 +9,12 @@ if(!isset($_SESSION['user_id'])){
 }
 $user_id=$_SESSION['user_id'];
 
-$fetch_waiting_lobby= "SELECT match_id from match_participants where user_id=?";
+$fetch_waiting_lobby= "SELECT mp.match_id 
+    FROM match_participants mp
+    JOIN users u ON mp.user_id = u.id
+    WHERE mp.match_id NOT IN (
+        SELECT match_id FROM completed_matches
+    ) AND mp.user_id = ?";
 $fetch_waiting_lobby_stmt= $pdo->prepare($fetch_waiting_lobby);
 $fetch_waiting_lobby_stmt->execute([$user_id]);
 $waiting_lobby=$fetch_waiting_lobby_stmt->fetch(PDO::FETCH_ASSOC);
@@ -87,6 +92,9 @@ $arena_location = $fetch_arena['arena_location'];
     </style>
 </head>
 <body>
+    <nav>
+        <a href="index.php" class="nav-link">Home</a>
+    </nav>
     <div class="container">
         <h1 class="text-center my-4">Waiting Lobby</h1>
         
