@@ -112,13 +112,13 @@ echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . 
             ]);
         }
 
-       // try{
-       //     $delete_match_participants= "DELETE FROM match_participants WHERE match_id = ? ";
-       //     $delete_match_participants_stmt= $pdo->prepare($delete_match_participants);
-       //     $delete_match_participants_stmt->execute([$matchId]);
-      //  }   catch(PDOException $e){
-      //      echo "Error: " . $e->getMessage();
-      //  }
+        try{
+            $delete_match_participants= "DELETE FROM match_participants WHERE match_id = ? ";
+           $delete_match_participants_stmt= $pdo->prepare($delete_match_participants);
+           $delete_match_participants_stmt->execute([$matchId]);
+       }   catch(PDOException $e){
+           echo "Error: " . $e->getMessage();
+       }
 
        
 
@@ -132,6 +132,7 @@ echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . 
             
             
         }
+       
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }

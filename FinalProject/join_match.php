@@ -19,6 +19,9 @@ $check_stmt = $pdo->prepare($check_query);
 $check_stmt->execute([$match_id]);
 $match = $check_stmt->fetch();
 
+
+//checking if the user_id
+
 //if true then set the player and update garr
 if ($match) {
     
@@ -48,11 +51,13 @@ if ($match) {
         $assign_referee_stmt->execute([$match_id, $referee_id ]);
         
 
-        
+        header("Location: waitinglobby.php");
     }
+    header("Location: waitinglobby.php");
 
     echo "<p>Successfully joined the lobby!</p>";
     echo "<a href='matchmakingarena.php'>Back to lobbies</a>";
+    exit();
 } else {
     echo "<p>Lobby is full or no longer available.</p>";
 }

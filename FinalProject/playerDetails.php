@@ -9,7 +9,12 @@ if (!isset($_SESSION['user_id'])) {
 
 $player_id = $_SESSION['user_id'];
 
-$fetch_match_sql = "SELECT match_id FROM match_participants WHERE user_id = :player_id";
+$fetch_match_sql = "SELECT mp.match_id, mp.user_id, u.username 
+    FROM match_participants mp
+    JOIN users u ON mp.user_id = u.id
+    WHERE mp.match_id NOT IN (
+        SELECT match_id FROM completed_matches
+    ) AND mp.user_id = :player_id";
 $fetch_match_stmt = $pdo->prepare($fetch_match_sql);
 $fetch_match_stmt->execute(['player_id' => $player_id]);
 
