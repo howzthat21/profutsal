@@ -1,30 +1,56 @@
 <?php
-include  'db.php';
+
+include 'db.php';
 session_start();
-if (!isset($_SESSION['user_id'])) {
+
+if(!isset($_SESSION['user_id'])){
     header("Location: login.php");
     exit();
 }
-$user_id= $_SESSION['user_id'];
-/*things to display:
-match_id from the matchmaking table
-location from the arena table
-booked time from the matchmaking table
-player count from the matchmaking table
- */
-//first fetching the match_id from the match_participants
- $fetch_match_participant_info="SELECT match_id from match_participants where user_id=?";
- $fetch_match_participant_info_stmt= $pdo->prepare($fetch_match_participant_info);
- $fetch_match_participant_info_stmt->execute([$user_id]);
+$user_id=$_SESSION['user_id'];
 
- $match_participant_info=$fetch_match_participant_info_stmt->fetch(PDO::FETCH_ASSOC);
- $match_id=$match_participant_info['match_id'];
+$fetch_waiting_lobby= "SELECT match_id from match_participants where user_id=?";
+$fetch_waiting_lobby_stmt= $pdo->prepare($fetch_waiting_lobby);
+$fetch_waiting_lobby_stmt->execute([$user_id]);
+$waiting_lobby=$fetch_waiting_lobby_stmt->fetch(PDO::FETCH_ASSOC);
+if(!$waiting_lobby){
+    echo "you are not in a lobby";
+    header("Location: index.php");
+
+}
+
+$match_id=$waiting_lobby['match_id'];
+
+$fetch_info= "SELECT match_id, arena_id, booking_datetime, player_count from matchmaking where match_id = ? ";
+$fetch_info_stmt=$pdo->prepare($fetch_info);
+$fetch_info_stmt->execute([$match_id]);
+$lobby_view= $fetch_info_stmt->fetch(PDO:: FETCH_ASSOC); 
+
+$match_id_lobby=$lobby_view['match_id'];
+$arena_id= $lobby_view['arena_id'];
+$booking_datetime= $lobby_view['booking_datetime'];
+$lobby_player_count = $lobby_view['player_count'];
+
+echo $match_id_lobby;
+echo $arena_id;
+echo $booking_datetime;
+echo $lobby_player_count;
+
+$fetch_arena_details= "SELECT arena_name, arena_location from arenas where arena_id = ?";
+$fetch_arena_details_stmt = $pdo->prepare($fetch_arena_details);
+$fetch_arena_details_stmt->execute([$arena_id]);
+$fetch_arena=$fetch_arena_details_stmt->fetch(PDO::FETCH_ASSOC);
+
+$arena_name= $fetch_arena['arena_name'];
+$arena_location = $fetch_arena['arena_location'];
 
 
- //fetching the remainig details from the query
- 
+
+
+
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -66,11 +92,11 @@ player count from the matchmaking table
         
         <!-- Match Details -->
         <div class="lobby-card">
-            <h2>Match ID: 12345</h2>
-            <p><strong>Arena Name:</strong> Galaxy Futsal Arena</p>
-            <p><strong>Location:</strong> New York City</p>
-            <p><strong>Booked Time:</strong> November 21, 2024, 2:00 PM</p>
-            <p><strong>Players:</strong> <span id="player-count">6</span>/10</p>
+            <h2>Match ID: <?php echo $match_id_lobby?></h2>
+            <p><strong>Arena Name:</strong> <?php echo $arena_name?></p>
+            <p><strong>Location:</strong> <?php echo $arena_location?></p>
+            <p><strong>Booked Time:</strong> <?php echo $booking_datetime?></p>
+            <p><strong>Players:</strong> <span id="player-count"><?php echo $lobby_player_count?></span>/10</p>
 
             <!-- Player Boxes -->
             <div class="player-box-container" id="player-box-container">
@@ -82,7 +108,7 @@ player count from the matchmaking table
     <script>
         // Variables (replace with dynamic data from your backend)
         const totalPlayers = 10;
-        const currentPlayers = 6; // Example: 6 players joined out of 10
+        const currentPlayers = <?php echo htmlspecialchars($lobby_player_count);?> // Example: 6 players joined out of 10
 
         // DOM Elements
         const playerBoxContainer = document.getElementById('player-box-container');

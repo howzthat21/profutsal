@@ -126,7 +126,7 @@ if ($match) {
 }
 
 
-    header("Location: arenabooking.php?arena_name=$arena_name&arena_id=$arena_id&success=1");
+    header("Location: waitinglobby.php");
         exit();
 }
 }
@@ -166,29 +166,29 @@ if ($arena_id) {
 
 
 $availableTimes = array_diff_key($allBookingTimes, array_flip($bookedTimes));
-$test_match_id = 42;
+//$test_match_id = 42;
 
 
 
 
-$check_timefetch = "SELECT booking_datetime FROM matchmaking WHERE match_id = :match_id";
-$check_timefetch_stmt = $pdo->prepare($check_timefetch);
+//$check_timefetch = "SELECT booking_datetime FROM matchmaking WHERE match_id = :match_id";
+// $check_timefetch_stmt = $pdo->prepare($check_timefetch);
 
 
-$check_timefetch_stmt->execute(['match_id' => $test_match_id]);
+// $check_timefetch_stmt->execute(['match_id' => $test_match_id]);
 
 
-$bookingDatetimeString = $check_timefetch_stmt->fetchColumn();
+// $bookingDatetimeString = $check_timefetch_stmt->fetchColumn();
 
-if ($bookingDatetimeString) {
+// if ($bookingDatetimeString) {
     
-    $bookingDatetime = new DateTime($bookingDatetimeString);
+    // $bookingDatetime = new DateTime($bookingDatetimeString);
     
     
-    var_dump($bookingDatetime);
-} else {
-    echo "No booking found for match ID " . $test_match_id;
-}
+    // var_dump($bookingDatetime);
+// } else {
+    // echo "No booking found for match ID " . $test_match_id;
+// }
 
 
 
@@ -212,7 +212,7 @@ if ($bookingDatetimeString) {
             
         <?php endif; ?>
 
-        <form action="arenabooking.php?arena_name=<?php echo urlencode($arena_name); ?>&arena_id=<?php echo urlencode($arena_id); ?>" method="POST">
+        <form action="futsal_timing.php?arena_name=<?php echo urlencode($arena_name); ?>&arena_id=<?php echo urlencode($arena_id); ?>" method="POST">
             
             <!-- Booking Time Selection -->
             <label for="bookingTime">Booking Time:</label>
