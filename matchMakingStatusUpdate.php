@@ -16,7 +16,7 @@ function updateMatchmakingStatus($pdo) {
     
     $sql = "SELECT arena_id, match_id, booking_datetime, status 
             FROM matchmaking 
-            WHERE status IN ('lineups', 'inprogress', 'fulltime')";
+            WHERE status IN ('pending','lineups', 'inprogress', 'fulltime')";
     $stmt = $pdo->query($sql);
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -26,6 +26,15 @@ function updateMatchmakingStatus($pdo) {
         $arenaId=$row['arena_id'];
         $currentDatetime = new DateTime();
         echo $matchId;
+
+        if($status === 'pending' && $currentDatetime>= $bookingDatetime){
+            $delete_match="DELETE FROM matchmaking where match_id = ?";
+            $delete_stmt=$pdo->prepare($delete_match);
+            $delete_stmt->execute([$matchId]);
+            
+            echo "deleted";
+        }
+
         if ($status === 'lineups' && $currentDatetime >= $bookingDatetime) {
             
             $updateStatusSql = "UPDATE matchmaking SET status = 'inprogress' WHERE match_id = ?";

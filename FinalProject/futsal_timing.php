@@ -193,6 +193,10 @@ $availableTimes = array_diff_key($allBookingTimes, array_flip($bookedTimes));
     // echo "No booking found for match ID " . $test_match_id;
 // }
 
+$tomorrow = new DateTime('tomorrow');
+$date=$tomorrow->format('F j, Y'); // Outputs: YYYY-MM-DD format
+
+
 
 
 ?>
@@ -218,7 +222,7 @@ $availableTimes = array_diff_key($allBookingTimes, array_flip($bookedTimes));
         <form action="futsal_timing.php?arena_name=<?php echo urlencode($arena_name); ?>&arena_id=<?php echo urlencode($arena_id); ?>" method="POST">
             
             <!-- Booking Time Selection -->
-            <label for="bookingTime">Booking Time:</label>
+            <label for="bookingTime">Booking Date:<?php echo $date?></label>
             <select name="bookingTime" id="bookingTime" required>
             <?php if (empty($availableTimes)): ?>
                         <option value="" disabled>No times available</option>
