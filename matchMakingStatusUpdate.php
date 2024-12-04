@@ -1,11 +1,11 @@
 <?php
 include 'db.php'; 
-session_start();
+@session_start();
 
 
 
 $user_id= $_SESSION['user_id'];
-echo $user_id;
+//echo $user_id;
 
 
 
@@ -25,14 +25,14 @@ function updateMatchmakingStatus($pdo) {
         $status = $row['status'];
         $arenaId=$row['arena_id'];
         $currentDatetime = new DateTime();
-        echo $matchId;
+       // echo $matchId;
 
         if($status === 'pending' && $currentDatetime>= $bookingDatetime){
             $delete_match="DELETE FROM matchmaking where match_id = ?";
             $delete_stmt=$pdo->prepare($delete_match);
             $delete_stmt->execute([$matchId]);
             
-            echo "deleted";
+            //echo "deleted";
         }
 
         if ($status === 'lineups' && $currentDatetime >= $bookingDatetime) {
@@ -47,16 +47,16 @@ function updateMatchmakingStatus($pdo) {
         $hour_late = $oneHourAfterBooking->modify('+1 hour');
 
         $hour_late->format('Y-m-d H:i:s');
-        echo "<h1>" . $hour_late->format('Y-m-d H:i:s') . "</h1>";
-        var_dump($bookingDatetime);
+       // echo "<h1>" . $hour_late->format('Y-m-d H:i:s') . "</h1>";
+        //var_dump($bookingDatetime);
 
         $realCurrentDatetime = new DateTime('now', new DateTimeZone('Asia/Kathmandu'));
 
-        echo "<h2>" . $realCurrentDatetime->format('Y-m-d H:i:s') . "</h2>";
+        //echo "<h2>" . $realCurrentDatetime->format('Y-m-d H:i:s') . "</h2>";
 
 
-        echo "Current Time: " . $realCurrentDatetime->format('Y-m-d H:i:s') . "<br>";
-echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . "<br>";
+       // echo "Current Time: " . $realCurrentDatetime->format('Y-m-d H:i:s') . "<br>";
+//echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . "<br>";
 
 
 
@@ -84,7 +84,7 @@ echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . 
                 $insertCompletedMatches = "INSERT INTO completed_matches (arena_id, match_id) VALUES (?, ?)";
                 $insertCompletedMatchesStmt = $pdo->prepare($insertCompletedMatches);
                 $insertCompletedMatchesStmt->execute([$arenaId, $matchId]);
-                echo "Match successfully inserted into completed_matches.";
+               // echo "Match successfully inserted into completed_matches.";
                 //if match already exists in the table delete from matchmaking table with the same id
 
                 //$delete_matchmaking="DELETE FROM matchmaking WHERE match_id=?";
@@ -96,7 +96,7 @@ echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . 
             }
 
             else{
-                echo "unsuccessful";
+                //echo "unsuccessful";
            
             }
             //query to insert into completed_match_participants table
@@ -126,12 +126,12 @@ echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . 
            $delete_match_participants_stmt= $pdo->prepare($delete_match_participants);
            $delete_match_participants_stmt->execute([$matchId]);
        }   catch(PDOException $e){
-           echo "Error: " . $e->getMessage();
+           //echo "Error: " . $e->getMessage();
        }
 
        
 
-        echo "Participants successfully inserted into completed_match_participants!";
+       // echo "Participants successfully inserted into completed_match_participants!";
     }
 
             
@@ -143,7 +143,7 @@ echo "One Hour After Booking: " . $oneHourAfterBooking->format('Y-m-d H:i:s') . 
         }
        
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+       // echo "Error: " . $e->getMessage();
     }
         
     

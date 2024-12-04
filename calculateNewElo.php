@@ -11,8 +11,8 @@ if (!isset($_SESSION['referee_id'])) {
 $referee_id = $_SESSION['referee_id'];
 $match_id = $_GET['match_id'] ?? null; // Match ID from URL
 $winning_team = $_GET['winning_team'] ?? null;
-$team_a_name=$_GET['team_a_name'];
-$team_b_name=$_GET['team_b_name'];
+//$team_a_name=$_GET['team_a_name'];
+//$team_b_name=$_GET['team_b_name'];
 
 // Function to calculate team average ELO
 function getTeamAverageElo($team_name, $match_id) {
@@ -81,7 +81,8 @@ if ($winning_team && $match_id) {
             updateElo($participant['user_id'], $elo_change);
         }
 
-       // echo "ELO ratings updated successfully.";
+      // echo "ELO ratings updated successfully.";
+      header("Location: refereeView.php");
     } catch (Exception $e) {
         echo "Error updating ELO ratings: " . $e->getMessage();
     }

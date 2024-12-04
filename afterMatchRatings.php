@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'db.php';
-include 'CalculateNewElo.php';//divides elo according to the match result
+//divides elo according to the match result
 
 // Check if referee is logged in
 if (!isset($_SESSION['referee_id'])) {
@@ -278,7 +278,7 @@ $participants = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 confirmSubmissionBtn.disabled = true;
                 const matchId = <?= json_encode($match_id) ?>; 
     const winningTeam = '<?= $winning_team ?>';  
-    const url = `nextPage.php?match_id=${matchId}&winning_team=${winningTeam}`; 
+    const url = `calculateNewElo.php?match_id=${matchId}&winning_team=${winningTeam}`; 
     window.location.href = url; 
             } else {
                 alert('Error submitting data.');
