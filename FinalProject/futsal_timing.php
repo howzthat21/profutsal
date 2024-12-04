@@ -123,7 +123,7 @@ if ($match) {
     $insert_stmt = $pdo->prepare($insert_sql);
     $insert_stmt->execute([$match_id, $player_id]);
 
-    echo "Data inserted successfully!";
+    header("Location: waitinglobby.php");
 } else {
     echo "No match found for the given player_id.";
 }
@@ -134,7 +134,7 @@ if ($match) {
 }
 }
 $arena_id = isset($_GET['arena_id']) ? htmlspecialchars($_GET['arena_id']) : null;
-$player_id = $_SESSION['user_id'];
+//$player_id = $_SESSION['user_id'];
 
 
 $allBookingTimes = [

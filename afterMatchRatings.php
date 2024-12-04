@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'db.php';
+include 'CalculateNewElo.php';//divides elo according to the match result
 
 // Check if referee is logged in
 if (!isset($_SESSION['referee_id'])) {
@@ -33,10 +34,9 @@ function updatePlayerElo($user_id, $match_id) {
         throw new Exception("Player stats not found for user_id: $user_id");
     }
 
-    // Calculate ELO adjustment (example logic)
+    
     $elo_change = ($player_stats['goals'] * 10) + ($player_stats['assists'] * 5) - ($player_stats['fouls'] * 2);
 
-    // Fetch current ELO from the database
     $current_elo_query = "
         SELECT elo
         FROM player_profiles
@@ -63,7 +63,7 @@ function updatePlayerElo($user_id, $match_id) {
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Decode the JSON data sent from JavaScript
+    
     $playerData = json_decode(file_get_contents('php://input'), true);
 
     // Prepare the SQL query for inserting/updating player stats
@@ -276,9 +276,9 @@ $participants = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 playerDataTable.innerHTML = '';
                 playerData.length = 0;
                 confirmSubmissionBtn.disabled = true;
-                const matchId = <?= json_encode($match_id) ?>; // You can get the match ID dynamically or pass from PHP
-    const winningTeam = '<?= $winning_team ?>';  // Assuming you want to send the winning team
-    const url = `nextPage.php?match_id=${matchId}&winning_team=${winningTeam}`; // Customize URL as needed
+                const matchId = <?= json_encode($match_id) ?>; 
+    const winningTeam = '<?= $winning_team ?>';  
+    const url = `nextPage.php?match_id=${matchId}&winning_team=${winningTeam}`; 
     window.location.href = url; 
             } else {
                 alert('Error submitting data.');

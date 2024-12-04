@@ -81,7 +81,7 @@ if ($winning_team && $match_id) {
             updateElo($participant['user_id'], $elo_change);
         }
 
-        echo "ELO ratings updated successfully.";
+       // echo "ELO ratings updated successfully.";
     } catch (Exception $e) {
         echo "Error updating ELO ratings: " . $e->getMessage();
     }
