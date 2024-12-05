@@ -1,6 +1,9 @@
 <?php
 include 'db.php';
 session_start();
+if(!isset($_SESSION['user_id'])){
+  header("Location: login.php");
+}
 if (isset($_SESSION['user_id'])) {
     // User is logged in, redirect to the dashboard or another page
     $user_id = $_SESSION['user_id'];
@@ -67,7 +70,7 @@ if(!isset($_SESSION['user_id'])){
         <!-- Show "Join Match" button and "Become a Player" link if user is not in player_profiles -->
         
        
-        <a href="joincreate.php" class="cta-button">Join a Match</a>
+        <a href="advanjoin.php" class="cta-button">Join a Match</a>
     <?php elseif ($userExists==0): ?>
       <a href="becomeaplayer.php" class="cta-button">Become a player</a>
       <?php endif; ?>

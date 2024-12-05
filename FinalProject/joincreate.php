@@ -37,6 +37,7 @@ if ($result && isset($result['username'])) {
       
       <span class="player-name"> <?php echo $username?></span>
     </a>
+    
   </nav>
 
   <!-- Main landing page container -->

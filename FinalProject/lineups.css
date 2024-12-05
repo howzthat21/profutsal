@@ -1,117 +1,160 @@
-/* Resetting defaults */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.cdnfonts.com/css/sports-world');
 
-/* Body styling */
+
+
+html { height: 100%; }
+
 body {
-    background-color: #121212;
-    color: #fff;
-    font-family: 'Arial', sans-serif;
+    background-color: #000;
+    background-size: cover; /* Ensures the image covers the entire screen */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents tiling of the image */
+    
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     margin: 0;
+    height: 100vh; /* Use viewport height for the full-screen effect */
 }
 
-/* Container for the entire content */
-.container {
-    width: 80%;
-    max-width: 1200px;
-    padding: 20px;
-    background-color: #1a1a1a;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+
+figure.card {
+    font-family: 'Sports World', sans-serif;
+    color: #4CAF50;
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    min-width: 220px;
+    max-width: 310px;
+    max-height: 415px;
+    width: 100%;
+    background: #000;
     text-align: center;
 }
 
-/* Header styling */
-.header {
-    margin-bottom: 40px;
-}
+    figure.card * { box-sizing: border-box; }
 
-.header h1 {
-    font-size: 2.5rem;
-    color: #4CAF50;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-}
-
-/* Lineup container */
-.team-lineup {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding: 20px;
-}
-
-/* Each player's card */
-.player-card {
-    background-color: #222;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: center;
-}
-
-.player-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
-}
-
-.player-card img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-}
-
-.player-card h3 {
-    font-size: 1.2rem;
-    color: #fff;
-    margin-bottom: 8px;
-}
-
-.player-card p {
-    font-size: 1rem;
-    color: #ccc;
-    margin-bottom: 5px;
-}
-
-.player-card .role {
-    font-weight: bold;
-    color: #4CAF50;
-}
-
-.player-card .rating {
-    font-weight: bold;
-}
-
-.rating-pro {
-    color: #FFD700;
-}
-
-.rating-amateur {
-    color: #8B0000;
-}
-
-.rating-beginner {
-    color: #808080;
-}
-
-/* Media Query for smaller screens */
-@media (max-width: 768px) {
-    .team-lineup {
-        grid-template-columns: repeat(2, 1fr);
+    figure.card img {
+        opacity: 1;
+        width: 100%;
+        transition: opacity .35s;
+        -webkit-transition: opacity .35s;
+        -moz-transition: opacity .35s;
+        -ms-transition: opacity .35s;
+        -o-transition: opacity .35s;
     }
 
-    .header h1 {
-        font-size: 2rem;
+        figure.card:hover img { opacity: .7; }
+
+    figure.card figcaption {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-align: left;
     }
-}
+
+        figure.card figcaption > div {
+            float: left;
+            height: 100%;
+            overflow: hidden;
+            width: 50%;
+            position: relative;
+        }
+
+        figure.card figcaption::before {
+            position: absolute;
+            top: 50%;
+            bottom: 50%;
+            left: 50%;
+            width: 2px;
+            content: '';
+            opacity: 0;
+            background-color: rgba(255, 255, 255, 0);
+            transition: all .4s ease;
+            -webkit-transition: all .4s ease;
+            -moz-transition: all .4s ease;
+            -ms-transition: all .4s ease;
+            -o-transition: all .4s ease;
+            transition-delay: .6s;
+        }
+
+    figure.card h2, figure.card p {
+        margin: 0;
+        padding: 20px;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        left: 0;
+        transition: opacity .45s;
+        -webkit-transition: opacity .45s;
+        -moz-transition: opacity .45s;
+        -ms-transition: opacity .45s;
+        -o-transition: opacity .45s;
+    }
+
+        figure.card h2 {
+            text-align: right;
+            display: inline-block;
+            word-spacing: -0.1em;
+            font-weight: 300;
+            text-transform: uppercase;
+            top: 25%;
+            bottom: 0;
+            background: rgba(0, 0, 0, .5);
+            transform: translate3d(50%, 0%, 0);
+            -webkit-transform: translate3d(50%, 0%, 0);
+            -moz-tranform: translate3d(50%, 0%, 0);
+            -ms-transform: translate3d(50%, 0%, 0);
+            -o-transform: translate3d(50%, 0%, 0);
+            transition-delay: 0s;
+        }
+
+            figure.card h2 span { font-weight: 800; }
+
+        figure.card p {
+            display: block;
+            bottom: 0;
+            text-align: left;
+            font-weight: 300;
+            top: 0%;
+            color: #000;
+            background: #4CAF50;
+            transform: translate3d(-50%, 0%, 0);
+            -webkit-transform: translate3d(-50%, 0%, 0);
+            -moz-tranform: translate3d(-50%, 0%, 0);
+            -ms-transform: translate3d(-50%, 0%, 0);
+            -o-transform: translate3d(-50%, 0%, 0);
+            transition-delay: 0s;
+        }
+
+    figure.card a {
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        position: absolute;
+        color: #fff;
+    }
+
+    figure.card:hover figcaption h2, figure.card:hover figcaption p {
+        transform: translate3d(0%, 0%, 0);
+        -webkit-transform: translate3d(0%, 0%, 0);
+        -moz-tranform: translate3d(0%, 0%, 0);
+        -ms-transform: translate3d(0%, 0%, 0);
+        -o-transform: translate3d(0%, 0%, 0);
+        transition-delay: .3s;
+    }
+
+        figure.card:hover figcaption h2 { opacity: 1; }
+        figure.card:hover figcaption p { opacity: 1; }
+
+    figure.card:hover figcaption::before {
+        background: #fff;
+        top: 0;
+        bottom: 0;
+    }
+
