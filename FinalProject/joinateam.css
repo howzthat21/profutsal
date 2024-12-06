@@ -1,7 +1,7 @@
 /* Main styling */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
     background: url('backgroundimage.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #fff;
@@ -16,9 +16,9 @@ body {
 .join-team-page {
     background: rgba(0, 0, 0, 0.8); /* Dark overlay */
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 12px;
     width: 90%;
-    max-width: 800px;
+    max-width: 900px;
     margin-top: 30px;
     position: relative;
 }
@@ -32,6 +32,7 @@ body {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
+    transition: color 0.3s ease;
 }
 
 .close-btn:hover {
@@ -45,7 +46,7 @@ body {
 }
 
 .logo {
-    font-size: 32px;
+    font-size: 36px;
     color: #119029;
 }
 
@@ -56,12 +57,13 @@ body {
 }
 
 .title-section h2 {
-    font-size: 24px;
+    font-size: 28px;
     margin: 0;
+    color: #dde;
 }
 
 .title-section p {
-    font-size: 16px;
+    font-size: 18px;
     color: #ccc;
 }
 
@@ -69,37 +71,57 @@ body {
 .lobby-container {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
+/* Lobby card */
 .lobby-card {
-    background: #333;
-    padding: 15px;
-    border-radius: 8px;
+    background: #444;
+    padding: 20px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
+.lobby-card:hover {
+    background: #555;
+    transform: scale(1.02);
+}
+
+/* Arena image styling */
 .arena-image {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
     object-fit: cover;
 }
 
+/* Lobby info styling */
 .lobby-info {
     flex-grow: 1;
 }
 
+.lobby-info h3 {
+    margin: 5px 0;
+}
+
+.lobby-info p {
+    margin: 3px 0;
+    color: #bbb;
+}
+
+/* Join button */
 .join-button {
     background-color: #085a22;
     color: #000;
     border: none;
-    padding: 8px 16px;
+    padding: 10px 20px;
     border-radius: 4px;
     font-weight: bold;
     cursor: pointer;
+    transition: background 0.3s ease;
 }
 
 .join-button:hover {
@@ -116,14 +138,15 @@ body {
 .social-links {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
     margin-top: 10px;
 }
 
 .social-icon {
     color: #fff;
-    font-size: 20px;
+    font-size: 24px;
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .social-icon:hover {
