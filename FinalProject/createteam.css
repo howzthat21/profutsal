@@ -1,133 +1,165 @@
-/* Background and Theme */
+/* General Styles */
 body {
+    font-family: 'Roboto', sans-serif;
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: url('backgroundimage.jpg') no-repeat center center fixed;
-    background-size: cover;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    overflow: auto;
+    padding: 0;
+    background-color: #0b0b0b; /* Deep black background */
+    color: #d4d4d4; /* Light gray text for contrast */
+}
+
+header {
+    background-color: #1a1a1a; /* Slightly lighter black for header */
+    color: #4CAF50; /* Bright green accent color */
+    text-align: center;
+    padding: 1.2rem 0; /* Reduced padding */
+    font-size: 1.5rem; /* Smaller font size */
+    text-transform: uppercase;
+    letter-spacing: 1.5px; /* Slightly reduced spacing */
+    border-bottom: 3px solid #4CAF50;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    font-family: 'Poppins', sans-serif; /* Stylish modern font */
+    font-weight: 600;
+}
+
+.page-description {
+    text-align: center;
+    font-size: 1rem; /* Smaller font size */
+    color: #999999; /* Cooler light gray */
+    margin: 0.5rem 2rem 20px; /* Adjusted margins */
+    line-height: 1.5; /* Better readability */
+    font-family: 'Roboto', sans-serif; /* Simplified look */
+    border-top: 1px dashed #4CAF50; /* Adds a stylish line */
+    padding-top: 10px;
+    font-style: italic;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #1a1a1a;
+    color: #4CAF50;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    border-top: 2px solid #4CAF50;
 }
 
 /* Main Container */
-.create-team-page {
-    max-width: 600px;
-    margin: 30px auto;
-    background-color: rgba(0, 0, 0, 0.8); /* Dark overlay */
-    padding: 20px;
-    border-radius: 8px;
-    position: relative;
-    width: 90%;
+.container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 1rem;
+    gap: 1.5rem;
+    margin: 2rem auto;
 }
 
-/* Close Button */
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.close-btn:hover {
-    color: #ff4444; /* Hover color for close button */
-}
-
-/* Header */
-.header {
-    text-align: center;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #119029;
-}
-
-/* Title Section */
-.title-section {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.title-section h2 {
-    font-size: 28px;
-    margin: 0;
-}
-
-.title-section p {
-    font-size: 16px;
-    color: #ccc;
-}
-
-/* Form Styling */
-.team-form {
+/* Futsal Card */
+.futsal-card {
+    background: #151515;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+    width: 250px; /* Width of each card */
+    height: 380px; /* Slightly taller height */
+    flex-shrink: 0;
 }
 
-.form-group {
-    margin-bottom: 15px;
+.futsal-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 255, 136, 0.5);
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #fff;
+/* Card Header */
+.card-header h2 {
+    font-size: 1.1rem; /* Slightly smaller */
+    color: #4CAF50;
+    margin-bottom: 0.5rem;
+    font-family: 'Montserrat', sans-serif; /* Modern font */
+    font-weight: bold;
 }
 
-.form-group select,
-.form-group input {
+.card-header p {
+    font-size: 0.8rem; /* Smaller size */
+    color: #a9a9a9;
+    margin-bottom: 1rem;
+    font-family: 'Roboto', sans-serif;
+    font-style: italic;
+}
+
+/* Image */
+.image-container img {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #666;
-    border-radius: 4px;
-    background-color: #333;
-    color: #fff;
+    height: 130px; /* Reduced height of image */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
 }
 
-/* Submit Button */
-.book-button {
-    background-color: #085a22;
-    color: #fff;
-    padding: 10px 20px;
+/* Details Section */
+.details {
+    color: #d4d4d4;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    border-top: 1px solid #4CAF50;
+    padding-top: 0.5rem;
+}
+
+/* Map */
+.map-container {
+    width: 100%;
+    height: 150px; /* Ensure the container has sufficient height */
+    overflow: hidden;
+    margin: 1rem 0;
+    border: 1px solid #4CAF50;
+    border-radius: 8px;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 8px;
+    object-fit: cover; /* Adjusts the map to fill the frame without distorting */
+}
+
+/* Button */
+button {
+    background-color: #4CAF50;
+    color: #0b0b0b;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
     cursor: pointer;
-    text-align: center;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 0.5rem auto;
 }
 
-.book-button:hover {
-    background-color: #9ca018;
+button:hover {
+    background-color: #3e8e41;
+    transform: translateY(-3px);
 }
 
-/* Footer */
-.footer {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #ccc;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        font-size: 1.2rem; /* Smaller header for smaller screens */
+        padding: 1rem 0;
+    }
 
-.social-links {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
-}
+    .page-description {
+        font-size: 0.9rem; /* Smaller description text */
+        padding: 0.5rem 1rem;
+    }
 
-.social-icon {
-    color: #fff;
-    font-size: 20px;
-    text-decoration: none;
-}
-
-.social-icon:hover {
-    color: #08562c;
+    button {
+        font-size: 0.8rem;
+    }
 }

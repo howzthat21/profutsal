@@ -1,5 +1,6 @@
 <?php
-session_start(); //arena booking/futsal_timing
+session_start();
+include 'db.php'; //arena booking/futsal_timing
 
 
 if (!isset($_SESSION['user_id'])) { 
@@ -7,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-include 'db.php';
+
 
 
 if (isset($_GET['arena_id']) && isset($_GET['arena_name'])) {
@@ -74,6 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $matchmaking_stmt = $pdo->prepare($matchmaking_sql);
             $matchmaking_stmt->execute([$player_id, $arena_id, $bookingDatetime]);
 
+           
+
             echo "<p>Booking successfully created in Nepal timezone!</p>";
      
     
@@ -120,18 +123,18 @@ if ($match) {
     $insert_stmt = $pdo->prepare($insert_sql);
     $insert_stmt->execute([$match_id, $player_id]);
 
-    echo "Data inserted successfully!";
+    header("Location: waitinglobby.php");
 } else {
     echo "No match found for the given player_id.";
 }
 
 
-    header("Location: arenabooking.php?arena_name=$arena_name&arena_id=$arena_id&success=1");
+    header("Location: index.php");
         exit();
 }
 }
 $arena_id = isset($_GET['arena_id']) ? htmlspecialchars($_GET['arena_id']) : null;
-$player_id = $_SESSION['user_id'];
+//$player_id = $_SESSION['user_id'];
 
 
 $allBookingTimes = [
@@ -166,29 +169,33 @@ if ($arena_id) {
 
 
 $availableTimes = array_diff_key($allBookingTimes, array_flip($bookedTimes));
-$test_match_id = 42;
+//$test_match_id = 42;
 
 
 
 
-$check_timefetch = "SELECT booking_datetime FROM matchmaking WHERE match_id = :match_id";
-$check_timefetch_stmt = $pdo->prepare($check_timefetch);
+//$check_timefetch = "SELECT booking_datetime FROM matchmaking WHERE match_id = :match_id";
+// $check_timefetch_stmt = $pdo->prepare($check_timefetch);
 
 
-$check_timefetch_stmt->execute(['match_id' => $test_match_id]);
+// $check_timefetch_stmt->execute(['match_id' => $test_match_id]);
 
 
-$bookingDatetimeString = $check_timefetch_stmt->fetchColumn();
+// $bookingDatetimeString = $check_timefetch_stmt->fetchColumn();
 
-if ($bookingDatetimeString) {
+// if ($bookingDatetimeString) {
     
-    $bookingDatetime = new DateTime($bookingDatetimeString);
+    // $bookingDatetime = new DateTime($bookingDatetimeString);
     
     
-    var_dump($bookingDatetime);
-} else {
-    echo "No booking found for match ID " . $test_match_id;
-}
+    // var_dump($bookingDatetime);
+// } else {
+    // echo "No booking found for match ID " . $test_match_id;
+// }
+
+$tomorrow = new DateTime('tomorrow');
+$date=$tomorrow->format('F j, Y'); // Outputs: YYYY-MM-DD format
+
 
 
 
@@ -212,10 +219,10 @@ if ($bookingDatetimeString) {
             
         <?php endif; ?>
 
-        <form action="arenabooking.php?arena_name=<?php echo urlencode($arena_name); ?>&arena_id=<?php echo urlencode($arena_id); ?>" method="POST">
+        <form action="futsal_timing.php?arena_name=<?php echo urlencode($arena_name); ?>&arena_id=<?php echo urlencode($arena_id); ?>" method="POST">
             
             <!-- Booking Time Selection -->
-            <label for="bookingTime">Booking Time:</label>
+            <label for="bookingTime">Booking Date:<?php echo $date?></label>
             <select name="bookingTime" id="bookingTime" required>
             <?php if (empty($availableTimes)): ?>
                         <option value="" disabled>No times available</option>

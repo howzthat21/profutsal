@@ -1,6 +1,7 @@
 <?php
 include 'db.php';
-session_start();
+
+@session_start();
 
 
 if (!isset($_SESSION['user_id'])) {
@@ -62,7 +63,7 @@ $available_lobbies = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="join-team-page">
     
     <!-- Header with Logo -->
-    <a href="joincreate.html" class="close-btn" title="Back to Home">&times;</a>
+    <a href="joincreate.php" class="close-btn" title="Back to Home">&times;</a>
     <header class="header">
       <h1 class="logo">Futsal Matchmaking</h1>
     </header>
@@ -81,7 +82,7 @@ $available_lobbies = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <img src="arena<?php echo htmlspecialchars($lobby['arena_id']); ?>.jpg" alt="Arena Image" class="arena-image">
             <div class="lobby-info">
               <h3>Arena Name: <?php echo htmlspecialchars($lobby['arena_name']); ?></h3>
-              <h3>Arena Name: <?php echo htmlspecialchars($lobby['match_id']); ?></h3>
+              <h3>Match_id: <?php echo htmlspecialchars($lobby['match_id']); ?></h3>
               <p>Status: <?php echo htmlspecialchars($lobby['status']); ?></p>
               <p>Players: <?php echo htmlspecialchars($lobby['player_count'] . '/' . $lobby['max_players']); ?></p>
               <p>Location: <?php echo htmlspecialchars($lobby['arena_location']); ?></p>

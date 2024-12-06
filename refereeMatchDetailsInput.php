@@ -1,11 +1,16 @@
 <?php
 session_start();
 include 'db.php';
+<<<<<<< HEAD
+=======
+include 'updatePlayerElo.php';
+>>>>>>> prabuddha
 
 if (!isset($_SESSION['referee_id'])) {
     header("Location: refereeLogin.php");
     exit();
 }
+<<<<<<< HEAD
 if (isset($_SESSION['teamAName']) && isset($_SESSION['teamBName'])) {
     $teamAName = $_SESSION['teamAName'];
     $teamBName = $_SESSION['teamBName'];
@@ -14,20 +19,61 @@ if (isset($_SESSION['teamAName']) && isset($_SESSION['teamBName'])) {
 }else{
     echo "session not started";
 }
+=======
+
+>>>>>>> prabuddha
 $match_id = $_GET['match_id'];
 $arena_id= $_GET['arena_id'];
 $arena_name = $_GET['arena_name'];
 $booking_datetime= $_GET['booking_datetime'];
 
+<<<<<<< HEAD
+=======
+$fetch_team_name="SELECT DISTINCT team_name FROM completed_match_participants WHERE match_id = ?";
+$fetch_team_name_stmt=$pdo->prepare($fetch_team_name);
+$fetch_team_name_stmt->execute([$match_id]);
+$team_names=$fetch_team_name_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+// Ensure at least two teams exist
+
+    $team_a_name = $team_names[0]["team_name"];
+    $team_b_name = $team_names[1]["team_name"];
+
+    echo "Team A: " . htmlspecialchars($team_a_name) . "<br>";
+    echo "Team B: " . htmlspecialchars($team_b_name) . "<br>";
+
+
+>>>>>>> prabuddha
 if($_SERVER["REQUEST_METHOD"]== "POST"){
     
     $team_a_score= $_POST['team_a_score'];
     $team_b_score= $_POST['team_b_score'];
 
+<<<<<<< HEAD
     $insert_query = "UPDATE completed_matches SET team_a_score = ?, team_b_score = ? WHERE match_id = ?";
 
     $insert_query_stmt=$pdo->prepare($insert_query);
     $insert_query_stmt->execute([$team_a_score, $team_b_score, $match_id]);
+=======
+    
+
+    if($team_a_score>$team_b_score){
+        $winning_team= $team_a_name;
+    }
+    elseif($team_a_score<$team_b_score){
+        $winning_team= $team_b_name;
+    }
+    else{
+        $winning_team= "draw";
+    }
+    $insert_query = "UPDATE completed_matches SET team_a_score = ?, team_b_score = ?, result = ? WHERE match_id = ?";
+
+    $insert_query_stmt=$pdo->prepare($insert_query);
+    $insert_query_stmt->execute([$team_a_score, $team_b_score, $winning_team, $match_id]);
+
+>>>>>>> prabuddha
     
 
     //update referee_matches table where referee_id=? match_id=?
@@ -36,9 +82,19 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     $update_query_stmt=$pdo->prepare($update_query);
     $update_query_stmt->execute([$_SESSION['referee_id'], $match_id]);
     
+<<<<<<< HEAD
    
 
     header("Location: afterMatchRatings.php?match_id= $match_id");
+=======
+    try{
+        updatePlayerELO($player_id, $rating_id);
+    } catch(Exception $e){
+        echo "Error updating player ELO: " . $e->getMessage();
+    }
+
+    header("Location: afterMatchRatings.php?match_id=$match_id&winning_team=$winning_team&team_a_name=$team_a_name&team_b_name=$team_b_name");
+>>>>>>> prabuddha
     
 }
 
@@ -80,7 +136,11 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                     <!-- Team A Name -->
                     <div class="mb-3">
                         <label for="teamAName" class="form-label">Team A Name</label>
+<<<<<<< HEAD
                         <input type="text" class="form-control" id="teamAName" name="team_a_name" value="<?php echo $teamAName?>" readonly>
+=======
+                        <input type="text" class="form-control" id="teamAName" name="team_a_name" value="<?php echo $team_a_name?>" readonly>
+>>>>>>> prabuddha
                     </div>
                     
                     <!-- Team A Goals -->
@@ -92,7 +152,11 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                     <!-- Team B Name -->
                     <div class="mb-3">
                         <label for="teamBName" class="form-label">Team B Name</label>
+<<<<<<< HEAD
                         <input type="text" class="form-control" id="teamBName" name="team_b_name" value="<?php echo $teamBName?>" readonly>
+=======
+                        <input type="text" class="form-control" id="teamBName" name="team_b_name" value="<?php echo $team_b_name;?>" readonly>
+>>>>>>> prabuddha
                     </div>
                     
                     <!-- Team B Goals -->

@@ -1,6 +1,9 @@
 <?php
 include 'db.php';
 session_start();
+if(!isset($_SESSION['user_id'])){
+  header("Location: login.php");
+}
 if (isset($_SESSION['user_id'])) {
     // User is logged in, redirect to the dashboard or another page
     $user_id = $_SESSION['user_id'];
@@ -14,6 +17,12 @@ $username = $row['username'];
 $count_stmt = $pdo->prepare("SELECT COUNT(*) FROM player_profiles WHERE user_id = ?");
 $count_stmt->execute([$user_id]);
 $userExists = $count_stmt->fetchColumn();
+
+
+$user_in_match=$pdo->prepare("SELECT COUNT(*) from match_participants where user_id=?");
+$user_in_match->execute(['$user_id']);
+$user_existsMatch=$user_in_match->fetchColumn();
+//echo $user_existsMatch;
 
 if(!isset($_SESSION['user_id'])){
   header("Location: login.php");
@@ -47,8 +56,11 @@ if(!isset($_SESSION['user_id'])){
       <a href="register.php" class="nav-link">Register</a>
     <?php else: ?>
       <!-- Display this section if the user IS logged in -->
+        <?php if ($userExists):?>
       <a href="profile.php?username=<?php echo $username?>" class="nav-link">Profile</a>
-      <a href="playerDetails.php" class="nav-link">View Lobby</a>
+      <a href="playerDetails.php" class="nav-link">Lineups</a>
+      <a href="waitinglobby.php" class="nav-link">Waiting Lobby</a>
+      <?php endif;?>
       <a href="logout.php" class="nav-link">Logout</a>
     <?php endif; ?>
   </nav>
@@ -63,7 +75,7 @@ if(!isset($_SESSION['user_id'])){
       <?php if ($userExists == 1): ?>
         <!-- Show "Join Match" button and "Become a Player" link if user is not in player_profiles -->
         
-       
+            
         <a href="joincreate.php" class="cta-button">Join a Match</a>
     <?php elseif ($userExists==0): ?>
       <a href="becomeaplayer.php" class="cta-button">Become a player</a>

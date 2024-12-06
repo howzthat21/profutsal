@@ -1,5 +1,6 @@
 <?php
 include 'db.php';
+
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -9,13 +10,45 @@ if (!isset($_SESSION['user_id'])) {
 
 $player_id = $_SESSION['user_id'];
 
-$fetch_match_sql = "SELECT match_id FROM match_participants WHERE user_id = :player_id";
+$fetch_match_sql = "SELECT mp.match_id, mp.user_id, u.username 
+    FROM match_participants mp
+    JOIN users u ON mp.user_id = u.id
+    WHERE mp.match_id NOT IN (
+        SELECT match_id FROM completed_matches
+    ) AND mp.user_id = :player_id";
 $fetch_match_stmt = $pdo->prepare($fetch_match_sql);
 $fetch_match_stmt->execute(['player_id' => $player_id]);
 
 $match = $fetch_match_stmt->fetch(PDO::FETCH_ASSOC);
 
 $matchId=$match['match_id'];
+
+$teamQuery = "
+    SELECT 
+        mp.team_name, 
+        GROUP_CONCAT(u.username SEPARATOR ', ') AS team_members
+    FROM 
+        match_participants mp
+    JOIN 
+        users u ON mp.user_id = u.id
+    WHERE 
+        mp.match_id = :match_id
+    GROUP BY 
+        mp.team_name
+";
+
+// Prepare and execute the query
+$teamStmt = $pdo->prepare($teamQuery);
+$teamStmt->execute(['match_id' => $matchId]);
+
+// Fetch the results
+$teams = $teamStmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Display the teams and their members
+foreach ($teams as $team) {
+    echo "<h3>Team: " . htmlspecialchars($team['team_name']) . "</h3>";
+    echo "<p>Members: " . htmlspecialchars($team['team_members']) . "</p>";
+}
 
 
 //fetching arena details to display
@@ -135,7 +168,7 @@ $booking_datetimetry = "2024-11-21 14:30:00";
 
         <?php if ($match): ?>
             <?php
-            $match_id = $match['match_id'];
+            
 
             $participants_sql = "
                 SELECT u.username 
@@ -144,7 +177,7 @@ $booking_datetimetry = "2024-11-21 14:30:00";
                 WHERE mp.match_id = :match_id
             ";
             $participants_stmt = $pdo->prepare($participants_sql);
-            $participants_stmt->execute(['match_id' => $match_id]);
+            $participants_stmt->execute(['match_id' => $matchId]);
 
             $participants = [];
             while ($participant = $participants_stmt->fetch(PDO::FETCH_ASSOC)) {
