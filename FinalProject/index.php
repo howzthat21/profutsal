@@ -72,7 +72,7 @@ if(!isset($_SESSION['user_id'])){
       <p>
         Join the ultimate platform to find and play with your perfect futsal match. Our system uses skill levels, performance data, and availability to match you with the right players.
       </p>
-      <?php if ($userExists == 1 && $user_existsMatch==1 ): ?>
+      <?php if ($userExists == 1): ?>
         <!-- Show "Join Match" button and "Become a Player" link if user is not in player_profiles -->
         
             
