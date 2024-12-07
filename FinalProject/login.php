@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
   <div class="login-container">
     <!-- Exit Button -->
-    <a href="index.html" class="exit-btn" title="Back to Home">&times;</a>
+    <a href="index.php" class="exit-btn" title="Back to Home">&times;</a>
 
     <!-- Logo and welcome message -->
     <h1 class="logo">Futsal Matchmaking</h1>

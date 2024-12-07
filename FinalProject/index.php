@@ -20,7 +20,7 @@ $userExists = $count_stmt->fetchColumn();
 
 
 $user_in_match=$pdo->prepare("SELECT COUNT(*) from match_participants where user_id=?");
-$user_in_match->execute(['$user_id']);
+$user_in_match->execute([$user_id]);
 $user_existsMatch=$user_in_match->fetchColumn();
 //echo $user_existsMatch;
 
@@ -72,7 +72,7 @@ if(!isset($_SESSION['user_id'])){
       <p>
         Join the ultimate platform to find and play with your perfect futsal match. Our system uses skill levels, performance data, and availability to match you with the right players.
       </p>
-      <?php if ($userExists == 1): ?>
+      <?php if ($userExists == 1 && $user_existsMatch==0): ?>
         <!-- Show "Join Match" button and "Become a Player" link if user is not in player_profiles -->
         
             
@@ -84,6 +84,18 @@ if(!isset($_SESSION['user_id'])){
 
       
     </section>
+    <!-- In Progress Match Section -->
+<section class="in-progress-match">
+  <h2>In Progress Match</h2>
+  
+    <div class="match-info">
+      <p><strong>Match ID:</strong></p>
+      <p><strong>Arena Name:</strong></p>
+      <p><strong>Score:</strong></p>
+    </div>
+  
+</section>
+
 
     <!-- Social Media Links Section -->
     <footer class="footer">
