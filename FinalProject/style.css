@@ -119,3 +119,27 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #45a049;
 }
+.in-progress-match {
+    background-color: #000000;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    text-align: center;
+  }
+  
+  .in-progress-match h2 {
+    margin-bottom: 12px;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .match-info {
+    font-size: 1em;
+    color: #555;
+  }
+  
+  .match-info p {
+    margin: 4px 0;
+  }
+  

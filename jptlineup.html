@@ -2,102 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Futsal Lineup</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .futsal-field {
-            background-color: #4CAF50;
-            position: relative;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <title>Document</title>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="w-full max-w-4xl h-[600px] relative">
-        <div id="lineup-container" class="futsal-field w-full h-full rounded-lg overflow-hidden">
-            <!-- Goal Posts -->
-            <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-4 h-32 bg-white z-10"></div>
-            <div class="absolute right-0 top-1/2 transform -translate-y-1/2 w-4 h-32 bg-white z-10"></div>
-
-            <!-- Field Markings -->
-            <div class="absolute inset-0 border-4 border-white m-4 rounded-lg">
-                <!-- Center Circle -->
-                <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-white rounded-full"></div>
-                <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 border-2 border-white rounded-full"></div>
-                
-                <!-- Midline -->
-                <div class="absolute left-1/2 top-0 bottom-0 w-1 bg-white"></div>
-            </div>
-        </div>
-
-        <!-- Team Headers -->
-        <div class="absolute top-0 left-0 right-0 flex justify-between p-4 z-10">
-            <div class="text-white font-bold">Blue Dragons</div>
-            <div class="text-white font-bold">Red Lions</div>
-        </div>
-    </div>
-
-    <script>
-        const teamData = {
-            home: {
-                name: 'Blue Dragons',
-                side: 'left',
-                players: [
-                    { id: 1, name: 'João Silva', number: 1, position: 'Goalkeeper', positionClass: 'left-[5%] bottom-[10%]' },
-                    { id: 2, name: 'Pedro Santos', number: 2, position: 'Defender', positionClass: 'left-[5%] top-[20%]' },
-                    { id: 3, name: 'Carlos Oliveira', number: 3, position: 'Midfielder', positionClass: 'left-[20%] bottom-[50%]' },
-                    { id: 4, name: 'Miguel Ferreira', number: 4, position: 'Midfielder', positionClass: 'left-[40%] bottom-[50%]' },
-                    { id: 5, name: 'Rafael Martins', number: 5, position: 'Forward', positionClass: 'left-[5%] top-[70%]' }
-                ]
-            },
-            away: {
-                name: 'Red Lions',
-                side: 'right', 
-                players: [
-                    { id: 1, name: 'Lucas Rodrigues', number: 1, position: 'Goalkeeper', positionClass: 'right-[5%] bottom-[10%]' },
-                    { id: 2, name: 'Mateus Costa', number: 2, position: 'Defender', positionClass: 'right-[5%] top-[20%]' },
-                    { id: 3, name: 'Gabriel Pereira', number: 3, position: 'Midfielder', positionClass: 'right-[20%] bottom-[50%]' },
-                    { id: 4, name: 'Eduardo Silva', number: 4, position: 'Midfielder', positionClass: 'right-[40%] bottom-[50%]' },
-                    { id: 5, name: 'Henrique Alves', number: 5, position: 'Forward', positionClass: 'right-[5%] top-[70%]' }
-                ]
-            }
-        };
-
-        function renderPlayers() {
-            const container = document.getElementById('lineup-container');
-
-            function createPlayerElement(player) {
-                const playerDiv = document.createElement('div');
-                playerDiv.className = 'absolute ' + player.positionClass + ' flex flex-col items-center text-white';
-                
-                const playerIcon = document.createElement('div');
-                playerIcon.className = 'bg-black/50 p-2 rounded-full w-12 h-12 flex items-center justify-center mb-1';
-                playerIcon.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="white">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                `;
-
-                const playerInfo = document.createElement('div');
-                playerInfo.className = 'text-xs text-center bg-black/50 p-1 rounded';
-                playerInfo.innerHTML = 
-                    player.number + ' - ' + player.name + 
-                    '<div class="text-[10px]">' + player.position + '</div>';
-
-                playerDiv.appendChild(playerIcon);
-                playerDiv.appendChild(playerInfo);
-                return playerDiv;
-            }
-
-            teamData.home.players.forEach(function(player) {
-                container.appendChild(createPlayerElement(player));
-            });
-
-            teamData.away.players.forEach(function(player) {
-                container.appendChild(createPlayerElement(player));
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', renderPlayers);
-    </script>
+<body>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+    
 </body>
 </html>

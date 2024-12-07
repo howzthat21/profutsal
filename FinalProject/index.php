@@ -40,8 +40,15 @@ if(!isset($_SESSION['user_id'])){
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Futsal Matchmaking</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="bootstrap.min.css">
 
 </head>
+<style>
+
+
+  
+  
+</style>
 <body>
   <!-- Main landing page container -->
   <div class="landing-page">
@@ -85,16 +92,37 @@ if(!isset($_SESSION['user_id'])){
       
     </section>
     <!-- In Progress Match Section -->
-<section class="in-progress-match">
-  <h2>In Progress Match</h2>
-  
-    <div class="match-info">
-      <p><strong>Match ID:</strong></p>
-      <p><strong>Arena Name:</strong></p>
-      <p><strong>Score:</strong></p>
-    </div>
-  
-</section>
+    <section class="matches-section">
+      <h3>Ongoing Matches</h3>
+      <table class="table custom-table">
+        <thead>
+          <tr>
+            <th>Match</th>
+            <th>Arena</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Team A vs Team B</td>
+            <td>Central Arena</td>
+            <td>0 - 0</td>
+          </tr>
+          <tr>
+            <td>Team C vs Team D</td>
+            <td>West Arena</td>
+            <td>0 - 0</td>
+          </tr>
+          <tr>
+            <td>Team E vs Team F</td>
+            <td>East Arena</td>
+            <td>0 - 0</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+<!-- In Progress Match Section -->
 
 
     <!-- Social Media Links Section -->
