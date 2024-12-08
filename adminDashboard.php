@@ -80,6 +80,7 @@ if (isset($_GET['logout'])) {
         <h1>Admin Dashboard</h1>
         <a href="view_arenas.php" class="btn btn-primary">Manage Arenas</a>
         <a href="view_users.php" class="btn btn-success">Manage Users</a>
+        <a href="view_matches.php" class="btn btn-success">View Matches</a>
         <a href="viewReferees.php" class="btn btn-warning">Manage Referee</a>
         <a href="?logout=true" class="btn btn-danger">Logout</a>
     </div>

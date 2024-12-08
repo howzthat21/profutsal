@@ -1,5 +1,5 @@
 <?php
-session_start(); 
+session_start(); //arena booking/futsal_timing
 
 
 if (!isset($_SESSION['user_id'])) { 
@@ -167,6 +167,8 @@ if ($arena_id) {
 
 $availableTimes = array_diff_key($allBookingTimes, array_flip($bookedTimes));
 $test_match_id = 42;
+
+
 
 
 $check_timefetch = "SELECT booking_datetime FROM matchmaking WHERE match_id = :match_id";

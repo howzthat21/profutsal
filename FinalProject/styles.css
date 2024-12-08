@@ -1,16 +1,23 @@
+@import url('https://fonts.cdnfonts.com/css/sports-world');
+
 /* Resetting default styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Sports World', sans-serif;
+  
 }
 
 /* Dark theme background and main colors */
 body, html {
   height: 100%;
-  font-family: Arial, sans-serif;
+  font-family: 'Sports World', sans-serif;
+
   background-color: #000;
   color: #fff;
+  overflow: auto; /* Enable scroll for body */
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 /* Full-page container */
@@ -19,12 +26,13 @@ body, html {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 100vh;
+  min-height: 100vh; /* Changed from height to min-height for scroll */
   text-align: center;
   padding: 20px;
   background-image: url('backgroundimage.jpg'); /* Background image placeholder */
   background-size: cover;
   background-position: center;
+  overflow: auto; /* Enable scroll for the main container */
 }
 
 /* Header styling with logo and navigation links */
@@ -105,4 +113,29 @@ body, html {
 
 .social-icon img:hover {
   transform: scale(1.1);
+}
+
+/* In-progress match styling */
+.in-progress-match {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  text-align: center;
+}
+
+.in-progress-match h2 {
+  margin-bottom: 12px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.match-info {
+  font-size: 1em;
+  color: #555;
+}
+
+.match-info p {
+  margin: 4px 0;
 }

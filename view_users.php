@@ -11,7 +11,8 @@ if (!isset($_SESSION['admin'])) {
 require 'db.php';
 
 // Fetch user data from the database
-$query = "SELECT * FROM users";
+$query = "SELECT u.id, u.username, u.email, u.created_at, pp.elo from users u
+        Join player_profiles pp on pp.user_id=u.id ";
 $stmt = $pdo->query($query);
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -47,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete'])) {
                     <th>Username</th>
                     <th>Email</th>
                     <th>Created At</th>
+                    <th>Latest Elo</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -57,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete'])) {
                         <td><?= htmlspecialchars($user['username']) ?></td>
                         <td><?= htmlspecialchars($user['email']) ?></td>
                         <td><?= htmlspecialchars($user['created_at']) ?></td>
+                        <td><?= htmlspecialchars($user['elo']) ?></td>
                         <td>
                             <a href="edit_user.php?id=<?= $user['id'] ?>" class="btn">Edit</a>
                             <form method="POST" action="view_users.php" style="display:inline;">

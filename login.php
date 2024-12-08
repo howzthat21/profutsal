@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         echo "Login successful! Welcome, " . $user['username'];
-        header("Location: registrationplayer.php");
+        header("Location: accept_friend_request.php");
     } else {
         echo "Invalid email or password.";
     }
