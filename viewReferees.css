@@ -1,0 +1,103 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    color: #4CAF50;
+    margin-top: 20px;
+    font-size: 2em;
+}
+
+/* Button Styling */
+.btn {
+    text-decoration: none;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin: 10px 0;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+
+/* Delete Button */
+.delete {
+    background-color: #f44336;
+    margin-left: 5px;
+}
+
+.delete:hover {
+    background-color: #e53935;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Header */
+table th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+}
+
+/* Table Cells */
+table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+    word-wrap: break-word;
+}
+
+table tr:nth-child(even) td {
+    background-color: #f9f9f9;
+}
+
+/* Table Row Hover Effect */
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    table {
+        font-size: 14px;
+    }
+
+    table th, table td {
+        padding: 8px;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    .btn {
+        padding: 8px 16px;
+    }
+}

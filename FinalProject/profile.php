@@ -31,6 +31,8 @@ $fetch_player_details_stmt->execute();
 $player_details = $fetch_player_details_stmt->fetch(PDO::FETCH_ASSOC);
 
 
+
+
 if ($player_details) {
     
     $age = $player_details['age'];
@@ -66,7 +68,7 @@ if ($player_details) {
       <span class="player-name"><?php echo $username;?></span>
     </div>
     <div class="nav-buttons">
-      <a href="joincreate.html" class="close-btn" title="Back to Home">&times;</a>
+      <a href="index.php" class="close-btn" title="Back to Home">&times;</a>
     </div>
   </nav>
 

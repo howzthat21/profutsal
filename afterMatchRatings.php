@@ -1,197 +1,293 @@
 <?php
+session_start();
 include 'db.php';
+//divides elo according to the match result
 
+// Check if referee is logged in
+if (!isset($_SESSION['referee_id'])) {
+    header("Location: refereeLogin.php");
+    exit();
+}
 
-$query = "
-    SELECT 
-        cm.completed_match_id, 
-        cm.match_id, 
-        cm.match_date, 
-        rm.referee_id 
-    FROM 
-        completed_matches cm
-    INNER JOIN 
-        referee_matches rm 
-    ON 
-        cm.match_id = rm.match_id
+$referee_id = $_SESSION['referee_id'];
+$match_id = $_GET['match_id'] ?? null; // Get the match ID passed via query parameter
+$winning_team=$_GET['winning_team'] ?? null;
+$team_a_name= $_GET['team_a_name'];
+$team_b_name= $_GET['team_b_name'];
+//echo $match_id;
+//echo $winning_team;
+
+function updatePlayerElo($user_id, $match_id) {
+    global $pdo;
+
+    // Fetch player stats
+    $stats_query = "
+        SELECT goals, assists, fouls
+        FROM player_stats
+        WHERE match_id = ? AND player_id = ?
+    ";
+    $stmt = $pdo->prepare($stats_query);
+    $stmt->execute([$match_id, $user_id]);
+    $player_stats = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$player_stats) {
+        throw new Exception("Player stats not found for user_id: $user_id");
+    }
+
     
-    ORDER BY 
-        cm.match_date DESC 
-    LIMIT 1
-";
+    $elo_change = ($player_stats['goals'] * 10) + ($player_stats['assists'] * 5) - ($player_stats['fouls'] * 2);
 
-$matches = $pdo->query($query);
+    $current_elo_query = "
+        SELECT elo
+        FROM player_profiles
+        WHERE user_id = ?
+    ";
+    $stmt = $pdo->prepare($current_elo_query);
+    $stmt->execute([$user_id]);
+    $current_elo = $stmt->fetchColumn();
 
+    if ($current_elo === false) {
+        throw new Exception("Player profile not found for user_id: $user_id");
+    }
 
-$matches = $matches->fetch(PDO::FETCH_ASSOC);
-
-if ($matches) {
-    $completed_match_id = $matches['completed_match_id'];
-    $match_date = $matches['match_date'];
-    $match_id = $matches['match_id'];
-    $match_referee_id = $matches['referee_id'];
-
-    echo "Latest Match ID: $completed_match_id - Date: $match_date";
-    
-} else {
-    echo "No matches found.";
+    // Update ELO
+    $new_elo = max(0, $current_elo + $elo_change); // ELO cannot be negative
+    $update_elo_query = "
+        UPDATE player_profiles
+        SET elo = ?
+        WHERE user_id = ?
+    ";
+    $stmt = $pdo->prepare($update_elo_query);
+    $stmt->execute([$new_elo, $user_id]);
 }
 
 
-$fetch_player_sql = "
-    SELECT match_participants.*, users.username 
-    FROM match_participants 
-    JOIN users ON match_participants.user_id = users.id 
-    WHERE match_participants.match_id = :match_id
-";
-
-$fetch_player_stmt = $pdo->prepare($fetch_player_sql); 
-$fetch_player_stmt->execute(['match_id' => $match_id]); 
-$players = $fetch_player_stmt->fetchAll(PDO::FETCH_ASSOC);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    if (isset($_POST['player_ids']) && is_array($_POST['player_ids'])) {
-        
-        $player_ids = $_POST['player_ids'];  
-        $ratings = $_POST['ratings'];  
-        $goals = $_POST['goals'];  
-        $assists = $_POST['assists'];  
-        $fouls = $_POST['fouls'];  
+    $playerData = json_decode(file_get_contents('php://input'), true);
 
-        
-        if (count($player_ids) === count($ratings) && count($ratings) === count($goals) && count($goals) === count($assists) && count($assists) === count($fouls)) {
-        
-            echo $match_id;
-            $insert_sql = "
-                INSERT INTO player_match_stats (completed_match_id, player_id, rating_id, goals, assists, fouls) 
-                VALUES (:completed_match_id, :user_id, :rating_id, :goals, :assists, :fouls)
-            ";
-            $stmt = $pdo->prepare($insert_sql);
-        
+    // Prepare the SQL query for inserting/updating player stats
+    $insert_query = "
+        INSERT INTO player_stats(match_id, player_id, goals, assists, fouls)
+        VALUES (?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+            goals = VALUES(goals),
+            assists = VALUES(assists),
+            fouls = VALUES(fouls)
+    ";
 
-            for ($i = 0; $i < count($player_ids); $i++) {
-                
-                $stmt->execute([
-                    'completed_match_id' => $completed_match_id,
-                    'user_id' => $player_ids[$i],
-                    'rating_id' => $ratings[$i], 
-                    'goals' => $goals[$i],
-                    'assists' => $assists[$i],
-                    'fouls' => $fouls[$i]
-                ]);
-            }
+    $stmt = $pdo->prepare($insert_query);
+
+    // Process each player's data
+    foreach ($playerData as $player) {
+        try {
+            // Insert/update player stats
+            $stmt->execute([
+                $match_id,
+                $player['playerId'],
+                $player['goals'],
+                $player['assists'],
+                $player['fouls']
+            ]);
+
+            // Call updatePlayerElo function for the player
+            updatePlayerElo($player['playerId'], $match_id);
+        } catch (Exception $e) {
+            // Handle errors and respond with a failure message
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+            exit();
         }
-        
-    } else {
-        echo "Player IDs not found. Please try submitting the form again.";
     }
+
+    // Respond with success
+    echo json_encode(['success' => true]);
+    exit();
 }
 
 
+// Fetch match participants
+$participants_query = "
+    SELECT p.user_id, u.username
+    FROM completed_match_participants p
+    JOIN users u ON p.user_id = u.id
+    WHERE p.match_id = ?
+";
+
+$stmt = $pdo->prepare($participants_query);
+$stmt->execute([$match_id]);
+$participants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enter Player Stats for eted Match <?php echo $match_id;?></title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Referee - Add Match Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2, h3 {
+            font-weight: 600;
+        }
+        #confirmSubmission {
+            width: 100%;
+            font-size: 1.2rem;
+        }
+        .table {
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
-    <h2>Enter Player Stats for Completed Match <?php echo $match_id;?></h2>
-    <form action="afterMatchRatings.php" method="POST">
+    <div class="card p-4">
+        <h2 class="text-center mb-4 text-primary">Add Match Details</h2>
 
-        <!-- Match Selection -->
-        <div class="form-group">
-            <label for="match_id">Select Match:</label>
-            <select name="match_id" id="match_id" class="form-control" required>
-                <option value="<?php echo $match_id; ?>">Match ID: <?php echo $completed_match_id; ?> - Date: <?php echo $match_date; ?></option>
-            </select>
-        </div>
-
-        <!-- Player Stats Entry Section -->
-        <div id="player-stats-section">
-            <!-- Loop through players dynamically -->
-            <?php foreach ($players as $player): ?>
-            <div class="player-stat-entry border p-3 mb-3">
-                <h5>Player Stat Entry</h5>
-                
-                <div class="form-group">
-    <label for="player_id">Player ID: <?php echo htmlspecialchars($player['user_id']); ?></label>
-    <input type="text" name="player_ids[]" value="<?php echo htmlspecialchars($player['user_id']); ?>">
-</div>
-
-                <div class="form-group">
-                    <label for="player_id">Player name:<?php echo htmlspecialchars($player['username']); ?></label>
-                    
+        <!-- Form Section -->
+        <form id="playerForm" action="calculateNewElo.php?match_id=<?php echo $match_id;?>&winning_team=<?php echo $winning_team;?>&team_a_name=<?php echo $team_a_name;?>&team_b_name=<?php echo $team_b_name;?>">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="player_id" class="form-label">Player</label>
+                    <select class="form-select" name="player_id" id="player_id" required>
+                        <option value="">Select a Player</option>
+                        <?php foreach ($participants as $participant): ?>
+                            <option value="<?= $participant['user_id'] ?>"><?= $participant['username'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
-
-                <div class="form-group">
-    <label for="rating">Rating (Beginner, Amateur, or Pro):</label>
-    <select name="ratings[]" class="form-control" required>
-        <option value="">Select Rating</option>
-        <option value="1">Beginner(1)</option>
-        <option value="2">Amateur(2)</option>
-        <option value="3">Pro(3)</option>
-    </select>
-</div>
-
-
-                <div class="form-group">
-                    <label for="goals">Goals:</label>
-                    <input type="number" name="goals[]" class="form-control" min="0" required>
+                <div class="col-md-2">
+                    <label for="goals" class="form-label">Goals</label>
+                    <input type="number" class="form-control" id="goals" name="goals" value="0" min="0">
                 </div>
-
-                <div class="form-group">
-                    <label for="assists">Assists:</label>
-                    <input type="number" name="assists[]" class="form-control" min="0" required>
+                <div class="col-md-2">
+                    <label for="assists" class="form-label">Assists</label>
+                    <input type="number" class="form-control" id="assists" name="assists" value="0" min="0">
                 </div>
-
-                <div class="form-group">
-                    <label for="fouls">Fouls:</label>
-                    <input type="number" name="fouls[]" class="form-control" min="0" required>
+                <div class="col-md-2">
+                    <label for="fouls" class="form-label">Fouls</label>
+                    <input type="number" class="form-control" id="fouls" name="fouls" value="0" min="0">
                 </div>
-
-                <!-- Remove Entry Button -->
-                <button type="button" class="btn btn-danger remove-player-entry mt-2">Remove Player Entry</button>
             </div>
-            <?php endforeach; ?>
-        </div>
+            <div class="text-end">
+                <button type="button" id="addPlayerData" class="btn btn-primary">Add Player Data</button>
+            </div>
+        </form>
+    </div>
 
-        <!-- Add More Players Button -->
-        <button type="button" class="btn btn-primary mt-3" id="add-player-button">Add Another Player</button>
+    <!-- Display Section -->
+    <div class="card mt-5 p-4">
+        <h3 class="text-center text-secondary">Player Match Details</h3>
+        <table class="table table-bordered table-striped mt-3" id="playerDataTable">
+            <thead class="table-primary">
+                <tr>
+                    <th>Player ID</th>
+                    <th>Player Name</th>
+                    <th>Goals</th>
+                    <th>Assists</th>
+                    <th>Fouls</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Player data will be appended here dynamically -->
+            </tbody>
+        </table>
+    </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-success mt-3">Save Stats</button>
-    </form>
+    <!-- Confirm Submission Section -->
+    <div class="text-center mt-4">
+        <button type="button" id="confirmSubmission" class="btn btn-success btn-lg" disabled>
+            Confirm Submission
+        </button>
+    </div>
 </div>
 
 <script>
-    // Add a new player stat entry when "Add Another Player" is clicked
-    document.getElementById('add-player-button').addEventListener('click', function() {
-        // Clone the first player stat entry
-        const playerEntry = document.querySelector('.player-stat-entry');
-        const newPlayerEntry = playerEntry.cloneNode(true);
+    // Variables to hold data
+    const playerData = [];
+    const playerForm = document.getElementById('playerForm');
+    const playerDataTable = document.getElementById('playerDataTable').getElementsByTagName('tbody')[0];
+    const confirmSubmissionBtn = document.getElementById('confirmSubmission');
 
-        // Clear the values in the cloned inputs
-        newPlayerEntry.querySelectorAll('input').forEach(input => input.value = '');
+    // Add player data
+    document.getElementById('addPlayerData').addEventListener('click', () => {
+        // Get form values
+        const playerId = document.getElementById('player_id').value;
+        const playerName = document.getElementById('player_id').options[document.getElementById('player_id').selectedIndex].text;
+        const goals = document.getElementById('goals').value;
+        const assists = document.getElementById('assists').value;
+        const fouls = document.getElementById('fouls').value;
 
-        // Add remove button event listener for the new entry
-        newPlayerEntry.querySelector('.remove-player-entry').addEventListener('click', function() {
-            newPlayerEntry.remove();
+        // Check if player is already added
+        if (playerData.some(player => player.playerId === playerId)) {
+            alert('Player data is already added.');
+            return;
+        }
+
+        // Add player data to the array
+        playerData.push({
+            playerId,
+            playerName,
+            goals,
+            assists,
+            fouls
         });
 
-        // Append the new player stat entry to the form
-        document.getElementById('player-stats-section').appendChild(newPlayerEntry);
+        // Add data to the table
+        const row = playerDataTable.insertRow();
+        row.innerHTML = `
+            <td>${playerId}</td>
+            <td>${playerName}</td>
+            <td>${goals}</td>
+            <td>${assists}</td>
+            <td>${fouls}</td>
+        `;
+
+        // Enable Confirm Submission button
+        confirmSubmissionBtn.disabled = false;
+
+        // Reset the form
+        playerForm.reset();
     });
 
-    // Attach remove event listener to initial entry
-    document.querySelector('.remove-player-entry').addEventListener('click', function() {
-        this.closest('.player-stat-entry').remove();
+    // Confirm submission
+    confirmSubmissionBtn.addEventListener('click', () => {
+        // Send data to the server via fetch
+        fetch('', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(playerData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Player data submitted successfully!');
+                // Clear the table and data array
+                playerDataTable.innerHTML = '';
+                playerData.length = 0;
+                confirmSubmissionBtn.disabled = true;
+                const matchId = <?= json_encode($match_id) ?>; 
+    const winningTeam = '<?= $winning_team ?>';  
+    const url = `calculateNewElo.php?match_id=${matchId}&winning_team=${winningTeam}`; 
+    window.location.href = url; 
+            } else {
+                alert('Error submitting data.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
     });
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

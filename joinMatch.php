@@ -26,6 +26,9 @@ if ($match) {
     $participant_query = "INSERT INTO match_participants (match_id, user_id) VALUES (?, ?)";
     $participant_stmt = $pdo->prepare($participant_query);
     $participant_stmt->execute([$match_id, $player_id]);
+    
+
+    
 
     
     if ($match['player_count'] + 1 >= $match['max_players']) {
@@ -43,6 +46,12 @@ if ($match) {
         $insert_query = "INSERT INTO referee_matches (match_id, referee_id) VALUES (?, ?)";
         $insert_stmt = $pdo->prepare($insert_query);
         $insert_stmt->execute([$match_id, $referee_id]);
+
+        if($insert_stmt->rowCount()> 0){
+            $update_query = "UPDATE referee SET status = 'assigned' WHERE referee_id = ?";
+            $update_stmt = $pdo->prepare($update_query);
+            $update_stmt->execute([$referee_id]);
+        }
 
     }
 

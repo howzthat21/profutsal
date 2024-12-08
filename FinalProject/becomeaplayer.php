@@ -44,6 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<p>Please fill in all fields correctly and ensure the age is above 13.</p>";
     }
 }
+
+    $check_player="SELECT user_id from player_profiles where user_id=? limit 1";
+    $check_player_stmt=$pdo->prepare($check_player);
+    $check_player_stmt->execute([$user_id]);
+    $check_player_stmt=$check_player_stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    if($check_player_stmt){
+      
+      header("Location: index.php");
+    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       
       <!-- Full Name -->
       <div class="form_group">
-        <label for="user_id"><?php echo $user_id?></label>
+        <label for="user_id">User_id: <?php echo $user_id?></label>
 
       </div>
 

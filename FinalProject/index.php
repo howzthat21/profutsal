@@ -1,6 +1,9 @@
 <?php
 include 'db.php';
 session_start();
+if(!isset($_SESSION['user_id'])){
+  header("Location: login.php");
+}
 if (isset($_SESSION['user_id'])) {
     // User is logged in, redirect to the dashboard or another page
     $user_id = $_SESSION['user_id'];
@@ -15,6 +18,16 @@ $count_stmt = $pdo->prepare("SELECT COUNT(*) FROM player_profiles WHERE user_id 
 $count_stmt->execute([$user_id]);
 $userExists = $count_stmt->fetchColumn();
 
+
+$user_in_match=$pdo->prepare("SELECT COUNT(*) from match_participants where user_id=?");
+$user_in_match->execute([$user_id]);
+$user_existsMatch=$user_in_match->fetchColumn();
+//echo $user_existsMatch;
+
+if(!isset($_SESSION['user_id'])){
+  header("Location: login.php");
+}
+
     
     
 }
@@ -27,8 +40,15 @@ $userExists = $count_stmt->fetchColumn();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Futsal Matchmaking</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="bootstrap.min.css">
 
 </head>
+<style>
+
+
+  
+  
+</style>
 <body>
   <!-- Main landing page container -->
   <div class="landing-page">
@@ -39,12 +59,16 @@ $userExists = $count_stmt->fetchColumn();
   <nav>
     <?php if (!isset($_SESSION['user_id'])): ?>
       <!-- Display this section if the user is NOT logged in -->
-      <a href="login.html" class="nav-link">Login</a>
-      <a href="register.html" class="nav-link">Register</a>
+      <a href="login.php" class="nav-link">Login</a>
+      <a href="register.php" class="nav-link">Register</a>
     <?php else: ?>
       <!-- Display this section if the user IS logged in -->
-      <a href="profile.php?username=<?php echo $username;?>" class="nav-link">Profile</a>
-      <a href="../logout.php" class="nav-link">Logout</a>
+        <?php if ($userExists):?>
+      <a href="profile.php?username=<?php echo $username?>" class="nav-link">Profile</a>
+      <a href="playerDetails.php" class="nav-link">Lineups</a>
+      <a href="waitinglobby.php" class="nav-link">Waiting Lobby</a>
+      <?php endif;?>
+      <a href="logout.php" class="nav-link">Logout</a>
     <?php endif; ?>
   </nav>
 </header>
@@ -55,12 +79,11 @@ $userExists = $count_stmt->fetchColumn();
       <p>
         Join the ultimate platform to find and play with your perfect futsal match. Our system uses skill levels, performance data, and availability to match you with the right players.
       </p>
-      <?php if ($userExists == 1): ?>
+      <?php if ($userExists == 1 && $user_existsMatch==0): ?>
         <!-- Show "Join Match" button and "Become a Player" link if user is not in player_profiles -->
         
-       
-        <a href="joinateam.php" class="cta-button">Join a Match</a>
-        <a href="joinateam.php" class="cta-button">Join a Match</a>
+            
+        <a href="joincreate.php" class="cta-button">Join a Match</a>
     <?php elseif ($userExists==0): ?>
       <a href="becomeaplayer.php" class="cta-button">Become a player</a>
       <?php endif; ?>
@@ -68,6 +91,39 @@ $userExists = $count_stmt->fetchColumn();
 
       
     </section>
+    <!-- In Progress Match Section -->
+    <section class="matches-section">
+      <h3>Ongoing Matches</h3>
+      <table class="table custom-table">
+        <thead>
+          <tr>
+            <th>Match</th>
+            <th>Arena</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Team A vs Team B</td>
+            <td>Central Arena</td>
+            <td>0 - 0</td>
+          </tr>
+          <tr>
+            <td>Team C vs Team D</td>
+            <td>West Arena</td>
+            <td>0 - 0</td>
+          </tr>
+          <tr>
+            <td>Team E vs Team F</td>
+            <td>East Arena</td>
+            <td>0 - 0</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+<!-- In Progress Match Section -->
+
 
     <!-- Social Media Links Section -->
     <footer class="footer">
