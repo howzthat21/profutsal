@@ -6,15 +6,18 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Sports World', sans-serif;
+  
 }
 
 /* Dark theme background and main colors */
 body, html {
   height: 100%;
   font-family: 'Sports World', sans-serif;
+
   background-color: #000;
   color: #fff;
   overflow: auto; /* Enable scroll for body */
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 /* Full-page container */

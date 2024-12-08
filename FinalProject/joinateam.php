@@ -11,6 +11,13 @@ if (!isset($_SESSION['user_id'])) {
 }
 $user_id= $_SESSION['user_id'];
 
+$fetch_rank_query="SELECT player_ranking from player_profiles where user_id = ? ";
+$fetch_rank_stmt=$pdo->prepare($fetch_rank_query);
+$fetch_rank_stmt->execute([$user_id]);
+
+$fetch_rank=$fetch_rank_stmt->fetch();
+$player_ranking=$fetch_rank['player_ranking'];
+
 $check_user_query="SELECT participant_id from match_participants where user_id =  ?";
 $check_user_query_stmt= $pdo->prepare($check_user_query);
 $check_user_query_stmt->execute([$user_id]);
@@ -43,10 +50,13 @@ $query = "
     ON 
         matchmaking.arena_id = arenas.arena_id
     WHERE 
-        matchmaking.status IN ('pending') 
+        matchmaking.player_ranking=?
+
+        AND matchmaking.status IN ('pending') 
         AND matchmaking.player_count < matchmaking.max_players";
 
-$stmt = $pdo->query($query);
+$stmt = $pdo->prepare($query);
+$stmt->execute([$player_ranking]);
 $available_lobbies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 

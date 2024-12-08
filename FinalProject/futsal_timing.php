@@ -20,9 +20,20 @@ if (isset($_GET['arena_id']) && isset($_GET['arena_name'])) {
     exit(); 
 }
 
+$fetch_rank_query="select pp.player_ranking from player_profiles pp
+join users u on u.id=pp.user_id where u.id= ?";
+
+$fetch_rank_stmt=$pdo->prepare($fetch_rank_query);
+$fetch_rank_stmt->execute([$player_id]);
+$fetch_rank=$fetch_rank_stmt->fetch(PDO::FETCH_ASSOC);
+
+    $rank_match=$fetch_rank['player_ranking'];
+
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $bookingTime = $_POST['bookingTime'];
+    $player_rank= $_POST['player_rank'];
 
     
     $check_booking_sql = "SELECT * FROM arena_bookings WHERE arena_id = ? AND booking_time = ? AND status='booked'";
@@ -71,9 +82,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             
-            $matchmaking_sql = "INSERT INTO matchmaking (match_creator_id, arena_id, booking_datetime, status) VALUES (?, ?, ?, 'pending')";
+            $matchmaking_sql = "INSERT INTO matchmaking (match_creator_id, arena_id, booking_datetime, player_ranking, status) VALUES (?, ?, ?, ?, 'pending')";
             $matchmaking_stmt = $pdo->prepare($matchmaking_sql);
-            $matchmaking_stmt->execute([$player_id, $arena_id, $bookingDatetime]);
+            $matchmaking_stmt->execute([$player_id, $arena_id, $bookingDatetime, $player_rank]);
+
+            
+
+            
 
            
 
@@ -93,7 +108,7 @@ if ($bookingDatetime !== null) {
         //$matchmaking_stmt->execute([$player_id, $arena_id]); // Pass parameters in correct order
 
         //$abt_sql="SELECT booking_time FROM arena_bookings";
-       // $abt_stmt=$pdo->prepare($sql);
+       // $abt_stmt=$pdo->prepare($sql); 
        // $abt_stmt->execute([''])
     
         // Update arena status to "booked" in arena_bookings table
@@ -109,7 +124,7 @@ if ($bookingDatetime !== null) {
 
 
     
-$stray_fetch_sql = "SELECT match_id FROM matchmaking WHERE match_creator_id = :player_id";
+$stray_fetch_sql = "SELECT match_id FROM matchmaking WHERE match_creator_id = :player_id and status='pending'";
 $stray_fetch_stmt = $pdo->prepare($stray_fetch_sql);
 $stray_fetch_stmt->execute(['player_id' => $player_id]);
 
@@ -221,7 +236,8 @@ $date=$tomorrow->format('F j, Y'); // Outputs: YYYY-MM-DD format
 
         <form action="futsal_timing.php?arena_name=<?php echo urlencode($arena_name); ?>&arena_id=<?php echo urlencode($arena_id); ?>" method="POST">
             
-            <!-- Booking Time Selection -->
+            <!-- Booking Time Selection make the input for the rank hidden just after testing-->
+             <input name="player_rank" type="text" value="<?php echo htmlspecialchars($rank_match)?>">
             <label for="bookingTime">Booking Date:<?php echo $date?></label>
             <select name="bookingTime" id="bookingTime" required>
             <?php if (empty($availableTimes)): ?>
