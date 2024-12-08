@@ -68,7 +68,7 @@ if(!isset($_SESSION['user_id'])){
     
     <!-- Introduction section with CTA button -->
     <section class="main-content">
-      <h2>Welcome to Futsal Matchmaking <?php echo $username;?></h2>
+      <h2>Welcome to Futsal Matchmakingggggg <?php echo $username;?></h2>
       <p>
         Join the ultimate platform to find and play with your perfect futsal match. Our system uses skill levels, performance data, and availability to match you with the right players.
       </p>
