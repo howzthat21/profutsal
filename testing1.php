@@ -6,9 +6,9 @@ if(!isset($_SESSION['user_id'])){
     header("Location: login.php");
     exit();
 }
+$match_id=107;
 
-
-$query = "SELECT DISTINCT(team_name) FROM completed_match_participants WHERE match_id = 59";
+$query = "SELECT DISTINCT(team_name) FROM completed_match_participants WHERE match_id = 107";
 $query_stmt = $pdo->query($query);
 $results = $query_stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -22,6 +22,36 @@ if (count($results) == 2) {
 } else {
     echo "Unexpected number of teams found.";
 }
+
+
+$query_1="SELECT  u.id,u.username, ps.goals, ps.assists, ps.fouls, cmp.team_name
+FROM users u 
+JOIN player_stats ps ON ps.player_id = u.id
+JOIN completed_match_participants cmp ON cmp.user_id = u.id
+WHERE cmp.match_id = 107 and ps.match_id=107 and cmp.team_name= ?";
+
+$query_1_stmt=$pdo->prepare($query_1);
+$query_1_stmt->execute([$team1]);
+$results_1=$query_1_stmt->fetchAll(PDO::FETCH_ASSOC);
+foreach($results_1 as $result_1){
+    echo $result_1['id'];
+    echo $result_1['username'];
+    echo $result_1['goals'];
+    echo $result_1['assists'];
+    echo $result_1['fouls'];
+    echo $result_1['team_name'];
+}
+
+$query_2="SELECT  u.id,u.username, ps.goals, ps.assists, ps.fouls, cmp.team_name
+FROM users u 
+JOIN player_stats ps ON ps.player_id = u.id
+JOIN completed_match_participants cmp ON cmp.user_id = u.id
+WHERE cmp.match_id = 107 and ps.match_id=107 and cmp.team_name= ?";
+$query_2_stmt=$pdo->prepare($query_2);
+$query_2_stmt->execute([$team2]);
+$results_2=$query_2_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +64,7 @@ if (count($results) == 2) {
     <style>
         /* General Styles */
         body {
-            background-color: #dff7df;
+            background-color: #000000;
             color: #333333;
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -190,9 +220,10 @@ if (count($results) == 2) {
             <div class="team-section">
                 <div class="team-header">Team: <?php echo $team1 ?></div>
                 <ul class="player-list">
-                    <li>John (Goals: 2, Assists: 1, Fouls: 0)</li>
-                    <li>Alex (Goals: 1, Assists: 2, Fouls: 1)</li>
-                    <li>Mark (Goals: 0, Assists: 1, Fouls: 2)</li>
+                    <?php foreach($results_1 as $result_1):?>
+                    <li><?php echo $result_1['username']; ?> goals(<?php echo $result_1['goals']?>) assists(<?php echo $result_1['assists']?>) fouls(<?php echo $result_1['fouls']?>)</li>
+                    
+                    <?php endforeach;?>
                 </ul>
                 <div class="score-display">Total Score: 3</div>
             </div>
@@ -201,9 +232,11 @@ if (count($results) == 2) {
             <div class="team-section">
                 <div class="team-header">Team:  <?php echo $team2 ?></div>
                 <ul class="player-list">
-                    <li>Sam (Goals: 1, Assists: 1, Fouls: 0)</li>
-                    <li>Leo (Goals: 1, Assists: 0, Fouls: 1)</li>
-                    <li>Mike (Goals: 0, Assists: 1, Fouls: 1)</li>
+                <?php foreach($results_2 as $result_2):?>
+                    <li><?php echo $result_2['username']; ?> goals(<?php echo $result_2['goals']?>) assists(<?php echo $result_2['assists']?>) fouls(<?php echo $result_2['fouls']?>)</li>
+                    <?php endforeach;?>
+                    
+                    
                 </ul>
                 <div class="score-display">Total Score: 2</div>
             </div>
@@ -220,7 +253,7 @@ if (count($results) == 2) {
                 <input type="hidden" name="psc" value="0">    <!-- Service Charge -->
                 <input type="hidden" name="pdc" value="0">    <!-- Delivery Charge -->
                 <input type="hidden" name="scd" value="EPAYTEST"> <!-- Testing Merchant Code -->
-                <input type="hidden" name="pid" value="TestPayment123"> <!-- Unique Payment ID -->
+                <input type="hidden" name="pid" value="<?php echo $match_id?>"> <!-- Unique Payment ID -->
                 <input type="hidden" name="su" value="http://localhost/projfutsal/esewa_success.php"> <!-- Success URL -->
                 <input type="hidden" name="fu" value="http://localhost/projfutsal/esewa_failure.php"> <!-- Failure URL -->
                 <button type="submit" class="esewa-btn">

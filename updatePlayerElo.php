@@ -1,10 +1,10 @@
 <?php
-session_start();
+//session_start();
 include 'db.php';
 
 //user and player id has been all mixed up in development at least in this page
 
-function updatePlayerELO($player_id, $rating_category) {
+/*function updatePlayerELO($player_id, $rating_category) {
     global $pdo;
     
 
@@ -38,24 +38,19 @@ function updatePlayerELO($player_id, $rating_category) {
 }
 
 
-
-
-
-function updatePlayerRanking($player_id) {
-    global $pdo;
-
-    
-    $elo_query = "SELECT elo FROM player_profiles WHERE player_id = :player_id";
+*/
+$elo_query = "SELECT elo FROM player_profiles";
     $elo_stmt = $pdo->prepare($elo_query);
-    $elo_stmt->execute(['player_id' => $player_id]);
-    $player = $elo_stmt->fetch(PDO::FETCH_ASSOC);
+    
+    $players = $elo_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     
-    if ($player) {
+    foreach ($players as $player) {
         $elo = $player['elo'];
+        echo $elo;
 
         
-        if ($elo >= 0 && $elo <= 499) {
+        /*if ($elo >= 0 && $elo <= 499) {
             $ranking = 'beginner';
         } elseif ($elo >= 500 && $elo <= 999) {
             $ranking = 'amateur';
@@ -64,17 +59,46 @@ function updatePlayerRanking($player_id) {
         }
 
         
-        $update_ranking_query = "UPDATE player_profiles SET player_ranking = :ranking WHERE player_id = :player_id";
+        $update_ranking_query = "UPDATE player_profiles SET player_ranking = :ranking";
         $update_ranking_stmt = $pdo->prepare($update_ranking_query);
         $update_ranking_stmt->execute(['ranking' => $ranking, 'player_id' => $player_id]);
 
-        echo "Player ranking updated successfully!";
-    } else {
-        echo "Player not found!";
-    }
+        echo "Player ranking updated successfully!"; */
+    } 
+
+function updatePlayerRanking() {
+    
+
+    
+    $elo_query = "SELECT elo FROM player_profiles";
+    $elo_stmt = $pdo->prepare($elo_query);
+    
+    $players = $elo_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    
+    foreach ($players as $player) {
+        $elo = $player['elo'];
+        echo $elo;
+
+        
+        /*if ($elo >= 0 && $elo <= 499) {
+            $ranking = 'beginner';
+        } elseif ($elo >= 500 && $elo <= 999) {
+            $ranking = 'amateur';
+        } elseif ($elo >= 1000) {
+            $ranking = 'pro';
+        }
+
+        
+        $update_ranking_query = "UPDATE player_profiles SET player_ranking = :ranking";
+        $update_ranking_stmt = $pdo->prepare($update_ranking_query);
+        $update_ranking_stmt->execute(['ranking' => $ranking, 'player_id' => $player_id]);
+
+        echo "Player ranking updated successfully!"; */
+    } 
 }
 
 
-$player_id = 1; 
-//updatePlayerRanking($player_id);
+ 
+updatePlayerRanking();
 ?>

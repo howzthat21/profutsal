@@ -2,9 +2,10 @@
 include 'db.php';
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
+/*if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
 }
+    */
 
 // Database query to fetch team details
 $match_id = 59; // Replace with the actual match ID

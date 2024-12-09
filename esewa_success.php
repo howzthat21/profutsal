@@ -1,4 +1,7 @@
 <?php
+//session_start();
+include 'db.php';
+
 if (isset($_GET['oid'])) {
     $order_id = $_GET['oid']; // Your unique order ID
     $amount = $_GET['amt'];  // Amount paid

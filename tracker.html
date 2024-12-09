@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Tracker</title>
+    <link rel="stylesheet" href="trackerstyles.css"> <!-- Link to the external CSS file -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/TimelineLite.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <article class="order-tracker">
+        <section class="order-info">
+            <div class="order-info__number">
+                <span>Match ID</span>
+                <a href="/" class="order-number__number">#Y34XDHR</a>
+            </div>
+
+            <div class="order-info__details">
+                <span class="order-info__details__arrival-date">Expected Arrival for match 01/13/18</span>
+                <span class="order-info__details__tracking-number">Creator ID <a href="/">#2439</a></span>
+            </div>
+        </section>
+
+        <section class="order-status__progress">
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 562.4 38.21">
+                <defs>
+                    <style>
+                        .cls-1 {
+                            fill: #c1d9e4;
+                        }
+
+                        .cls-2, .cls-3, .cls-5 {
+                            fill: none;
+                            stroke-miterlimit: 10;
+                        }
+
+                        .cls-2, .cls-5 {
+                            stroke: #fff;
+                        }
+
+                        .cls-2 {
+                            stroke-width: 3px;
+                        }
+
+                        .cls-3 {
+                            stroke: #1c7ff0;
+                            stroke-width: 20px;
+                        }
+
+                        .cls-4 {
+                            fill: #1c7ff0;
+                        }
+
+                        .cls-5 {
+                            stroke-width: 2.64px;
+                        }
+                    </style>
+                </defs>
+                <title>progress-bar</title>
+                <path class="cls-1" d="M551.34,4.89A19,19,0,0,0,535,14.22H358.34a19,19,0,0,0-32.67,0H200.12a19,19,0,0,0-32.67,0H43.34a19,19,0,1,0-.4,20H167.85a19,19,0,0,0,31.86,0H326.08a19,19,0,0,0,31.86,0H535.41A19,19,0,1,0,551.34,4.89Z" transform="translate(-8.01 -4.87)"/>
+                <circle class="cls-2" cx="175.8" cy="19.21" r="10.11"/>
+                <circle class="cls-2" cx="334.04" cy="19.06" r="10.11"/>
+                <circle class="cls-2" cx="19.06" cy="19.13" r="10.11"/>
+                <circle class="cls-2" cx="543.4" cy="19" r="10.11"/>
+                <line class="cls-3 progress-bar" x1="8.98" y1="19.47" x2="554.76" y2="19.47"/>
+                <g>
+                    <circle class="cls-4 overlay-check-bubble processed" cx="19.06" cy="19.13" r="19"/>
+                    <g>
+                        <path class="cls-5 checkmark processed" d="M36.75,24a9.67,9.67,0,1,1-5.91-8.92" transform="translate(-8.01 -4.87)"/>
+                        <polyline class="cls-5 checkmark processed" points="15.34 17.83 19.04 21.68 27.45 12.46"/>
+                    </g>
+                </g>
+                <g>
+                    <circle class="cls-4 overlay-check-bubble shipped" cx="175.8" cy="19.21" r="19"/>
+                    <g>
+                        <path class="cls-5 checkmark shipped" d="M193.49,24.08a9.67,9.67,0,1,1-5.91-8.92" transform="translate(-8.01 -4.87)"/>
+                        <polyline class="cls-5 checkmark shipped" points="172.08 17.91 175.78 21.76 184.18 12.54"/>
+                    </g>
+                </g>
+                <g>
+                    <circle class="cls-4 overlay-check-bubble enroute" cx="334.04" cy="19.06" r="19"/>
+                    <g>
+                        <path class="cls-5 checkmark enroute" d="M351.73,23.93A9.67,9.67,0,1,1,345.82,15" transform="translate(-8.01 -4.87)"/>
+                        <polyline class="cls-5 checkmark enroute" points="330.31 17.76 334.02 21.61 342.42 12.39"/>
+                    </g>
+                </g>
+                <g>
+                    <circle class="cls-4 overlay-check-bubble arrived" cx="543.4" cy="19" r="19"/>
+                    <g>
+                        <path class="cls-5 checkmark arrived" d="M561.09,23.87a9.67,9.67,0,1,1-5.91-8.92" transform="translate(-8.01 -4.87)"/>
+                        <polyline class="cls-5 checkmark arrived" points="539.68 17.7 543.38 21.55 551.78 12.33"/>
+                    </g>
+                </g>
+            </svg>
+        </section>
+
+        <section class="order-status__status-info">
+            <ol>
+                <li class="order-status__status-info__step">
+                    <div class="status">
+                        <span>Match</span>
+                        <span>Scheduled</span>
+                    </div>
+                </li>
+                <li class="order-status__status-info__step">
+                    <div class="status">
+                        <span>Match</span>
+                        <span>Ongoing</span>
+                    </div>
+                </li>
+                <li class="order-status__status-info__step">
+                    <div class="status">
+                        <span>Match</span>
+                        <span>completed</span>
+                    </div>
+                </li>
+               
+                <li class="order-status__status-info__step">
+                    <div class="status">
+                        <span>Match</span>
+                        <span>Ended</span>
+                    </div>
+                </li>
+            </ol>
+        </section>
+    </article>
+
+   
+</div>
+
+<script>
+    const $processed = $('.overlay-check-bubble.processed');
+    const $shipped = $('.overlay-check-bubble.shipped');
+    const $enroute = $('.overlay-check-bubble.enroute');
+    const $arrived = $('.overlay-check-bubble.arrived');
+
+    const timeline = new TimelineLite({ paused: true });
+
+    $('#js-processed').on('click', function() {
+        timeline.to($processed, 0.5, { visibility: 'visible', opacity: 1, scale: 1.2, ease: Power1.easeOut });
+    });
+    $('#js-shipped').on('click', function() {
+        timeline.to($shipped, 0.5, { visibility: 'visible', opacity: 1, scale: 1.2, ease: Power1.easeOut });
+    });
+    $('#js-enroute').on('click', function() {
+        timeline.to($enroute, 0.5, { visibility: 'visible', opacity: 1, scale: 1.2, ease: Power1.easeOut });
+    });
+    $('#js-arrived').on('click', function() {
+        timeline.to($arrived, 0.5, { visibility: 'visible', opacity: 1, scale: 1.2, ease: Power1.easeOut });
+    });
+</script>
+
+</body>
+</html>
