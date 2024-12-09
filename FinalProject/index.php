@@ -40,8 +40,15 @@ if(!isset($_SESSION['user_id'])){
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Futsal Matchmaking</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="bootstrap.min.css">
 
 </head>
+<style>
+
+
+  
+  
+</style>
 <body>
   <!-- Main landing page container -->
   <div class="landing-page">

@@ -14,6 +14,7 @@ body, html {
   font-family: 'Sports World', sans-serif;
   background-color: #121212; /* Softer black */
   color: #fff;
+  overflow: auto; /* Enable scroll for body */
 }
 
 /* Full-page container */
@@ -22,12 +23,13 @@ body, html {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 100vh;
+  min-height: 100vh; /* Changed from height to min-height for scroll */
   text-align: center;
   padding: 20px;
   background-image: url('backgroundimage.jpg'); /* Background image placeholder */
   background-size: cover;
   background-position: center;
+  overflow: auto; /* Enable scroll for the main container */
 }
 
 /* Header styling with logo and navigation links */
