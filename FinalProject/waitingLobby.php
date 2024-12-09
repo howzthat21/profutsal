@@ -2,11 +2,11 @@
 include 'db.php';
 session_start();
 
-
-if(!isset($_SESSION['user_id'])){
+if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
+
 $user_id = $_SESSION['user_id'];
 
 $fetch_waiting_lobby = "SELECT mp.match_id 
@@ -18,8 +18,8 @@ $fetch_waiting_lobby = "SELECT mp.match_id
 $fetch_waiting_lobby_stmt = $pdo->prepare($fetch_waiting_lobby);
 $fetch_waiting_lobby_stmt->execute([$user_id]);
 $waiting_lobby = $fetch_waiting_lobby_stmt->fetch(PDO::FETCH_ASSOC);
-if(!$waiting_lobby){
-    echo "You are not in a lobby";
+
+if (!$waiting_lobby) {
     header("Location: index.php");
     exit();
 }
@@ -53,8 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $update_query = "UPDATE matchmaking SET player_count = player_count - 1 WHERE match_id = ?";
             $update_stmt = $pdo->prepare($update_query);
             $update = $update_stmt->execute([$match_id]);
-
-            
         } catch (PDOException $e) {
             echo "Error updating player count: " . $e->getMessage();
         }
@@ -89,12 +87,59 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
+        body {
+            background-color: #1b1b1b; /* Dark background for the page */
+            color: #ffffff; /* White text color for better contrast */
+        }
+
+        .waiting-lobby {
+            background-color: rgba(42, 42, 42, 0.9); /* Dark background with slight transparency */
+            border: 2px solid #4CAF50; /* Green border for consistency */
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px auto;
+            text-align: center;
+            max-width: 600px; /* Max width for better layout */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+            position: relative; /* Position relative for absolute positioning of the close button */
+        }
+
+        .waiting-lobby h2 {
+            font-size: 2em; /* Larger font for the heading */
+            color: #4CAF50; /* Green color */
+            margin-bottom: 20px; /* Spacing below the heading */
+        }
+
+        .waiting-lobby p {
+            font-size: 1.2em; /* Readable font size */
+            color: #dcdcdc; /* Light gray for description */
+            margin-bottom: 20px; /* Spacing between paragraphs */
+        }
+
+        .lobby-card {
+            background-color: #2a2a2a; /* Darker card background */
+            border: 1px solid #444; /* Slightly lighter border */
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+            transition: transform 0.3s, box-shadow 0.3s; /* Transition for hover effect */
+            position: relative; /* Position relative for absolute positioning of the close button */
+        }
+
+        .lobby-card:hover {
+            transform: scale(1.02); /* Slightly increase size on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); /* Deeper shadow on hover */
+        }
+
         .player-box-container {
             display: flex;
             gap: 10px;
             justify-content: center;
             margin: 20px 0;
         }
+
         .player-box {
             width: 40px;
             height: 40px;
@@ -102,47 +147,72 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background-color: gray;
             display: inline-block;
         }
+
         .player-box.filled {
-            background-color: green;
+            background-color: #4CAF50; /* Filled player box color */
         }
-        .lobby-card {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        .btn-custom {
+            margin: 10px; /* Margin around buttons */
         }
+
+        /* Cancel button styles */
+        .close-btn {
+            position: absolute; /* Position absolute to place it at the top right */
+            top: 10px; /* Adjust top position */
+            right: 10px; /* Adjust right position */
+            width: 30px; /* Width of the button */
+            height: 30px; /* Height of the button */
+            background-color: red; /* Red background */
+            color: white; /* White text */
+            border: none; /* No border */
+            border-radius: 50%; /* Circular shape */
+            font-size: 16px; /* Font size for the "X" */
+            cursor: pointer; /* Pointer cursor on hover */
+            display: flex; /* Flexbox for centering "X" */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+
+        .close-btn:hover {
+            background-color: darkred; /* Darker red on hover */
+        }
+         /* Modal body text color */
+    .modal-body {
+        color: black; /* Change text color to black */
+    }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="index.php" class="nav-link">Home</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a href="index.php" class="navbar-brand">Futsal Matchmaking</a>
+        </div>
     </nav>
-    <div class="container">
-        <h1 class="text-center my-4">Waiting Lobby</h1>
+    <div class="container mt-4">
+        <section class="waiting-lobby">
+            <h2>Waiting Lobby</h2>
+            <button class="close-btn" onclick="location.href='index.php'">X</button>
+            <p>Welcome to the waiting lobby! Please wait while we find your match.</p>
+            <p>Lobby was created : <strong>2 minutes ago</strong></p>
+            <p>Players in lobby: <strong>1</strong></p>
+        </section>
 
         <!-- Match Details -->
         <div class="lobby-card">
-            <h2>Match ID: <?php echo $match_id?></h2>
-            <p><strong>Arena Name:</strong> <?php echo $arena_name?></p>
-            <p><strong>Location:</strong> <?php echo $arena_location?></p>
-            <p><strong>Booked Time:</strong> <?php echo $booking_datetime?></p>
-            <p><strong>Players:</strong> <span id="player-count"><?php echo $lobby_player_count?></span>/10</p>
+            
+            <h2>Match ID: <?php echo htmlspecialchars($match_id); ?></h2>
+            <p><strong>Arena Name:</strong> <?php echo htmlspecialchars($arena_name); ?></p>
+            <p><strong>Location:</strong> <?php echo htmlspecialchars($arena_location); ?></p>
+            <p><strong>Booked Time:</strong> <?php echo htmlspecialchars($booking_datetime); ?></p>
+            <p><strong>Players:</strong> <span id="player-count"><?php echo htmlspecialchars($lobby_player_count); ?></span>/10</p>
 
             <!-- Player Boxes -->
             <div class="player-box-container" id="player-box-container"></div>
 
             <!-- Cancel Button -->
             <div class="cancel-button-container">
-                
-                <button type="submit" id="successButton" class="btn btn-success" onclick="redirect()">Home</button>
-                
-            </div>
-
-            <!-- Home Button -->
-            <div class="cancel-button-container">
-                <button id="cancelButton" type="button" class="btn btn-danger" onclick="redirectWithPopup()">Cancel</button>
+                <button id="cancelButton" type="button" class="btn btn-danger btn-custom" onclick="redirectWithPopup()">Cancel Matching</button>
             </div>
         </div>
     </div>
@@ -152,58 +222,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="homeModalLabel">Are you sure?</h5>
+                    <h5 class="modal-title" id="homeModalLabel">Warning</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Cancel Matchmaking
+                    Are you sure you want to cancel your participation in this match?
                 </div>
                 <div class="modal-footer">
-                    <form method="POST">
-                    <button type="submit" class="btn btn-danger" id="proceedButton">OK</button>
-                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-danger" id="confirmCancelButton">Yes, Cancel</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function redirectWithPopup() {
-            // Show the Bootstrap modal
-            const modal = new bootstrap.Modal(document.getElementById('homeModal'), {
-                backdrop: 'static', // Disable outside click
-                keyboard: false    // Disable escape key
-            });
-            modal.show();
+        document.addEventListener('DOMContentLoaded', function () {
+            // Dynamically create player boxes based on player count
+            const playerCount = parseInt(document.getElementById('player-count').textContent);
+            const playerBoxContainer = document.getElementById('player-box-container');
 
-            // Redirect after user clicks 'OK'
-            document.getElementById('proceedButton').addEventListener('click', function () {
-                window.location.href = 'index.php';
-            });
-        }
-
-        function redirect(){
-            window.location.href = 'index.php';
-        }
-
-       
-
-        // Variables (replace with dynamic data from your backend)
-        const totalPlayers = 10;
-        const currentPlayers = <?php echo htmlspecialchars($lobby_player_count);?>; // Example: 6 players joined out of 10
-
-        // DOM Elements
-        const playerBoxContainer = document.getElementById('player-box-container');
-
-        // Populate the player boxes
-        for (let i = 1; i <= totalPlayers; i++) {
-            const box = document.createElement('div');
-            box.classList.add('player-box');
-            if (i <= currentPlayers) {
-                box.classList.add('filled');
+            for (let i = 0; i < 10; i++) {
+                const playerBox = document.createElement('div');
+                playerBox.className = 'player-box' + (i < playerCount ? ' filled' : '');
+                playerBoxContainer.appendChild(playerBox);
             }
-            playerBoxContainer.appendChild(box);
-        }
+
+            // Cancel button confirmation
+            const cancelButton = document.getElementById('cancelButton');
+            const confirmCancelButton = document.getElementById('confirmCancelButton');
+            const homeModal = new bootstrap.Modal(document.getElementById('homeModal'));
+
+            cancelButton.addEventListener('click', function () {
+                homeModal.show();
+            });
+
+            confirmCancelButton.addEventListener('click', function () {
+                // Submit the form to cancel matching
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = window.location.href; // Send the request to the same page
+                document.body.appendChild(form);
+                form.submit();
+            });
+        });
     </script>
 </body>
 </html>

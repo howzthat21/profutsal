@@ -45,10 +45,17 @@ if(!isset($_SESSION['user_id'])){
 <body>
   <!-- Main landing page container -->
   <div class="landing-page">
-    
     <!-- Header: Logo and navigation links -->
     <header class="header">
-  <h1 class="logo">Futsal Matchmakingggg</h1>
+      <!-- Logo section -->
+      <div class="logo-section">
+        <a href="index.php" class="logo-link">
+          <!-- Logo image -->
+          <img src="logo1.jpg" alt="Futsal Matchmaking Logo" class="logo-image">
+        </a>
+        <!-- Logo title -->
+        <h1 class="logo">Pro Futsal</h1>
+      </div>
   <nav>
     <?php if (!isset($_SESSION['user_id'])): ?>
       <!-- Display this section if the user is NOT logged in -->
@@ -68,7 +75,7 @@ if(!isset($_SESSION['user_id'])){
     
     <!-- Introduction section with CTA button -->
     <section class="main-content">
-      <h2>Welcome to Futsal Matchmaking <?php echo $username;?></h2>
+      <h2>Welcome to Pro Futsal <?php echo $username;?></h2>
       <p>
         Join the ultimate platform to find and play with your perfect futsal match. Our system uses skill levels, performance data, and availability to match you with the right players.
       </p>
@@ -85,16 +92,32 @@ if(!isset($_SESSION['user_id'])){
       
     </section>
     <!-- In Progress Match Section -->
-<section class="in-progress-match">
-  <h2>In Progress Match</h2>
+    <section class="in-progress-match">
+  <h2>In Progress Matches</h2>
   
-    <div class="match-info">
-      <p><strong>Match ID:</strong></p>
-      <p><strong>Arena Name:</strong></p>
-      <p><strong>Score:</strong></p>
-    </div>
-  
+  <div class="match-info">
+    <p><strong>Match ID:</strong> #12345</p>
+    <p><strong>Arena Name:</strong> Futsal Arena 1</p>
+    <p><strong>Score:</strong> 2 - 1</p>
+    <p><strong>Time:</strong> 15:30</p>
+    <p><strong>Status:</strong> Ongoing</p>
+  </div>
+  <div class="match-info">
+    <p><strong>Match ID:</strong> #345</p>
+    <p><strong>Arena Name:</strong> Futsal Arena 1</p>
+    <p><strong>Score:</strong> 2 - 1</p>
+    <p><strong>Time:</strong> 15:30</p>
+    <p><strong>Status:</strong> Ongoing</p>
+  </div>
+  <div class="match-info">
+    <p><strong>Match ID:</strong> #1235</p>
+    <p><strong>Arena Name:</strong> Futsal Arena 1</p>
+    <p><strong>Score:</strong> 2 - 1</p>
+    <p><strong>Time:</strong> 15:30</p>
+    <p><strong>Status:</strong> Ongoing</p>
+  </div>
 </section>
+
 
 
     <!-- Social Media Links Section -->

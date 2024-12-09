@@ -1,5 +1,3 @@
-
-
 @import url('https://fonts.cdnfonts.com/css/sports-world');
 
 /* Resetting default styles */
@@ -14,7 +12,7 @@
 body, html {
   height: 100%;
   font-family: 'Sports World', sans-serif;
-  background-color: #000;
+  background-color: #121212; /* Softer black */
   color: #fff;
 }
 
@@ -40,11 +38,26 @@ body, html {
   align-items: center;
 }
 
-.logo {
-  font-size: 2.5rem;
-  color: #4CAF50; /* Green color */
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between logo image and text */
 }
 
+.logo-image {
+  height: 60px; /* Set a fixed height for the logo image */
+  width: auto; /* Maintain aspect ratio */
+  border-radius: 5px;
+}
+
+.logo {
+  font-size: 1.5rem; /* Font size for logo title */
+  color: #4CAF50; /* Green color */
+  text-shadow: 1px 1px 4px rgba(76, 175, 80, 0.7);
+  margin: 0; /* Remove default margin */
+}
+
+/* Navigation link styles */
 .nav-link {
   color: #4CAF50;
   font-size: 1.2rem;
@@ -111,26 +124,106 @@ body, html {
 .social-icon img:hover {
   transform: scale(1.1);
 }
+
+/* In-progress matches styling */
 .in-progress-match {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  padding: 20px;
+  background-color: #1e1e1e; /* Dark gray */
   border-radius: 8px;
-  padding: 16px;
   margin: 16px 0;
-  text-align: center;
 }
 
 .in-progress-match h2 {
-  margin-bottom: 12px;
-  font-size: 1.5em;
-  color: #333;
+  color: #5aff5a; /* Softer green */
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+  font-size: 24px;
+  border-bottom: 1px solid #5aff5a;
+  padding-bottom: 10px;
 }
 
 .match-info {
-  font-size: 1em;
-  color: #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #121212; /* Softer black */
+  border: 1px solid #5aff5a; /* Softer green border */
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.match-info:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(90, 255, 90, 0.3);
 }
 
 .match-info p {
-  margin: 4px 0;
+  color: #e0e0e0; /* Light gray text for readability */
+  font-size: 14px;
+  margin: 0;
+}
+
+.match-info strong {
+  color: #5aff5a; /* Softer green for highlights */
+}
+
+.match-info .ongoing {
+  display: inline-block;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #000000;
+  background: linear-gradient(45deg, #66ff66, #4caf50); /* Subtle green gradient */
+  border-radius: 20px;
+  position: relative;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 6px rgba(102, 255, 102, 0.7);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(76, 175, 80, 0.9);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 6px rgba(102, 255, 102, 0.7);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .match-info {
+    flex-direction: column; /* Stack elements on smaller screens */
+    text-align: center;
+    gap: 10px;
+  }
+
+  .logo-image {
+    height: 50px; /* Proportional adjustment for smaller screens */
+  }
+
+  .logo {
+    font-size: 1.2rem; /* Smaller text size */
+  }
+}
+
+@media (max-width: 480px) {
+  .match-info p {
+    font-size: 12px; /* Smaller text for smaller screens */
+  }
+
+  .logo-image {
+    height: 40px; /* Further adjustment for small screens */
+  }
+
+  .logo {
+    font-size: 1rem; /* Further reduced text size */
+  }
 }
