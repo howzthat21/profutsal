@@ -1,44 +1,27 @@
 <?php
-include 'db.php';
 session_start();
+include 'db.php';
 
-if (!isset($_SESSION['user_id'])) {
+if(!isset($_SESSION['user_id'])){
     header("Location: login.php");
+    exit();
 }
 
-// Database query to fetch team details
-$match_id = 59; // Replace with the actual match ID
-$sql = "
-    SELECT 
-        mp.team_name, 
-        GROUP_CONCAT(u.username ORDER BY u.username ASC SEPARATOR ', ') AS team_members
-    FROM 
-        completed_match_participants mp
-    JOIN 
-        users u 
-        ON mp.user_id = u.id
-    WHERE 
-        mp.match_id = :match_id
-    GROUP BY 
-        mp.team_name;
-";
 
-$stmt = $pdo->prepare($sql);
-$stmt->bindValue('match_id:', $match_id, PDO::PARAM_INT);
-$stmt->execute();
-$result = $stmt->get_result();
+$query = "SELECT DISTINCT(team_name) FROM completed_match_participants WHERE match_id = 59";
+$query_stmt = $pdo->query($query);
+$results = $query_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fetch data into an array
-$teams = [];
-while ($row = $result->fetch_assoc()) {
-    $teams[] = $row;
+if (count($results) == 2) {
+    $team1 = $results[0]['team_name'];
+    $team2 = $results[1]['team_name'];
+
+    // Output the team names
+    echo "Team 1: " . htmlspecialchars($team1) . "<br>";
+    echo "Team 2: " . htmlspecialchars($team2) . "<br>";
+} else {
+    echo "Unexpected number of teams found.";
 }
-
-echo '<pre>';
-print_r($teams);
-echo '</pre>';
-
-
 ?>
 
 <!DOCTYPE html>
@@ -51,8 +34,8 @@ echo '</pre>';
     <style>
         /* General Styles */
         body {
-            background-color: white;
-            color: #4caf50;
+            background-color: #dff7df;
+            color: #333333;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -62,7 +45,7 @@ echo '</pre>';
             font-size: 2.5rem;
             text-align: center;
             margin-bottom: 30px;
-            color: #4caf50;
+            color: #287233;
             font-weight: bold;
         }
 
@@ -76,12 +59,12 @@ echo '</pre>';
             display: flex;
             justify-content: space-between;
             align-items: stretch;
-            gap: 200px;
+            gap: 20px;
         }
 
         .team-section {
-            background-color: #000000;
-            border: 2px solid white;
+            background-color: #ffffff;
+            border: 2px solid #287233;
             border-radius: 10px;
             flex: 1;
             padding: 20px;
@@ -203,21 +186,27 @@ echo '</pre>';
 
         <!-- Team Data Section -->
         <div class="team-container">
-            <?php foreach ($teams as $team): ?>
-                <div class="team-section">
-                    <div class="team-header"><?php echo htmlspecialchars($team['team_name']); ?></div>
-                    <ul class="player-list">
-                        <?php 
-                        $members = explode(', ', $team['team_members']);
-                        foreach ($members as $member): 
-                        ?>
-                            <li><?php echo htmlspecialchars($member); ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <!-- Add score if available, example score placeholder -->
-                    <div class="score-display">Total Score: <?php echo rand(1, 5); ?></div>
-                </div>
-            <?php endforeach; ?>
+            <!-- Team A -->
+            <div class="team-section">
+                <div class="team-header">Team: <?php echo $team1 ?></div>
+                <ul class="player-list">
+                    <li>John (Goals: 2, Assists: 1, Fouls: 0)</li>
+                    <li>Alex (Goals: 1, Assists: 2, Fouls: 1)</li>
+                    <li>Mark (Goals: 0, Assists: 1, Fouls: 2)</li>
+                </ul>
+                <div class="score-display">Total Score: 3</div>
+            </div>
+
+            <!-- Team B -->
+            <div class="team-section">
+                <div class="team-header">Team:  <?php echo $team2 ?></div>
+                <ul class="player-list">
+                    <li>Sam (Goals: 1, Assists: 1, Fouls: 0)</li>
+                    <li>Leo (Goals: 1, Assists: 0, Fouls: 1)</li>
+                    <li>Mike (Goals: 0, Assists: 1, Fouls: 1)</li>
+                </ul>
+                <div class="score-display">Total Score: 2</div>
+            </div>
         </div>
 
         <!-- Payment Section -->
@@ -225,15 +214,15 @@ echo '</pre>';
             <h2>Support the Teams</h2>
             <p>Contribute to organizing more matches by making a secure payment using eSewa.</p>
             <form action="https://uat.esewa.com.np/epay/main" method="POST">
-                <input type="hidden" name="tAmt" value="120">
-                <input type="hidden" name="amt" value="120">
-                <input type="hidden" name="txAmt" value="0">
-                <input type="hidden" name="psc" value="0">
-                <input type="hidden" name="pdc" value="0">
-                <input type="hidden" name="scd" value="EPAYTEST">
-                <input type="hidden" name="pid" value="TestPayment123">
-                <input type="hidden" name="su" value="http://localhost/projfutsal/esewa_success.php">
-                <input type="hidden" name="fu" value="http://localhost/projfutsal/esewa_failure.php">
+                <input type="hidden" name="tAmt" value="120"> <!-- Total Amount -->
+                <input type="hidden" name="amt" value="120"> <!-- Actual Amount -->
+                <input type="hidden" name="txAmt" value="0">  <!-- Tax -->
+                <input type="hidden" name="psc" value="0">    <!-- Service Charge -->
+                <input type="hidden" name="pdc" value="0">    <!-- Delivery Charge -->
+                <input type="hidden" name="scd" value="EPAYTEST"> <!-- Testing Merchant Code -->
+                <input type="hidden" name="pid" value="TestPayment123"> <!-- Unique Payment ID -->
+                <input type="hidden" name="su" value="http://localhost/projfutsal/esewa_success.php"> <!-- Success URL -->
+                <input type="hidden" name="fu" value="http://localhost/projfutsal/esewa_failure.php"> <!-- Failure URL -->
                 <button type="submit" class="esewa-btn">
                     <img src="https://cdn.esewa.com.np/ui/images/logos/esewa-icon-large.png" alt="eSewa Logo">
                     Pay with eSewa
