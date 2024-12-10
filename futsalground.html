@@ -1,3 +1,88 @@
+
+<?php
+include 'db.php';
+
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$player_id = $_SESSION['user_id'];
+
+$fetch_match_sql = "SELECT mp.match_id, mp.user_id, u.username 
+    FROM match_participants mp
+    JOIN users u ON mp.user_id = u.id
+    WHERE mp.match_id NOT IN (
+        SELECT match_id FROM completed_matches
+    ) AND mp.user_id = :player_id";
+$fetch_match_stmt = $pdo->prepare($fetch_match_sql);
+$fetch_match_stmt->execute(['player_id' => $player_id]);
+
+$match = $fetch_match_stmt->fetch(PDO::FETCH_ASSOC);
+
+$matchId=$match['match_id'];
+
+$teamQuery = "
+    SELECT 
+        mp.team_name, 
+        GROUP_CONCAT(u.username SEPARATOR ', ') AS team_members
+    FROM 
+        match_participants mp
+    JOIN 
+        users u ON mp.user_id = u.id
+    WHERE 
+        mp.match_id = :match_id
+    GROUP BY 
+        mp.team_name
+";
+
+// Prepare and execute the query
+$teamStmt = $pdo->prepare($teamQuery);
+$teamStmt->execute(['match_id' => $matchId]);
+
+// Fetch the results
+$teams = $teamStmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Display the teams and their members
+foreach ($teams as $team) {
+    echo "<h3>Team: " . htmlspecialchars($team['team_name']) . "</h3>";
+    echo "<p>Members: " . htmlspecialchars($team['team_members']) . "</p>";
+}
+
+
+//fetching arena details to display
+$fetch_arena_id="SELECT arena_id, booking_datetime from matchmaking where match_id= ?";
+$fetch_arena_id_stmt=$pdo->prepare($fetch_arena_id);
+$fetch_arena_id_stmt->execute([$matchId]);
+$arena_details=$fetch_arena_id_stmt->fetch(PDO::FETCH_ASSOC);
+$arena_id=$arena_details['arena_id'];
+$booking_datetime=$arena_details['booking_datetime'];
+
+//creating object for the date
+ $date_object= new DateTime($booking_datetime);
+ $formatted_date = $date_object->format('l, F j, Y g:i A');
+
+
+$fetch_arena_details="SELECT * from arenas where arena_id= ?";
+$fetch_arena_details_stmt=$pdo->prepare($fetch_arena_details);
+$fetch_arena_details_stmt->execute([$arena_id]);
+$arena_details=$fetch_arena_details_stmt->fetch(PDO::FETCH_ASSOC);
+$arena_name=$arena_details['arena_name'];
+$arena_location=$arena_details['arena_location'];
+$arena_image=$arena_details['arena_image'];
+$arena_contact_info=$arena_details['contact_info'];
+
+
+
+//fet
+
+if(!$match){
+    header("Location: index.php");
+}
+$booking_datetimetry = "2024-11-21 14:30:00";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

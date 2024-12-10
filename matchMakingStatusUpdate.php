@@ -40,6 +40,10 @@ function updateMatchmakingStatus($pdo) {
             $updateStatusSql = "UPDATE matchmaking SET status = 'inprogress' WHERE match_id = ?";
             $updateStmt = $pdo->prepare($updateStatusSql);
             $updateStmt->execute([$matchId]);
+            //insert the code
+            $insertCompletedMatches = "INSERT INTO completed_matches (arena_id, match_id) VALUES (?, ?)";
+            $insertCompletedMatchesStmt = $pdo->prepare($insertCompletedMatches);
+            $insertCompletedMatchesStmt->execute([$arenaId, $matchId]);
         }
 
         
