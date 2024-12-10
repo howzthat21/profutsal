@@ -52,7 +52,9 @@ $fetch_result = $fetch_match_details->fetchAll(PDO::FETCH_ASSOC);
 
 </head>
 <style>
-
+body, html{
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
 /* In-progress matches styling */
 .in-progress-match {
   padding: 20px;
@@ -143,7 +145,7 @@ $fetch_result = $fetch_match_details->fetchAll(PDO::FETCH_ASSOC);
       <div class="logo-section">
         
         <!-- Logo title -->
-        <h1 class="logo">Pro Futsal</h1>
+        <h1 class="header" style="color: #4CAF50;">Pro Futsal</h1>
       </div>
   <nav>
     <?php if (!isset($_SESSION['user_id'])): ?>
@@ -154,7 +156,7 @@ $fetch_result = $fetch_match_details->fetchAll(PDO::FETCH_ASSOC);
       <!-- Display this section if the user IS logged in -->
         <?php if ($userExists):?>
       <a href="profile.php?username=<?php echo $username?>" class="nav-link">Profile</a>
-      <a href="playerDetails.php" class="nav-link">Lineups</a>
+      
       <a href="waitinglobby.php" class="nav-link">Waiting Lobby</a>
       <?php endif;?>
       <a href="logout.php" class="nav-link">Logout</a>

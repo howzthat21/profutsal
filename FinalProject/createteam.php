@@ -62,15 +62,7 @@ $fetch_arenas_stmt = $pdo->query($fetch_arenas);
             <div class="image-container">
                 <img src="<?php echo $arena_image; ?>" alt="<?php echo $arena_name; ?>">
             </div>
-            <div class="map-container">
-                <!-- Add Google Map iframe here dynamically if needed -->
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=..." 
-                    frameborder="0" 
-                    allowfullscreen="" 
-                    loading="lazy">
-                </iframe>
-            </div>
+           
             <button onclick="selectFutsal('<?php echo $arena_name; ?>', '<?php echo $arena_id;?>')">Book Now</button>
         </section>
         <?php } ?>

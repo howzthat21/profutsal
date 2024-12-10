@@ -91,8 +91,52 @@ $booking_datetimetry = "2024-11-21 14:30:00";
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="projfutsal/futsalground.css">
   <title>Futsal Ground</title>
+  
+    <script>
+        // Booking datetime from PHP
+        const bookingDatetime = new Date("<?=$booking_datetime?>").getTime();
+
+        // Function to update the countdown
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeLeft = bookingDatetime - now;
+
+            if (timeLeft > 0) {
+                // Calculate days, hours, minutes, and seconds
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                // Display the timer
+                document.getElementById("timer").innerHTML =
+                    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            } else {
+                // Timer has reached zero
+                document.getElementById("timer").innerHTML = "Time's up!";
+                clearInterval(countdownInterval);
+            }
+        }
+
+        // Update the countdown every second
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        // Initialize the countdown immediately
+        updateCountdown();
+    </script>
 </head>
 <style>
+    @keyframes pulse {
+        0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
     /* General Styles */
 body {
     background-color: #000;
@@ -100,6 +144,10 @@ body {
     margin: 0;
     padding: 0;
     color: #fff;
+  }
+  .timer{
+    color:#ff0f0f;
+    animation: pulse 3s infinite;
   }
   
   /* Referee Section */
@@ -287,6 +335,8 @@ body {
   
 </style>
 <body>
+<h1>Match Starts In: </h1>
+<div id="timer" class="timer">Loading...</div>
   <!-- Referee Section -->
   <div class="referee">
     Referee: John Doe | Referee ID: 12345

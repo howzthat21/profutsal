@@ -237,7 +237,7 @@ $date=$tomorrow->format('F j, Y'); // Outputs: YYYY-MM-DD format
         <form action="futsal_timing.php?arena_name=<?php echo urlencode($arena_name); ?>&arena_id=<?php echo urlencode($arena_id); ?>" method="POST">
             
             <!-- Booking Time Selection make the input for the rank hidden just after testing-->
-             <input name="player_rank" type="text" value="<?php echo htmlspecialchars($rank_match)?>">
+             <input name="player_rank" type="hidden" value="<?php echo htmlspecialchars($rank_match)?>">
             <label for="bookingTime">Booking Date:<?php echo $date?></label>
             <select name="bookingTime" id="bookingTime" required>
             <?php if (empty($availableTimes)): ?>
