@@ -29,6 +29,7 @@ $response = preg_replace('/>\s+</', '><', $response); // Remove spaces between t
 
 if (strpos($response, '<response_code>Success</response_code>') !== false) {
     echo "Payment verified successfully in UAT mode!";
+    header("Location: index.php");
 } else {
     echo "Payment verification failed in UAT mode!";
 }
