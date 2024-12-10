@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'db.php';
-include 'updatePlayerElo.php';
+
 
 if (!isset($_SESSION['referee_id'])) {
     header("Location: refereeLogin.php");
@@ -24,9 +24,7 @@ $team_names=$fetch_team_name_stmt->fetchAll(PDO::FETCH_ASSOC);
     $team_a_name = $team_names[0]["team_name"];
     $team_b_name = $team_names[1]["team_name"];
 
-    echo "Team A: " . htmlspecialchars($team_a_name) . "<br>";
-    echo "Team B: " . htmlspecialchars($team_b_name) . "<br>";
-
+    
 
 if($_SERVER["REQUEST_METHOD"]== "POST"){
     
@@ -57,11 +55,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     $update_query_stmt=$pdo->prepare($update_query);
     $update_query_stmt->execute([$_SESSION['referee_id'], $match_id]);
     
-    try{
-        updatePlayerELO($player_id, $rating_id);
-    } catch(Exception $e){
-        echo "Error updating player ELO: " . $e->getMessage();
-    }
+    
 
     header("Location: afterMatchRatings.php?match_id=$match_id&winning_team=$winning_team&team_a_name=$team_a_name&team_b_name=$team_b_name");
     
@@ -127,15 +121,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                     </div>
                     
                     <!-- Winning Team -->
-                    <div class="mb-3">
-                        <label for="winningTeam" class="form-label">Winning Team</label>
-                        <select class="form-select" id="winningTeam" name="winning_team" >
-                            <option value="" selected disabled>Select Winning Team</option>
-                            <option value="Team A">Team A (Warriors)</option>
-                            <option value="Team B">Team B (Titans)</option>
-                            <option value="Draw">Draw</option>
-                        </select>
-                    </div>
+                    
                     
                     <!-- Additional Notes -->
                     <div class="mb-3">
@@ -148,6 +134,9 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
                         <button type="submit" class="btn btn-primary">Submit Match Details</button>
                     </div>
                 </form>
+                <div class="text-center">
+                        <button type="submit" class="btn btn-danger" style="margin-top:5px">Update Live Matchmaking</button>
+                    </div>
             </div>
         </div>
     </div>

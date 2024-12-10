@@ -29,7 +29,7 @@ if ($result && isset($result['username'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS Cards Hover Animation</title>
+    <title>Join Match</title>
     <link rel="stylesheet" href="lineups.css">
     <!--<link rel="stylesheet" href="joincreate.css">-->
 </head>

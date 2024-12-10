@@ -194,8 +194,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <h2>Waiting Lobby</h2>
             <button class="close-btn" onclick="location.href='index.php'">X</button>
             <p>Welcome to the waiting lobby! Please wait while we find your match.</p>
-            <p>Lobby was created : <strong>2 minutes ago</strong></p>
-            <p>Players in lobby: <strong>1</strong></p>
+            
+            
         </section>
 
         <!-- Match Details -->
