@@ -2,7 +2,7 @@
 session_start();
 include 'db.php';
 
-include '../matchmakingstatusupdate.php';
+//include '../matchmakingstatusupdate.php';
 
 
 if (!isset($_SESSION['user_id'])) {
