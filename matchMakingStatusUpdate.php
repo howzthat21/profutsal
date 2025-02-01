@@ -114,9 +114,23 @@ function updateMatchmakingStatus($pdo) {
     $participants = $fetchStmt->fetchAll(PDO::FETCH_ASSOC);
 
     if ($participants) {
+
+        //insert the payments
+
+        $insertPaymentQuery="INSERT INTO payment(user_id, match_id) VALUES(:user_id, :match_id)";
+        $insertPaymentStmt=$pdo->prepare($insertPaymentQuery);
+        foreach($participants as $part){
+            $insertPaymentStmt->execute([
+                'user_id'=> $part['user_id'],
+                'match_id'=>$part['match_id']
+            ]);
+        }
         // Insert data into completed_match_participants
         $insertQuery = "INSERT INTO completed_match_participants (user_id, match_id, team_name) VALUES (:user_id, :match_id, :team_name)";
         $insertStmt = $pdo->prepare($insertQuery);
+
+        
+        
 
         foreach ($participants as $participant) {
             $insertStmt->execute([

@@ -349,7 +349,17 @@ body {
     <p class="location-time">Location: City Center</p>
     <p class="location-time">Date: 2024-11-23 | Time: 10:00 AM</p>
   </div>
+<?php
+$team_A = $teams[0]['team_name'];
+$team_B = $teams[1]['team_name'];
+    $teamA_members = explode(', ', $teams[0]['team_members']);
+    $teamB_members = explode(', ', $teams[1]['team_members']);
 
+
+    // Calculate the maximum rows needed
+    $max_rows = max(count($teamA_members), count($teamB_members));
+
+?>
   <!-- Futsal Ground -->
   <div class="container">
     <div class="line"></div>
@@ -365,45 +375,45 @@ body {
     <!-- Team A Players -->
     <div class="player player1" style="top: 80px; left: 120px;">
       <div class="player-icon">1</div>
-      <div class="player-name">Player 1</div>
+      <div class="player-name"><?php echo $teamA_members[0];?></div>
     </div>
     <div class="player player2" style="top: 200px; left: 10px;">
       <div class="player-icon">2</div>
-      <div class="player-name">Player 2</div>
+      <div class="player-name"><?php echo $teamA_members[1];?></div>
     </div>
     <div class="player player3" style="top: 280px; left: 120px;">
       <div class="player-icon">3</div>
-      <div class="player-name">Player 3</div>
+      <div class="player-name"><?php echo $teamA_members[2];?></div>
     </div>
     <div class="player player4" style="top: 140px; left: 200px;">
       <div class="player-icon">4</div>
-      <div class="player-name">Player 4</div>
+      <div class="player-name"><?php echo $teamA_members[3];?></div>
     </div>
     <div class="player player5" style="top: 220px; left: 200px;">
       <div class="player-icon">5</div>
-      <div class="player-name">Player 5</div>
+      <div class="player-name"><?php echo $teamA_members[4];?></div>
     </div>
 
     <!-- Team B Players -->
     <div class="player player6" style="top: 80px; right: 120px;">
       <div class="player-icon">6</div>
-      <div class="player-name">Player 6</div>
+      <div class="player-name"><?php echo $teamB_members[0];?></div>
     </div>
     <div class="player player7" style="top: 200px; right: 10px;">
       <div class="player-icon">7</div>
-      <div class="player-name">Player 7</div>
+      <div class="player-name"><?php echo $teamB_members[1];?></div>
     </div>
     <div class="player player8" style="top: 280px; right: 120px;">
       <div class="player-icon">8</div>
-      <div class="player-name">Player 8</div>
+      <div class="player-name"><?php echo $teamB_members[2];?></div>
     </div>
     <div class="player player9" style="top: 140px; right: 200px;">
       <div class="player-icon">9</div>
-      <div class="player-name">Player 9</div>
+      <div class="player-name"><?php echo $teamB_members[3];?></div>
     </div>
     <div class="player player10" style="top: 220px; right: 200px;">
       <div class="player-icon">10</div>
-      <div class="player-name">Player 10</div>
+      <div class="player-name"><?php echo $teamB_members[4];?></div>
     </div>
   </div>
 
@@ -421,14 +431,7 @@ body {
   <tbody>
     <?php
     // Split team members into arrays for each team
-    $team_A = $teams[0]['team_name'];
-$team_B = $teams[1]['team_name'];
-    $teamA_members = explode(', ', $teams[0]['team_members']);
-    $teamB_members = explode(', ', $teams[1]['team_members']);
-
-
-    // Calculate the maximum rows needed
-    $max_rows = max(count($teamA_members), count($teamB_members));
+    
 
     for ($i = 0; $i < $max_rows; $i++) {
       echo '<tr>';
