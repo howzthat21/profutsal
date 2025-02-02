@@ -1,0 +1,124 @@
+/* styles.css */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #c2eacc; /* Light green background */
+    padding: 20px;
+    font-family: "Arial", sans-serif; /* Changed to a more sporty font */
+}
+
+body a {
+    text-decoration: none;
+    color: #308056; /* Link color matching the theme */
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 40px;
+}
+
+.controls,
+.order-tracker {
+    margin: 10px auto;
+    width: 700px; /* Slightly wider for better visibility */
+    background-color: #ffffff; /* White background for clarity */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
+}
+
+.order-tracker {
+    padding: 40px;
+}
+
+.order-info {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #308056; /* Underline for order info */
+    padding-bottom: 15px;
+}
+
+.order-info__number {
+    font-size: 24px; /* Increased font size for emphasis */
+    text-transform: uppercase;
+    font-weight: 700; /* Bolder for better visibility */
+}
+
+.order-info__number a:last-child {
+    color: #ff4500; /* Changed to a bright color for contrast */
+    font-weight: 700;
+}
+
+.order-info__details__arrival-date,
+.order-info__details__tracking-number {
+    display: block;
+    text-align: right;
+    color: #555; /* Dark gray for readability */
+}
+
+.order-info__details__tracking-number a {
+    font-weight: 700;
+    color: #308056; /* Maintain the theme color */
+}
+
+.order-status__progress {
+    margin: 45px 0;
+    height: 20px; /* Defined height for progress bar */
+}
+
+.order-status__status-info {
+    font-size: 16px; /* Slightly larger for clarity */
+    color: #333; /* Darker text for better contrast */
+}
+
+.order-status__status-info ol {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+}
+
+.order-status__status-info__step {
+    display: inline-flex;
+    padding: 0.1px;
+}
+
+.icon {
+    width: 45%;
+    margin-right: 10px;
+}
+
+.status {
+    margin-top: 10px;
+    font-size: 16px; /* Increased for better readability */
+    display: flex;
+    flex-direction: column;
+}
+
+.overlay-check-bubble,
+.checkmark,
+.progress-bar {
+    visibility: hidden;
+}
+
+.accented {
+    fill: #308056; /* Consistent theme color for accents */
+    stroke: #308056;
+}
+
+/* Additional styles for buttons */
+button {
+    background-color: #0e623b; /* Primary button color */
+    color: #fff; /* Text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding for comfort */
+    cursor: pointer; /* Pointer on hover */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+button:hover {
+    background-color: #66bb6a; /* Darker shade on hover */
+}

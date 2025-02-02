@@ -100,13 +100,13 @@ if ($player_details) {
     <div class="match-history">
       <h3>Recent Matches</h3>
       <div class="match-card">
-        <p><strong>Match:</strong> Super Futsal Arena</p>
+        <p><strong>Match:</strong> Kumari</p>
         <p><strong>Date:</strong> 2024-11-10</p>
         <p><strong>Time:</strong> 6:00 PM - 7:00 PM</p>
         <p><strong>Result:</strong> Win</p>
       </div>
       <div class="match-card">
-        <p><strong>Match:</strong> Elite Futsal Hub</p>
+        <p><strong>Match:</strong> Samakhusi</p>
         <p><strong>Date:</strong> 2024-11-08</p>
         <p><strong>Time:</strong> 8:00 PM - 9:00 PM</p>
         <p><strong>Result:</strong> Loss</p>

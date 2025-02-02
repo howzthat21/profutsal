@@ -73,7 +73,7 @@ $available_lobbies = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="join-team-page">
     
     <!-- Header with Logo -->
-    <a href="joincreate.php" class="close-btn" title="Back to Home">&times;</a>
+    <a href="index.php" class="close-btn" title="Back to Home">&times;</a>
     <header class="header">
       <h1 class="logo">Futsal Matchmaking</h1>
     </header>

@@ -7,9 +7,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    //admin login
+
+    if($username ==="admin" && $password==="admin123"){
+      $_SESSION['admin'] = $username;
+      header('Location: ../adminDashboard.php');
+      exit;
+
+    }
+    //referee login
+    $referee_query="SELECT * from referee where username=? ";
+    $referee_stmt=$pdo->prepare($referee_query);
+    $referee_stmt->execute([$username]);
+    $referee=$referee_stmt->fetch();
+    if($referee){
+      $_SESSION["referee_id"]= $referee["referee_id"];
+      $_SESSION["referee_name"]=$referee["username"];
+      header("Location: ../refereeView.php");
+      exit;
+    }
+//user login
     $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch();
+    
+    
 
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];

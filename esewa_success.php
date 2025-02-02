@@ -1,4 +1,7 @@
 <?php
+//session_start();
+include 'db.php';
+
 if (isset($_GET['oid'])) {
     $order_id = $_GET['oid']; // Your unique order ID
     $amount = $_GET['amt'];  // Amount paid
@@ -26,6 +29,7 @@ $response = preg_replace('/>\s+</', '><', $response); // Remove spaces between t
 
 if (strpos($response, '<response_code>Success</response_code>') !== false) {
     echo "Payment verified successfully in UAT mode!";
+    header("Location: finalproject/index.php");
 } else {
     echo "Payment verification failed in UAT mode!";
 }

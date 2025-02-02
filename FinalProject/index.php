@@ -1,5 +1,6 @@
 <?php
 include 'db.php';
+include '../updatePlayerFunction.php';
 session_start();
 if(!isset($_SESSION['user_id'])){
   header("Location: login.php");
@@ -32,8 +33,15 @@ if(!isset($_SESSION['user_id'])){
     
 }
 
+$fetch_match_details = "SELECT m.match_id, a.arena_name, m.booking_datetime FROM matchmaking m 
+                        JOIN arenas a ON a.arena_id = m.arena_id 
+                        WHERE m.status = 'inprogress'";
+$fetch_match_details = $pdo->query($fetch_match_details);
+$fetch_result = $fetch_match_details->fetchAll(PDO::FETCH_ASSOC);
 
-?><!DOCTYPE html>
+
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -44,7 +52,86 @@ if(!isset($_SESSION['user_id'])){
 
 </head>
 <style>
+body, html{
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+/* In-progress matches styling */
+.in-progress-match {
+  padding: 20px;
+  background-color: #1e1e1e; /* Dark gray */
+  border-radius: 8px;
+  margin: 16px 0;
+  font-family: Arial, Helvetica, sans-serif; /* Updated font stack */
+}
 
+
+.in-progress-match h2 {
+  color: #5aff5a; /* Softer green */
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+  font-size: 24px;
+  border-bottom: 1px solid #5aff5a;
+  padding-bottom: 10px;
+}
+
+.match-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #121212; /* Softer black */
+  border: 1px solid #5aff5a; /* Softer green border */
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.match-info:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(90, 255, 90, 0.3);
+}
+
+.match-info p {
+  color: #5aff5a;
+   /* Light gray text for readability */
+  font-size: 14px;
+  margin: 0;
+  
+}
+
+.match-info strong {
+  color: #e0e0e0; /* Softer green for highlights */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.match-info .ongoing {
+  display: inline-block;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: normal; /* Make the font weight normal */
+  color: red; /* Change text color to red */
+  background: linear-gradient(45deg, #66ff66, #4caf50); /* Subtle green gradient */
+  border-radius: 20px;
+  position: relative;
+  animation: pulse 1.5s infinite;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
   
   
@@ -52,10 +139,14 @@ if(!isset($_SESSION['user_id'])){
 <body>
   <!-- Main landing page container -->
   <div class="landing-page">
-    
     <!-- Header: Logo and navigation links -->
     <header class="header">
-  <h1 class="logo">Futsal Matchmaking</h1>
+      <!-- Logo section -->
+      <div class="logo-section">
+        
+        <!-- Logo title -->
+        <h1 class="header" style="color: #4CAF50;">Pro Futsal</h1>
+      </div>
   <nav>
     <?php if (!isset($_SESSION['user_id'])): ?>
       <!-- Display this section if the user is NOT logged in -->
@@ -65,7 +156,7 @@ if(!isset($_SESSION['user_id'])){
       <!-- Display this section if the user IS logged in -->
         <?php if ($userExists):?>
       <a href="profile.php?username=<?php echo $username?>" class="nav-link">Profile</a>
-      <a href="playerDetails.php" class="nav-link">Lineups</a>
+      
       <a href="waitinglobby.php" class="nav-link">Waiting Lobby</a>
       <?php endif;?>
       <a href="logout.php" class="nav-link">Logout</a>
@@ -75,7 +166,7 @@ if(!isset($_SESSION['user_id'])){
     
     <!-- Introduction section with CTA button -->
     <section class="main-content">
-      <h2>Welcome to Futsal Matchmaking <?php echo $username;?></h2>
+      <h2>Welcome to Pro Futsal <?php echo $username;?></h2>
       <p>
         Join the ultimate platform to find and play with your perfect futsal match. Our system uses skill levels, performance data, and availability to match you with the right players.
       </p>
@@ -92,37 +183,22 @@ if(!isset($_SESSION['user_id'])){
       
     </section>
     <!-- In Progress Match Section -->
-    <section class="matches-section">
-      <h3>Ongoing Matches</h3>
-      <table class="table custom-table">
-        <thead>
-          <tr>
-            <th>Match</th>
-            <th>Arena</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Team A vs Team B</td>
-            <td>Central Arena</td>
-            <td>0 - 0</td>
-          </tr>
-          <tr>
-            <td>Team C vs Team D</td>
-            <td>West Arena</td>
-            <td>0 - 0</td>
-          </tr>
-          <tr>
-            <td>Team E vs Team F</td>
-            <td>East Arena</td>
-            <td>0 - 0</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+    <section class="in-progress-match">
+  <h2>In Progress Matches</h2>
 
-<!-- In Progress Match Section -->
+  <?php foreach($fetch_result as $result): ?>
+  
+  <div class="match-info">
+    <p><strong>Match ID:</strong> <?php echo $result['match_id'];?></p>
+    <p><strong>Arena Name:</strong> <?php echo $result['arena_name'];?></p>
+    <p><strong>Score:</strong> 2 - 1</p>
+    <p><strong>Time:</strong> 15:30</p>
+    <p><strong>Status:</strong> <span class="ongoing">Ongoing</span></p></p>
+  </div>
+  <?php endforeach;?>
+  
+</section>
+
 
 
     <!-- Social Media Links Section -->

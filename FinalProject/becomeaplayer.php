@@ -12,6 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 $user_id=$_SESSION['user_id'];
 include 'db.php';
+$result=0;
 
 // form method post ko submit bhayo bhane condtion
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -41,7 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<p>Error: " . $e->getMessage() . "</p>";
         }
     } else {
-        echo "<p>Please fill in all fields correctly and ensure the age is above 13.</p>";
+       $result=1;
+       
     }
 }
 
@@ -77,6 +79,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <!-- Age -->
       <div class="form-group">
+        <?php if($result==1):?>
+        <label for="age">Age needs to be above 13</label>
+        <?php endif;?>
         <label for="age">Age</label>
         <input type="number" id="age" name="age" required placeholder="Enter your age" min="10" max="100">
       </div>
