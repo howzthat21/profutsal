@@ -66,7 +66,8 @@ while($match=$fetch_match_id_stmt->fetch(PDO::FETCH_ASSOC)){
         $participants[] = $participant['username'];
     }
 
-    // Shuffle and divide participants into two teams
+    // Debug here. Most likely problem it has
+//issues in the match_id, check if it gets valid match id from the url
     shuffle($participants);
 
     $teamA = [];
